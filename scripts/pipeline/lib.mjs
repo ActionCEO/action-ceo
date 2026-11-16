@@ -14,12 +14,13 @@ export async function d1(sql, params = []) {
 }
 
 // Telegram: Action's chat only. Buttons are links only. No tokens or full email addresses in text.
-let sent = 0; const held = [];
+let sent = 0; const held = []; export let tgFailed = false;
 export async function tg(text, button) {
   if (++sent > 5) { held.push(text.split('\n')[0]); return; }
   const body = { chat_id: env('TELEGRAM_CHAT_ID'), text, disable_web_page_preview: true };
   if (button) body.reply_markup = { inline_keyboard: [[{ text: button[0], url: button[1] }]] };
-  await fetch(`https://api.telegram.org/bot${env('TELEGRAM_BOT_TOKEN')}/sendMessage`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) }).catch(() => {});
+  const r = await fetch(`https://api.telegram.org/bot${env('TELEGRAM_BOT_TOKEN')}/sendMessage`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) }).catch((e) => ({ ok: false, status: e.message }));
+  if (!r.ok) { console.error(`Telegram send failed (${r.status}): ${text.split('\n')[0]}`); tgFailed = true; }
 }
 export async function tgFlush() { if (held.length) { sent = 0; await tg(`${held.length} more alerts in this run:\n${held.join('\n')}`, RUN_URL ? ['Open run', RUN_URL] : undefined); } }
 
@@ -31,7 +32,10 @@ export async function appToken() {
   const jwt = `${head}.${crypto.createSign('RSA-SHA256').update(head).sign(env('BOT_APP_PRIVATE_KEY'), 'base64url')}`;
   const gh = (p, o = {}) => fetch(`https://api.github.com${p}`, { ...o, headers: { authorization: `Bearer ${jwt}`, accept: 'application/vnd.github+json', 'x-github-api-version': '2022-11-28' } }).then((r) => r.json());
   const inst = await gh(`/repos/${env('GITHUB_REPOSITORY')}/installation`);
-  return (await gh(`/app/installations/${inst.id}/access_tokens`, { method: 'POST' })).token;
+  if (!inst.id) throw new Error(`Bot App is not installed on this repo or its credentials are wrong: ${inst.message ?? 'no installation'}`);
+  const tok = (await gh(`/app/installations/${inst.id}/access_tokens`, { method: 'POST' })).token;
+  if (!tok) throw new Error('Bot App did not return an installation token');
+  return tok;
 }
 export const gh = (token) => async (path, opts = {}) => {
   const r = await fetch(`https://api.github.com${path}`, { ...opts, headers: { authorization: `Bearer ${token}`, accept: 'application/vnd.github+json', 'x-github-api-version': '2022-11-28', ...(opts.body ? { 'content-type': 'application/json' } : {}) } });

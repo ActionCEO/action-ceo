@@ -57,10 +57,10 @@ const ld = {
 <meta name="twitter:description" content={description}>
 <meta name="twitter:image" content={ogImage}>
 <meta name="twitter:image:alt" content={title}>
-<script type="application/ld+json" set:html={JSON.stringify(ld)}></script>
+<script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')}></script>
 </head>
 <body data-ga={SITE.ga4Id} data-pagefind-body={page === 'notfound' ? undefined : ''}>
-<a class="skip" href="#main">Skip to content</a>
+<a class="skip" href="#content">Skip to content</a>
 <main id="main">
 <slot />
 </main>

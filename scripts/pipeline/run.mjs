@@ -3,7 +3,7 @@
 // Never scrapes transcripts and never downloads video or audio.
 import fs from 'node:fs';
 import * as yaml from 'js-yaml';
-import { env, d1, tg, tgFlush, appToken, gh, googleToken, isoToSeconds, slugify, parseChapters, srtToText, now, RUN_URL } from './lib.mjs';
+import { env, d1, tg, tgFlush, tgFailed, appToken, gh, googleToken, isoToSeconds, slugify, parseChapters, srtToText, now, RUN_URL } from './lib.mjs';
 
 const cfg = JSON.parse(fs.readFileSync(new URL('./config.json', import.meta.url), 'utf8'));
 const cats = yaml.load(fs.readFileSync('src/data/categories.yaml', 'utf8')).map((c) => c.slug);
@@ -17,24 +17,32 @@ for (const ch of cfg.channels) {
   for (const e of xml.split('<entry>').slice(1)) {
     const id = (e.match(/<yt:videoId>([^<]+)/) || [])[1], title = (e.match(/<title>([^<]*)/) || [])[1], pub = (e.match(/<published>([^<]+)/) || [])[1];
     if (!id) continue;
+    if (cfg.startAfter && pub && Date.parse(pub) < Date.parse(cfg.startAfter)) continue; // no back-catalogue drafts
     await d1('INSERT OR IGNORE INTO site_pipeline_detections (video_id, channel_id, title, published_at, detected_at) VALUES (?1, ?2, ?3, ?4, ?5)', [id, ch.id, title, pub, now()]);
     await d1("INSERT OR IGNORE INTO site_pipeline_jobs (video_id, status, created_at, updated_at) VALUES (?1, 'pending', ?2, ?2)", [id, now()]);
   }
 }
 
-const jobs = await d1("SELECT j.id, j.video_id, j.status, j.created_at, d.channel_id, d.title FROM site_pipeline_jobs j JOIN site_pipeline_detections d ON d.video_id = j.video_id WHERE j.status IN ('pending','waiting_live','waiting_captions') ORDER BY j.created_at LIMIT 10");
-const token = jobs.length ? await appToken() : null, api = token ? gh(token) : null, repo = process.env.GITHUB_REPOSITORY;
+const jobs = (await d1("SELECT j.id, j.video_id, j.status, j.created_at, d.channel_id, d.title FROM site_pipeline_jobs j JOIN site_pipeline_detections d ON d.video_id = j.video_id WHERE j.status IN ('pending','waiting_live','waiting_captions','failed') ORDER BY j.created_at DESC LIMIT 40")).filter((j) => j.status !== 'failed' || fs.existsSync(`transcripts-inbox/${j.video_id}.srt`)).slice(0, 10);
+let token = null;
+if (jobs.length) { try { token = await appToken(); } catch (e) { console.error(e); await tg(`Pipeline stopped\n${e.message.slice(0, 200)}`, RUN_URL ? ['Open run', RUN_URL] : undefined); process.exit(1); } }
+const api = token ? gh(token) : null, repo = process.env.GITHUB_REPOSITORY;
 
 for (const job of jobs) {
   const ch = cfg.channels.find((c) => c.id === job.channel_id);
   let step = 'classify';
   try {
-    const stale = Date.now() - Date.parse(job.created_at) > 24 * 3600 * 1000;
     // 2. Classify: 1 quota unit.
     const v = (await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,liveStreamingDetails&id=${job.video_id}&key=${env('YOUTUBE_API_KEY')}`).then((r) => r.json())).items?.[0];
     if (!v) throw new Error('video not found');
     if (v.snippet.liveBroadcastContent === 'live' || v.snippet.liveBroadcastContent === 'upcoming') { await setJob(job.id, { status: 'waiting_live', step }); continue; }
-    const seconds = isoToSeconds(v.contentDetails.duration), kind = seconds <= 180 ? 'short' : v.liveStreamingDetails ? 'live' : 'video';
+    const seconds = isoToSeconds(v.contentDetails.duration), wasLive = !!v.liveStreamingDetails;
+    // A live that just ended reports a 0 duration for a while. Wait; never class a live as a Short.
+    if (wasLive && (!v.liveStreamingDetails.actualEndTime || seconds === 0)) { await setJob(job.id, { status: 'waiting_live', step }); continue; }
+    const kind = wasLive ? 'live' : seconds <= 180 ? 'short' : 'video';
+    // The 24-hour caption window runs from when the video was actually available.
+    const readyAt = Date.parse(v.liveStreamingDetails?.actualEndTime ?? v.snippet.publishedAt) || Date.parse(job.created_at);
+    const stale = Date.now() - Math.max(readyAt, Date.parse(job.created_at)) > 24 * 3600 * 1000;
     const rule = (await d1('SELECT enabled FROM site_pipeline_ingest_rules WHERE channel_id = ?1 AND kind = ?2', [job.channel_id, kind]))[0];
     if (!rule || !rule.enabled) { await setJob(job.id, { status: 'skipped', step, kind }); if (!rule) await tg(`No ingest rule for ${ch.name} / ${kind}\n${v.snippet.title}`); continue; }
 
@@ -74,12 +82,16 @@ for (const job of jobs) {
     let draft = await ask();
     if (bad(draft)) draft = await ask('\n\nYour last answer contained an em dash, en dash or hashtag. None are allowed. Rewrite without them.');
     if (bad(draft)) throw new Error('draft still contains a dash or hashtag after 1 retry');
-    const slug = slugify(draft.slug || draft.title), category = cats.includes(draft.category) ? draft.category : cats[0];
+    let slug = slugify(draft.slug || draft.title);
+    const own = `youtubeVideoId: ${job.video_id}`;
+    if (fs.existsSync(`src/content/posts/${slug}.md`) && !fs.readFileSync(`src/content/posts/${slug}.md`, 'utf8').includes(own)) slug = `${slug.slice(0, 58)}-${job.video_id.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+    const category = cats.includes(draft.category) ? draft.category : cats[0];
     const useTags = (draft.tags ?? []).filter((t) => tags.includes(t)).slice(0, 10);
+    if ((draft.metaDescription ?? '').length < 70) throw new Error('draft metaDescription is under 70 characters');
     const fm = { title: draft.title, metaTitle: draft.metaTitle.slice(0, 50), metaDescription: draft.metaDescription.slice(0, 155), excerpt: draft.excerpt.slice(0, 320), category, tags: useTags, takeaways: (draft.takeaways ?? []).slice(0, 5), youtubeVideoId: job.video_id, video: job.video_id, origin: 'pipeline', draft: true, reviewState: 'needs_review' };
     const files = {
       [`src/content/videos/${job.video_id}.json`]: JSON.stringify({ youtubeId: job.video_id, title: v.snippet.title, channel: ch.name, kind, publishedAt: v.liveStreamingDetails?.actualStartTime ?? v.snippet.publishedAt, durationSeconds: seconds, chapters }, null, 2) + '\n',
-      [`src/content/transcripts/${job.video_id}.en.md`]: `---\nvideo: ${job.video_id}\nlanguage: en\nsource: ${source}\n---\n${text}\n`,
+      [`src/content/transcripts/${job.video_id}.en.md`]: `---\nvideo: "${job.video_id}"\nlanguage: en\nsource: ${source}\n---\n${text}\n`,
       [`src/content/posts/${slug}.md`]: `---\n${yaml.dump(fm, { lineWidth: -1 })}---\n${draft.body.trim()}\n`,
     };
     await setJob(job.id, { status: 'drafted', step, kind, post_slug: slug });
@@ -108,4 +120,5 @@ for (const job of jobs) {
   }
 }
 await tgFlush();
+if (tgFailed) process.exitCode = 1;
 console.log(`Pipeline run done: ${jobs.length} job(s) looked at.`);

@@ -5,6 +5,8 @@ backend:
   branch: main
   base_url: https://TODO-sveltia-cms-auth.workers.dev   # TODO: the sveltia-cms-auth Worker URL
 publish_mode: editorial_workflow
+output:
+  omit_empty_optional_fields: true
 media_folder: public/img/uploads
 public_folder: /img/uploads
 site_url: https://action.ceo

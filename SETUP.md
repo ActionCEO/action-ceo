@@ -11,7 +11,7 @@ Agents never create accounts, accept terms, touch DNS or cancel services. The st
 - Production branch `main`. Preview branches: Custom, include only `preview/*`.
 - Variables: `SITE_URL=https://action.ceo` (production), `SHOW_DRAFTS=1` (preview only).
 - `wrangler d1 create action-ceo` and `wrangler d1 create action-ceo-preview`. Put both IDs in `wrangler.toml`.
-- `wrangler d1 migrations apply action-ceo` (applies `0001_site_core.sql` only; keep `0002` out).
+- `wrangler d1 migrations apply action-ceo` (only `0001_site_core.sql` is in `migrations/`; preview database first).
 - Secrets, per environment (Settings, Variables and Secrets, type Secret): `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TURNSTILE_SECRET_KEY`, `IP_HASH_SALT_1`.
 - Create a Turnstile widget for action.ceo. Put the site key in `src/site.ts`.
 - AI Crawl Control: Search, Agents, Training all Allow. Bot Preference Sync off.

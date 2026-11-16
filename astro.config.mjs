@@ -11,7 +11,7 @@ export default defineConfig({
   trailingSlash: 'never',
   build: { format: 'file', inlineStylesheets: 'auto' },
   integrations: [sitemap({
-    filter: (page) => !/\/(404|admin)/.test(page),
+    filter: (page) => !/\/(404|admin|shows\/interviews)/.test(page),
     serialize: (item) => ({ ...item, lastmod: lastmod.toISOString() }),
   })],
 });

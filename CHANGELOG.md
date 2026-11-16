@@ -18,3 +18,13 @@ First build from Agent Brief v3 and the approved direction A designs.
 - **Work page title** for the project page and titles for show, episode, guest and speaking pages are new (the brief lists none).
 - **Privacy title** has a descriptor added so it is unique and pairs "Action" with a descriptor.
 - Motion uses CSS scroll timelines in place of GSAP to stay inside the 50 KB script budget.
+
+### Fixed after the reviewer pass
+- Home no longer shows the sample video. Search works under the security policy. The admin page gets its own policy so the editor loads.
+- Chapter links play in place. The countdown is right across daylight-saving changes. The skip link lands after the nav. About chapters are readable with scripts off.
+- Forms: consent is required and checked on the server, the booking form has the consent box, the spam check resets after each send, the 10-minute rate limit is a real 10 minutes, and a missing salt stops the form instead of weakening the IP hash.
+- Analytics: an unknown country now gets the banner.
+- Pipeline: a just-ended live waits instead of being skipped as a Short, the caption wait runs from when the video ended, a dropped SRT revives a failed job, a slug clash can't overwrite a post, the first run does not draft the back catalogue (`startAfter`), bad App credentials stop the run before any draft is paid for, and Telegram or Cloudflare errors fail the run loudly.
+- Only real migrations live in `migrations/`. Phase 2 and the orphan checks moved to `sql/`.
+- The publish guard asks GitHub who made the commit. Blank optional CMS fields no longer fail the build. The noindex interviews page is out of the sitemap.
+- The Coverage figure is on the DePIN Day page.

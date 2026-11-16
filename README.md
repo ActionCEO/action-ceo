@@ -51,7 +51,7 @@ Site pages get a branded image: wordmark, the page headline, a still. Posts use 
 3. Run `npm run build` and `node scripts/test-sql.mjs`. Both must pass.
 4. Apply with `wrangler d1 migrations apply action-ceo` (preview database first).
 
-`0002_site_crm.sql` is phase 2. Do not apply it.
+Phase 2 lives in `sql/phase2_site_crm.sql.txt`, outside `migrations/` on purpose, so wrangler can never apply it by accident. `sql/orphan_checks.sql` is the daily check query.
 
 ## Roll back
 

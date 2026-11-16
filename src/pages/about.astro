@@ -38,7 +38,7 @@ const steps = story.map((s) => ({ label: s.label, rule: '#0A2C52', color: '#8A90
 </div>
 <div style="flex: 3 1 480px; min-width: 0; min-height: 340px">
 {story.map((c, i) => (<Fragment>
-<div class="stepin" data-panel={i} hidden={i !== 0} style="display: flex; flex-direction: column; gap: 18px">
+<div class="stepin" data-panel={i} style="display: flex; flex-direction: column; gap: 18px">
 <div style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 900; font-size: clamp(56px, 9vw, 132px); line-height: 0.9; letter-spacing: -0.045em; font-variant-numeric: tabular-nums">{c.year}</div>
 <h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(24px, 2.6vw, 36px); letter-spacing: -0.02em">{c.title}</h2>
 <p style="margin: 0; max-width: 680px; font-size: 20px; color: #D5D8DB">{c.text}</p>

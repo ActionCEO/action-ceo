@@ -7,6 +7,8 @@ import * as yaml from 'js-yaml';
 const list = (f: string) => (yaml.load(fs.readFileSync(new URL(`./data/${f}`, import.meta.url), 'utf8')) as { slug: string; name: string }[]);
 const CATS = list('categories.yaml').map((c) => c.slug) as [string, ...string[]];
 const TAGS = list('tags.yaml').map((c) => c.slug) as [string, ...string[]];
+// The CMS can save an empty optional field as ''. Treat that as not set.
+const blank = <T extends z.ZodTypeAny>(t: T) => z.preprocess((v) => (v === '' || v === null ? undefined : v), t);
 const ytId = z.string().regex(/^[A-Za-z0-9_-]{11}$/);
 
 const videos = defineCollection({
@@ -42,8 +44,8 @@ const posts = defineCollection({
     origin: z.enum(['pipeline', 'human', 'agent']),
     draft: z.boolean(),
     reviewState: z.enum(['needs_review', 'approved']),
-    publishedAt: z.coerce.date().optional(),
-    updatedAt: z.coerce.date().optional(),
+    publishedAt: blank(z.coerce.date().optional()),
+    updatedAt: blank(z.coerce.date().optional()),
   }).strict().refine((p) => p.draft || (p.reviewState === 'approved' && !!p.publishedAt), { message: 'draft: false needs reviewState: approved and publishedAt' }),
 });
 
@@ -52,13 +54,13 @@ const shows = defineCollection({
   schema: z.object({
     name: z.string(), order: z.number().int(), kind: z.enum(['live', 'audio', 'podcast']),
     schedule: z.string(), summary: z.string(), where: z.array(z.object({ label: z.string(), url: z.string().url().or(z.literal('')) }).strict()),
-    rss: z.string().url().optional(), image: z.string().optional(),
+    rss: blank(z.string().url().optional()), image: blank(z.string().optional()),
   }).strict(),
 });
 
 const guests = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/guests' }),
-  schema: z.object({ name: z.string(), role: z.string().optional(), url: z.string().url().optional() }).strict(),
+  schema: z.object({ name: z.string(), role: blank(z.string().optional()), url: blank(z.string().url().optional()) }).strict(),
 });
 
 const episodes = defineCollection({
@@ -68,7 +70,7 @@ const episodes = defineCollection({
 
 const speaking = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/speaking' }),
-  schema: z.object({ event: z.string(), role: z.string(), year: z.string(), location: z.string().optional(), publicInPerson: z.boolean().default(false), startDate: z.coerce.date().optional(), image: z.string().optional(), video: reference('videos').optional() }).strict(),
+  schema: z.object({ event: z.string(), role: z.string(), year: z.string(), location: blank(z.string().optional()), publicInPerson: z.boolean().default(false), startDate: blank(z.coerce.date().optional()), image: blank(z.string().optional()), video: reference('videos').optional() }).strict(),
 });
 
 export const collections = { videos, transcripts, posts, shows, guests, episodes, speaking };

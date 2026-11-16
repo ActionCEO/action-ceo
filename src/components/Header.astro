@@ -8,3 +8,4 @@ const NAV = [['Work', '/work'], ['Shows', '/shows'], ['Speaking', '/speaking'], 
     {NAV.map(([n, h]) => <a href={h} aria-current={n === current ? 'page' : undefined} style={`padding: 12px 0${n === current ? '; border-bottom: 2px solid #FFFFFF' : ''}`}>{n}</a>)}
   </div>
 </nav>
+<span id="content" tabindex="-1"></span>

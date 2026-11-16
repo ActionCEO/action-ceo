@@ -1,5 +1,6 @@
 // After a push to main: wait for the Pages deployment of this commit, then ping IndexNow with the changed URLs.
 import { execSync } from 'node:child_process';
+import fs from 'node:fs';
 import { env } from './lib.mjs';
 const key = env('INDEXNOW_KEY', false);
 if (!key) { console.log('No INDEXNOW_KEY set. Skipping.'); process.exit(0); }
@@ -16,9 +17,11 @@ const changed = execSync('git diff --name-only HEAD~1 HEAD').toString().split('\
 const urls = new Set(['https://action.ceo/']);
 for (const f of changed) {
   let m;
-  if ((m = f.match(/^src\/content\/posts\/(.+)\.md$/))) { urls.add(`https://action.ceo/blog/${m[1]}`); urls.add('https://action.ceo/blog'); }
+  if ((m = f.match(/^src\/content\/posts\/(.+)\.md$/))) {
+    if (!fs.existsSync(f) || /^draft:\s*true/m.test(fs.readFileSync(f, 'utf8'))) continue; urls.add(`https://action.ceo/blog/${m[1]}`); urls.add('https://action.ceo/blog'); }
   else if ((m = f.match(/^src\/content\/(shows|episodes|guests|speaking)\/(.+)\.md$/))) urls.add(`https://action.ceo/${m[1]}/${m[2]}`);
   else if ((m = f.match(/^src\/pages\/(.+?)(\/index)?\.astro$/)) && !m[1].includes('[') && m[1] !== '404') urls.add(`https://action.ceo/${m[1] === 'index' ? '' : m[1]}`);
 }
 const r = await fetch('https://api.indexnow.org/indexnow', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ host: 'action.ceo', key, keyLocation: `https://action.ceo/${key}.txt`, urlList: [...urls] }) });
 console.log('IndexNow', r.status, [...urls]);
+if (r.status >= 400) process.exit(1);

@@ -17,6 +17,7 @@ jobs:
         with: { path: .cache, key: "og-${{ hashFiles('src/content/**', 'src/site.ts') }}", restore-keys: og- }
       - name: Publish guard
         run: node scripts/publish-guard.mjs
+        env: { GH_TOKEN: "${{ github.token }}" }
       - name: Content gate, build, SEO checks
         run: npm run build
         env: { STRICT_HOST: "1" }

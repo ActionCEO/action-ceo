@@ -1,7 +1,7 @@
 // Daily: orphan checks, build count for the month, stuck jobs. Any finding is a Telegram alert.
 import fs from 'node:fs';
 import { d1, tg, tgFlush, env, RUN_URL } from './lib.mjs';
-const rows = await d1(fs.readFileSync('migrations/orphan_checks.sql', 'utf8').replace(/^--.*$/gm, ''));
+const rows = await d1(fs.readFileSync('sql/orphan_checks.sql', 'utf8').replace(/^--.*$/gm, ''));
 if (rows.length) await tg(`Orphan check found rows\nCount: ${rows.length}\n${[...new Set(rows.map((r) => r.problem))].join(', ')}`, RUN_URL ? ['Open report', RUN_URL] : undefined);
 console.log('orphans', rows);
 // Content side: every slug and video id that D1 points to must exist in the repo.
@@ -13,6 +13,7 @@ const since = new Date(); since.setUTCDate(1); since.setUTCHours(0, 0, 0, 0);
 let n = 0;
 for (let page = 1; page < 30; page++) {
   const j = await fetch(`https://api.cloudflare.com/client/v4/accounts/${env('CLOUDFLARE_ACCOUNT_ID')}/pages/projects/${env('PAGES_PROJECT')}/deployments?page=${page}&per_page=25`, { headers: { authorization: `Bearer ${env('CLOUDFLARE_API_TOKEN')}` } }).then((r) => r.json());
+  if (!j.success) { console.error('Pages API error', JSON.stringify(j.errors)); await tg('Daily check could not read the Pages build count.', RUN_URL ? ['Open run', RUN_URL] : undefined); process.exitCode = 1; break; }
   const list = j.result ?? []; const inMonth = list.filter((d) => new Date(d.created_on) >= since);
   n += inMonth.length; if (inMonth.length < list.length || !list.length) break;
 }
