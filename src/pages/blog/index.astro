@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import { SITE } from '../../site';
+import { livePosts, catName, fmtDate, CATEGORIES } from '../../lib/content';
+const posts = await livePosts();
+const F = "'Montserrat', Arial, sans-serif";
+---
+<Base page="blog">
+<Header current="Writing" />
+<header class="pad" style="padding-top: clamp(48px, 7vw, 104px); padding-bottom: 48px; display: flex; flex-direction: column; gap: 24px">
+  <h1 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(44px, 7vw, 108px); line-height: 1.02; letter-spacing: -0.035em`}>Watch it or read it.</h1>
+  <p style="margin: 0; max-width: 640px; font-size: 20px; color: #D5D8DB">Every video I publish gets a written version here. Same breakdown, your pick of format.</p>
+  <div id="search" style="max-width: 520px"></div>
+</header>
+<section class="pad" aria-label="Posts" style="padding-bottom: 96px">
+  {posts.length === 0 && <p style="margin: 0; padding: 32px 0; border-top: 1px solid #0A2C52; font-size: 20px; color: #D5D8DB">The first written breakdowns are on the way. Until then, <a href={SITE.youtube} rel="noopener" style="border-bottom: 1px solid #FFFFFF">watch on YouTube</a>.</p>}
+  {posts.map((p) => (
+    <a href={`/blog/${p.id}`} style="display: flex; flex-wrap: wrap; gap: 20px 40px; padding: 32px 0; border-top: 1px solid #0A2C52; align-items: center">
+      <img src={`/og/blog-${p.id}.png`} alt="" width="1200" height="630" loading="lazy" decoding="async" style="flex: 1 1 260px; max-width: 380px; width: 100%; height: auto; aspect-ratio: 1200 / 630; object-fit: cover">
+      <span style="flex: 3 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 16px; color: #A5AAAF">{catName(p.data.category)} · {p.data.publishedAt ? fmtDate(p.data.publishedAt) : 'Draft'}</span>
+        <span style={`font-family: ${F}; font-weight: 800; font-size: clamp(22px, 2.8vw, 38px); line-height: 1.08; letter-spacing: -0.03em`}>{p.data.title}</span>
+        <span style="color: #D5D8DB">{p.data.excerpt}</span>
+      </span>
+    </a>
+  ))}
+</section>
+<section class="rv pad" aria-label="Subscribe" style="background: #002346; padding-top: 96px; padding-bottom: 96px; display: flex; flex-wrap: wrap; gap: 24px 64px; align-items: center; justify-content: space-between">
+  <h2 style={`margin: 0; flex: 2 1 420px; max-width: 760px; font-family: ${F}; font-weight: 800; font-size: clamp(28px, 3.6vw, 52px); line-height: 1.02; letter-spacing: -0.035em`}>Subscribe so you catch the next breakdown.</h2>
+  <div style="display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center">
+    <a href={SITE.youtube} rel="noopener" style={`background: #69BE28; color: #06111F; font-family: ${F}; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 2px`}>Subscribe on YouTube</a>
+    {SITE.telegram ? <a href={SITE.telegram} rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Join the Telegram</a> : <span style="color: #D5D8DB">Telegram link coming soon</span>}
+  </div>
+</section>
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script is:inline>
+  // Search loads only when the box scrolls into view or gets focus, so it never costs the first paint.
+  (function () {
+    var el = document.getElementById('search'), done = false;
+    function go() { if (done) return; done = true; var s = document.createElement('script'); s.src = '/pagefind/pagefind-ui.js'; s.onload = function () { new PagefindUI({ element: '#search', showSubResults: false, showImages: false }); }; document.head.appendChild(s); }
+    if ('requestIdleCallback' in window) requestIdleCallback(go); else setTimeout(go, 1200);
+  })();
+</script>
+<style is:global>
+  #search{--pagefind-ui-primary:#FFFFFF;--pagefind-ui-text:#FFFFFF;--pagefind-ui-background:#0A2C52;--pagefind-ui-border:#A5AAAF;--pagefind-ui-tag:#002346;--pagefind-ui-border-radius:2px;--pagefind-ui-font:'Open Sans',Arial,sans-serif}
+</style>
+</Base>

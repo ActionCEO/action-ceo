@@ -1,0 +1,7 @@
+# Fixed list. A new tag means editing this file (an Editor's job). TODO: Action to confirm.
+- { slug: bitcoin, name: Bitcoin }
+- { slug: ai-agents, name: AI agents }
+- { slug: depin, name: DePIN }
+- { slug: deai, name: DeAI }
+- { slug: rwa, name: RWA }
+- { slug: markets, name: Markets }

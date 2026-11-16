@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import { SITE } from '../../site';
+import { getCollection } from 'astro:content';
+export async function getStaticPaths() { return (await getCollection('shows')).map((show) => ({ params: { slug: show.id }, props: { show } })); }
+const { show } = Astro.props;
+const eps = (await getCollection('episodes')).filter((e) => e.data.show.id === show.id).sort((a, b) => b.data.number - a.data.number);
+const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
+const url = `${BASE}/shows/${show.id}`;
+const todo = show.data.name.startsWith('TODO');
+const name = todo ? 'The interview show' : show.data.name;
+const desc = `${name}, hosted by Action. ${show.data.summary} Schedule: ${show.data.schedule.replace(/^TODO: /, '')}.`.slice(0, 155);
+const F = "'Montserrat', Arial, sans-serif";
+const graph = [{ '@type': show.data.kind === 'podcast' ? 'PodcastSeries' : 'CreativeWorkSeries', '@id': `${url}#series`, name, url, description: show.data.summary, author: { '@id': `${BASE}/#person` }, ...(show.data.rss ? { webFeed: show.data.rss } : {}) },
+  { '@type': 'WebPage', '@id': `${url}#webpage`, url, name, isPartOf: { '@id': `${BASE}/#website` } }];
+---
+<Base title={`${name} | Hosted by Action`} description={desc.padEnd(70, ' ')} path={`/shows/${show.id}`} ogImage="/og/shows.png" graph={graph} noindex={todo}>
+<Header current="Shows" />
+<header class="pad" style="padding-top: clamp(48px, 7vw, 104px); padding-bottom: 72px; display: flex; flex-direction: column; gap: 20px; align-items: flex-start">
+  <a href="/shows" style="padding: 10px 0; color: #D5D8DB">All shows</a>
+  <h1 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(44px, 7vw, 108px); line-height: 1; letter-spacing: -0.04em`}>{name}</h1>
+  <p style={`margin: 0; font-family: ${F}; font-weight: 700; font-size: 22px`}>{show.data.schedule}</p>
+  <p style="margin: 0; max-width: 640px; font-size: 20px; color: #D5D8DB">{show.data.summary}</p>
+  <div style="display: flex; flex-wrap: wrap; gap: 4px 24px">
+    {show.data.where.map((w) => w.url ? <a href={w.url} rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">{w.label}</a> : <span style="padding: 10px 0; color: #A5AAAF">{w.label} (link coming soon)</span>)}
+  </div>
+</header>
+{eps.length > 0 && (
+  <section class="pad" aria-label="Episodes" style="padding-bottom: 96px">
+    <h2 style={`margin: 0 0 24px; font-family: ${F}; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); letter-spacing: -0.035em`}>Episodes</h2>
+    {eps.map((e) => <a href={`/episodes/${e.id}`} style={`display: flex; gap: 24px; padding: 22px 0; border-top: 1px solid #0A2C52; font-family: ${F}; font-weight: 700; font-size: 22px`}><span style="color: #A5AAAF">{e.data.number}</span><span>{e.data.title}</span></a>)}
+  </section>
+)}
+</Base>

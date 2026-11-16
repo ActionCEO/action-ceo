@@ -1,0 +1,135 @@
+# Sveltia CMS. Fields and limits mirror src/content.config.ts: change both together.
+backend:
+  name: github
+  repo: TODO-OWNER/action-ceo   # TODO: GitHub owner/repo
+  branch: main
+  base_url: https://TODO-sveltia-cms-auth.workers.dev   # TODO: the sveltia-cms-auth Worker URL
+publish_mode: editorial_workflow
+media_folder: public/img/uploads
+public_folder: /img/uploads
+site_url: https://action.ceo
+slug: { encoding: ascii, clean_accents: true }
+collections:
+  - name: posts
+    label: Posts
+    folder: src/content/posts
+    extension: md
+    format: frontmatter
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} ({{reviewState}})"
+    fields:
+      - { name: draft, label: "Draft (turn OFF to publish)", widget: boolean, default: true }
+      - { name: reviewState, label: Review state, widget: select, options: [needs_review, approved], default: needs_review }
+      - { name: publishedAt, label: "Published at (required to publish)", widget: datetime, required: false }
+      - { name: title, label: Title, widget: string }
+      - { name: metaTitle, label: "SEO title (50 max)", widget: string, pattern: ['^.{1,50}$', '50 characters max'] }
+      - { name: metaDescription, label: "SEO description (70 to 155)", widget: text, pattern: ['^[\s\S]{70,155}$', '70 to 155 characters'] }
+      - { name: excerpt, label: "Excerpt (320 max)", widget: text, pattern: ['^[\s\S]{0,320}$', '320 characters max'] }
+      - { name: category, label: Category, widget: select, options: [ai, depin, crypto, interviews, action-items] }
+      - { name: tags, label: "Tags (10 max)", widget: select, multiple: true, max: 10, required: false, options: [bitcoin, ai-agents, depin, deai, rwa, markets] }
+      - { name: takeaways, label: "Takeaways (5 max)", widget: list, max: 5, required: false, field: { name: item, label: Takeaway, widget: string } }
+      - { name: youtubeVideoId, label: YouTube video ID, widget: string, pattern: ['^[A-Za-z0-9_-]{11}$', '11 characters'] }
+      - { name: video, label: Video, widget: relation, collection: videos, value_field: youtubeId, search_fields: [title, youtubeId], display_fields: [title] }
+      - { name: origin, label: Origin, widget: select, options: [pipeline, human, agent], default: human }
+      - { name: updatedAt, label: Updated at, widget: datetime, required: false }
+      - { name: body, label: Post, widget: markdown }
+  - name: videos
+    label: Videos
+    folder: src/content/videos
+    extension: json
+    format: json
+    create: true
+    identifier_field: youtubeId
+    slug: "{{youtubeId}}"
+    summary: "{{title}}"
+    fields:
+      - { name: youtubeId, label: YouTube video ID, widget: string, pattern: ['^[A-Za-z0-9_-]{11}$', '11 characters'] }
+      - { name: title, label: Title, widget: string }
+      - { name: channel, label: Channel, widget: select, options: [ActionCrypto, LFGAction, External] }
+      - { name: kind, label: Kind, widget: select, options: [video, live] }
+      - { name: publishedAt, label: Published at, widget: datetime }
+      - { name: durationSeconds, label: Duration in seconds, widget: number, value_type: int, min: 1 }
+      - name: chapters
+        label: Chapters
+        widget: list
+        required: false
+        fields:
+          - { name: start, label: Start in seconds, widget: number, value_type: int, min: 0 }
+          - { name: title, label: Title, widget: string }
+  - name: transcripts
+    label: Transcripts
+    folder: src/content/transcripts
+    extension: md
+    format: frontmatter
+    create: true
+    slug: "{{video}}.{{language}}"
+    fields:
+      - { name: video, label: Video, widget: relation, collection: videos, value_field: youtubeId, search_fields: [title, youtubeId], display_fields: [title] }
+      - { name: language, label: Language, widget: string, default: en }
+      - { name: source, label: Source, widget: select, options: [youtube_manual, youtube_auto, edited] }
+      - { name: body, label: Transcript, widget: markdown }
+  - name: shows
+    label: Shows
+    folder: src/content/shows
+    extension: md
+    format: frontmatter
+    create: true
+    identifier_field: name
+    fields:
+      - { name: name, label: Name, widget: string }
+      - { name: order, label: Order, widget: number, value_type: int }
+      - { name: kind, label: Kind, widget: select, options: [live, audio, podcast] }
+      - { name: schedule, label: Schedule, widget: string }
+      - { name: summary, label: Summary, widget: text }
+      - name: where
+        label: Where to watch or listen
+        widget: list
+        fields:
+          - { name: label, label: Label, widget: string }
+          - { name: url, label: URL, widget: string, required: false }
+      - { name: rss, label: RSS feed, widget: string, required: false }
+      - { name: image, label: Image name, widget: string, required: false }
+  - name: episodes
+    label: Episodes
+    folder: src/content/episodes
+    extension: md
+    format: frontmatter
+    create: true
+    fields:
+      - { name: show, label: Show, widget: relation, collection: shows, value_field: "{{slug}}", search_fields: [name], display_fields: [name] }
+      - { name: number, label: Episode number, widget: number, value_type: int, min: 1 }
+      - { name: title, label: Title, widget: string }
+      - { name: publishedAt, label: Published at, widget: datetime }
+      - { name: video, label: Video, widget: relation, collection: videos, value_field: youtubeId, search_fields: [title], display_fields: [title], required: false }
+      - { name: guests, label: Guests, widget: relation, collection: guests, value_field: "{{slug}}", search_fields: [name], display_fields: [name], multiple: true, required: false }
+      - { name: body, label: Notes, widget: markdown, required: false }
+  - name: guests
+    label: Guests
+    folder: src/content/guests
+    extension: md
+    format: frontmatter
+    create: true
+    identifier_field: name
+    fields:
+      - { name: name, label: Name, widget: string }
+      - { name: role, label: Role, widget: string, required: false }
+      - { name: url, label: Website, widget: string, required: false }
+      - { name: body, label: Bio, widget: markdown, required: false }
+  - name: speaking
+    label: Speaking
+    folder: src/content/speaking
+    extension: md
+    format: frontmatter
+    create: true
+    identifier_field: event
+    fields:
+      - { name: event, label: Event, widget: string }
+      - { name: role, label: Role, widget: string }
+      - { name: year, label: Year, widget: string }
+      - { name: location, label: Location, widget: string, required: false }
+      - { name: publicInPerson, label: Public in-person event, widget: boolean, default: false }
+      - { name: startDate, label: Start date, widget: datetime, required: false }
+      - { name: image, label: Image name, widget: string, required: false }
+      - { name: video, label: Video, widget: relation, collection: videos, value_field: youtubeId, search_fields: [title], display_fields: [title], required: false }
+      - { name: body, label: Notes, widget: markdown, required: false }

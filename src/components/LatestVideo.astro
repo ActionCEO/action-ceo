@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import Video from './Video.astro';
+import { SITE } from '../site';
+const vids = (await getCollection('videos')).filter((v) => v.data.channel !== 'External').sort((a, b) => +b.data.publishedAt - +a.data.publishedAt);
+const v = vids[0];
+const H = "margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(22px, 2.4vw, 32px); letter-spacing: -0.02em";
+---
+<section class="rv pad" aria-label="Latest video" style="padding-bottom: 120px; display: flex; flex-direction: column; gap: 28px">
+  {v ? <div style="max-width: 1200px"><Video id={v.data.youtubeId} title={v.data.title} /></div> : null}
+  <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 32px; max-width: 1200px">
+    <h2 style={H}>{v ? v.data.title : 'New breakdowns on Action Crypto.'}</h2>
+    <a href={SITE.youtube} rel="noopener" style="font-weight: 600; padding: 12px 0; border-bottom: 1px solid #FFFFFF">Subscribe to Action Crypto</a>
+  </div>
+</section>

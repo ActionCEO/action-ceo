@@ -1,0 +1,2 @@
+-- PHASE 2. DO NOT APPLY YET. Ask Action first.
+-- Placeholder: the CRM tables come from Action-CEO-Schema-v3.zip, which was not supplied for this build.

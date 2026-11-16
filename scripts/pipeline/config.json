@@ -1,0 +1,7 @@
+{
+  "model": "TODO-pin-current-sonnet-model-id",
+  "channels": [
+    { "id": "TODO_CHANNEL_ID_ACTIONCRYPTO", "name": "ActionCrypto", "refreshTokenSecret": "GOOGLE_REFRESH_TOKEN_ACTIONCRYPTO" },
+    { "id": "TODO_CHANNEL_ID_LFGACTION", "name": "LFGAction", "refreshTokenSecret": "GOOGLE_REFRESH_TOKEN_LFGACTION" }
+  ]
+}

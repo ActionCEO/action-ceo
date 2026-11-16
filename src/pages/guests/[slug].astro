@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import { getCollection } from 'astro:content';
+export async function getStaticPaths() { return (await getCollection('guests')).map((guest) => ({ params: { slug: guest.id }, props: { guest } })); }
+const { guest } = Astro.props;
+const eps = (await getCollection('episodes')).filter((e) => e.data.guests.some((g) => g.id === guest.id));
+const F = "'Montserrat', Arial, sans-serif";
+const desc = `${guest.data.name}${guest.data.role ? ', ' + guest.data.role : ''}, a guest on shows hosted by Action. See every episode they joined.`.slice(0, 155);
+---
+<Base title={`${guest.data.name.slice(0, 40)} | Guest on Action`} description={desc} path={`/guests/${guest.id}`} ogImage="/og/shows.png">
+<Header current="Shows" />
+<section class="pad" style="padding-top: clamp(40px, 6vw, 88px); padding-bottom: 96px; display: flex; flex-direction: column; gap: 20px; align-items: flex-start">
+  <h1 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(40px, 6vw, 88px); line-height: 1; letter-spacing: -0.035em`}>{guest.data.name}</h1>
+  {guest.data.role && <p style="margin: 0; font-size: 20px; color: #D5D8DB">{guest.data.role}</p>}
+  {guest.data.url && <a href={guest.data.url} rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Website</a>}
+  <div style="width: 100%">{eps.map((e) => <a href={`/episodes/${e.id}`} style={`display: block; padding: 22px 0; border-top: 1px solid #0A2C52; font-family: ${F}; font-weight: 700; font-size: 22px`}>{e.data.title}</a>)}</div>
+</section>
+</Base>

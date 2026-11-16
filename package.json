@@ -1,0 +1,27 @@
+{
+  "name": "action-ceo",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "gate": "node scripts/content-gate.mjs",
+    "build": "node scripts/content-gate.mjs && astro build && pagefind --site dist && node scripts/ci-checks.mjs",
+    "build:preview": "SHOW_DRAFTS=1 npm run build",
+    "check": "node scripts/ci-checks.mjs",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.5",
+    "@resvg/resvg-js": "2.6.2",
+    "astro": "5.18.2",
+    "gray-matter": "4.0.3",
+    "js-yaml": "5.5.0",
+    "pagefind": "1.6.0",
+    "satori": "0.12.2",
+    "sharp": "0.35.5"
+  }
+}

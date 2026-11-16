@@ -1,0 +1,6 @@
+# Fixed list. A new category means editing this file (an Editor's job). TODO: Action to confirm.
+- { slug: ai, name: AI }
+- { slug: depin, name: DePIN }
+- { slug: crypto, name: Crypto }
+- { slug: interviews, name: Interviews }
+- { slug: action-items, name: Action Items }

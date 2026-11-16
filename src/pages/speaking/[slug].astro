@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import { SITE } from '../../site';
+import { getCollection, render } from 'astro:content';
+export async function getStaticPaths() { return (await getCollection('speaking')).map((e) => ({ params: { slug: e.id }, props: { e } })); }
+const { e } = Astro.props;
+const { Content } = await render(e);
+const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
+const url = `${BASE}/speaking/${e.id}`;
+const F = "'Montserrat', Arial, sans-serif";
+const desc = `${e.data.event} (${e.data.year}). Action's role: ${e.data.role}. Book Action to speak or host at your event.`.padEnd(70, ' ').slice(0, 155);
+const graph = [{ '@type': 'WebPage', '@id': `${url}#webpage`, url, name: e.data.event, isPartOf: { '@id': `${BASE}/#website` } },
+  ...(e.data.publicInPerson && e.data.startDate ? [{ '@type': 'Event', '@id': `${url}#event`, name: e.data.event, startDate: e.data.startDate.toISOString(), eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode', location: { '@type': 'Place', name: e.data.location ?? e.data.event }, performer: { '@id': `${BASE}/#person` } }] : [])];
+---
+<Base title={`${e.data.event.slice(0, 30)} ${e.data.year} | Action Speaking`} description={desc} path={`/speaking/${e.id}`} ogImage="/og/speaking.png" graph={graph}>
+<Header current="Speaking" />
+<section class="pad" style="padding-top: clamp(40px, 6vw, 88px); padding-bottom: 96px; display: flex; flex-direction: column; gap: 20px; align-items: flex-start">
+  <a href="/speaking" style="padding: 10px 0; color: #D5D8DB">All speaking</a>
+  <h1 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(40px, 6vw, 88px); line-height: 1; letter-spacing: -0.035em`}>{e.data.event}</h1>
+  <p style={`margin: 0; font-family: ${F}; font-weight: 700; font-size: 22px`}>{e.data.year}</p>
+  <p style="margin: 0; font-size: 20px; color: #D5D8DB">{e.data.role}</p>
+  <div class="prose"><Content /></div>
+  <a href="/speaking#book" style="font-weight: 600; padding: 10px 0; border-bottom: 3px solid #69BE28">Book me for your event</a>
+</section>
+</Base>

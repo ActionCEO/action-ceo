@@ -1,0 +1,7 @@
+---
+import { SITE } from '../site';
+---
+<section class="rv pad" aria-label="Community" style="border-top: 1px solid #0A2C52; padding-top: 56px; padding-bottom: 56px; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 32px">
+  <p style="margin: 0; font-size: 19px; color: #D5D8DB">The conversation keeps going on Telegram.</p>
+  {SITE.telegram ? <a href={SITE.telegram} rel="noopener" style="font-weight: 600; padding: 12px 0; border-bottom: 1px solid #FFFFFF">Join the Telegram</a> : <span style="color: #A5AAAF">Link coming soon</span>}
+</section>

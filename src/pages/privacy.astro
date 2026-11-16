@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import { SITE } from '../site';
+
+---
+<Base page="privacy">
+<Header current="" />
+<header style="padding: clamp(48px, 7vw, 104px) clamp(20px, 4.5vw, 64px) 40px; display: flex; flex-direction: column; gap: 20px">
+<h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(44px, 7vw, 108px); line-height: 1.02; letter-spacing: -0.035em; ">Privacy.</h1>
+<p style="margin: 0; max-width: 640px; font-size: 20px; color: #D5D8DB">The short version: I collect what you send me through a form, plus Google Analytics data about your visit.</p>
+<p style="margin: 0; font-size: 16px; color: #A5AAAF">This site is run by Victor Gazio. Last updated [DATE]. [HAVE A LAWYER REVIEW THIS PAGE BEFORE LAUNCH]</p>
+</header>
+<section class="rv" aria-label="Details" style="padding: 24px clamp(20px, 4.5vw, 64px) 110px">
+<div style="display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 28px 0; border-top: 1px solid #0A2C52">
+<h2 style="margin: 0; flex: 1 1 220px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 20px">Forms</h2>
+<div style="flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">When you use the contact or booking form, I get your name, email, what you wrote and the type of request. I use it to reply. It is stored with Cloudflare, and I get a Telegram alert with your name and the first line. I never store your raw IP address, only a salted hash of it.</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 28px 0; border-top: 1px solid #0A2C52">
+<h2 style="margin: 0; flex: 1 1 220px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 20px">Spam check</h2>
+<div style="flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">Forms use Cloudflare Turnstile to tell people from bots.</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 28px 0; border-top: 1px solid #0A2C52">
+<h2 style="margin: 0; flex: 1 1 220px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 20px">Analytics</h2>
+<div style="flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">The site uses Google Analytics 4 to count visits and see which pages get read. If you are in the EU, the EEA, the UK or Switzerland, no analytics cookies are set until you say yes in the banner. Elsewhere, analytics is on by default.</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 28px 0; border-top: 1px solid #0A2C52">
+<h2 style="margin: 0; flex: 1 1 220px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 20px">Videos</h2>
+<div style="flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">Videos are click-to-play. The YouTube player only loads when you press play.</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 28px 0; border-top: 1px solid #0A2C52; border-bottom: 1px solid #0A2C52">
+<h2 style="margin: 0; flex: 1 1 220px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 20px">Your data</h2>
+<div style="flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">Questions about your data? Email <a href="mailto:me@action.ceo" style="border-bottom: 1px solid #FFFFFF">me@action.ceo</a>. [CONFIRM: ACCESS, DELETION AND RETENTION PROCESS]</div>
+</div>
+</section>
+</Base>

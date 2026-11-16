@@ -1,0 +1,45 @@
+@font-face{font-family:'Montserrat';font-weight:700;font-style:normal;font-display:swap;src:url('/fonts/Montserrat_700Bold.woff2') format('woff2')}
+@font-face{font-family:'Montserrat';font-weight:800;font-style:normal;font-display:swap;src:url('/fonts/Montserrat_800ExtraBold.woff2') format('woff2')}
+@font-face{font-family:'Montserrat';font-weight:900;font-style:normal;font-display:swap;src:url('/fonts/Montserrat_900Black.woff2') format('woff2')}
+@font-face{font-family:'Open Sans';font-weight:400;font-style:normal;font-display:swap;src:url('/fonts/OpenSans_400Regular.woff2') format('woff2')}
+@font-face{font-family:'Open Sans';font-weight:600;font-style:normal;font-display:swap;src:url('/fonts/OpenSans_600SemiBold.woff2') format('woff2')}
+*,*::before,*::after{box-sizing:border-box}
+html{background:#06111F;color-scheme:dark;-webkit-text-size-adjust:100%}
+body{margin:0;background:#06111F;color:#FFFFFF;font-family:'Open Sans',Arial,sans-serif;font-size:17px;line-height:1.55;overflow-x:clip}
+img{max-width:100%}
+a{color:#FFFFFF;text-decoration:none}a:hover{color:#A5AAAF}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid #69BE28;outline-offset:3px}
+input::placeholder,textarea::placeholder{color:#A5AAAF}
+summary{cursor:pointer}
+[hidden]{display:none !important}
+.skip{position:absolute;left:-9999px;top:0;background:#FFFFFF;color:#06111F;padding:12px 16px;font-weight:600;z-index:100}
+.skip:focus{left:12px;top:12px}
+.pad{padding-left:clamp(20px,4.5vw,64px);padding-right:clamp(20px,4.5vw,64px)}
+.pv{transition:opacity .35s ease}
+@media (max-width:800px){.pvpanel{display:none}}
+[data-step][aria-pressed="true"],[data-ch][aria-pressed="true"]{color:#FFFFFF !important;border-left-color:#69BE28 !important}
+[data-pv].on{color:#FFFFFF !important}
+@keyframes stepin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.stepin{animation:stepin .45s cubic-bezier(.2,.7,.2,1) both}
+@keyframes airpulse{0%,100%{opacity:1}50%{opacity:.35}}
+a,button{transition:color .18s cubic-bezier(.4,0,.2,1),border-color .18s cubic-bezier(.4,0,.2,1),opacity .18s cubic-bezier(.4,0,.2,1)}
+@media (prefers-reduced-motion:no-preference){@supports (animation-timeline:view()){
+@keyframes rvin{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+.rv{animation:rvin cubic-bezier(.4,0,.2,1) both;animation-timeline:view();animation-range:entry 0% entry 60%}
+@keyframes heroout{to{transform:translateY(60px);opacity:.6}}
+.px{animation:heroout cubic-bezier(.4,0,.2,1) both;animation-timeline:scroll(root);animation-range:0 640px}
+@keyframes slideL{from{transform:translateX(8%)}to{transform:translateX(-38%)}}
+.band{animation:slideL linear both;animation-timeline:view()}
+@keyframes imgin{from{transform:scale(1.14)}to{transform:scale(1)}}
+.zi{animation:imgin cubic-bezier(.4,0,.2,1) both;animation-timeline:view();animation-range:entry 0% cover 50%}
+}}
+@media (prefers-reduced-motion:reduce){.stepin,.air-dot{animation:none !important}.pv,a,button{transition:none}}
+.prose{max-width:720px;font-size:19px;line-height:1.7;color:#E3E6E9}
+.prose h2{font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(24px,2.8vw,34px);line-height:1.1;letter-spacing:-.03em;color:#FFFFFF;margin:48px 0 16px}
+.prose h3{font-family:'Montserrat',Arial,sans-serif;font-weight:700;font-size:22px;color:#FFFFFF;margin:36px 0 12px}
+.prose p,.prose ul,.prose ol{margin:0 0 24px}
+.prose a{border-bottom:1px solid #FFFFFF}
+.prose li{margin-bottom:8px}
+.consent{position:fixed;left:16px;right:16px;bottom:16px;z-index:50;max-width:720px;margin:0 auto;background:#002346;border:1px solid #A5AAAF;padding:20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.consent button{min-height:48px;padding:12px 20px;border-radius:2px;border:1px solid #FFFFFF;background:none;color:#FFFFFF;font:600 16px 'Open Sans',Arial,sans-serif;cursor:pointer}
+.consent button[data-consent="yes"]{background:#FFFFFF;color:#06111F}
