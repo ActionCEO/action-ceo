@@ -5,7 +5,7 @@ import path from 'node:path';
 const DIST = 'dist', errors = [], warn = [];
 const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]));
 const files = walk(DIST);
-const pages = files.filter((f) => f.endsWith('.html') && !f.includes(`${path.sep}admin${path.sep}`) && !f.includes(`${path.sep}pagefind${path.sep}`));
+const pages = files.filter((f) => f.endsWith('.html') && !f.includes(`${path.sep}admin${path.sep}`) && !f.includes(`${path.sep}pagefind${path.sep}`) && !f.includes(`${path.sep}figures${path.sep}`));
 const pick = (html, re) => (html.match(re) || [])[1];
 const titles = new Map(), descs = new Map();
 const BANNED = /\b(unlock|elevate|seamless|delve|game-changer|journey|landscape|cutting-edge|empower)\w*/i;
