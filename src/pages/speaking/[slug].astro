@@ -9,11 +9,19 @@ const { Content } = await render(e);
 const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
 const url = `${BASE}/speaking/${e.id}`;
 const F = "'Montserrat', Arial, sans-serif";
-const desc = `${e.data.event} (${e.data.year}). Action's role: ${e.data.role}. Book Action to speak or host at your event.`.padEnd(70, ' ').slice(0, 155);
+// Search titles, descriptions and button wording, 1 per page. A page without an entry gets the plain fallback.
+const META: Record<string, { title: string; description: string; cta: string; project?: string }> = {
+  'depin-day-seattle-2024': { title: 'DePIN Day: Seattle 2024 | Event Host and Speaker Action', description: 'Year 1 of DePIN Day: Seattle, the event Action created, produced and hosted. See the project, then book Action for your own stage.', cta: 'Book me for your event', project: '/work/depin-day-seattle' },
+  'depin-day-seattle-2025': { title: 'DePIN Day: Seattle 2025 | Event Host and Speaker Action', description: 'DePIN Day: Seattle came back in 2025 with Action as creator, producer and host again. Want that for your event? Send a booking request.', cta: 'Book me for your event', project: '/work/depin-day-seattle' },
+  'karate-combat': { title: 'Karate Combat Livestreams | Livestream Host Action', description: 'Action hosted livestreams for Karate Combat from 2024 to 2025. Need a host who can carry a live broadcast? Book Action for your stream.', cta: 'Book me to host your stream' },
+};
+const m = META[e.id];
+const title = m?.title ?? `${e.data.event.slice(0, 30)} ${e.data.year} | Action Speaking`;
+const desc = m?.description ?? `${e.data.event} (${e.data.year}). ${e.data.role} Book Action to speak or host at your event.`.padEnd(70, ' ').slice(0, 155);
 const graph = [{ '@type': 'WebPage', '@id': `${url}#webpage`, url, name: e.data.event, isPartOf: { '@id': `${BASE}/#website` } },
   ...(e.data.publicInPerson && e.data.startDate ? [{ '@type': 'Event', '@id': `${url}#event`, name: e.data.event, startDate: e.data.startDate.toISOString(), eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode', location: { '@type': 'Place', name: e.data.location ?? e.data.event }, performer: { '@id': `${BASE}/#person` } }] : [])];
 ---
-<Base title={`${e.data.event.slice(0, 30)} ${e.data.year} | Action Speaking`} description={desc} path={`/speaking/${e.id}`} ogImage="/og/speaking.png" graph={graph}>
+<Base title={title} description={desc} path={`/speaking/${e.id}`} ogImage="/og/speaking.png" graph={graph}>
 <Header current="Speaking" />
 <section class="pad" style="padding-top: clamp(40px, 6vw, 88px); padding-bottom: 96px; display: flex; flex-direction: column; gap: 20px; align-items: flex-start">
   <a href="/speaking" style="padding: 10px 0; color: #D5D8DB">All speaking</a>
@@ -21,6 +29,7 @@ const graph = [{ '@type': 'WebPage', '@id': `${url}#webpage`, url, name: e.data.
   <p style={`margin: 0; font-family: ${F}; font-weight: 700; font-size: 22px`}>{e.data.year}</p>
   <p style="margin: 0; font-size: 20px; color: #D5D8DB">{e.data.role}</p>
   <div class="prose"><Content /></div>
-  <a href="/speaking#book" style="font-weight: 600; padding: 10px 0; border-bottom: 3px solid #69BE28">Book me for your event</a>
+  {m?.project && <a href={m.project} style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">See the full project</a>}
+  <a href="/speaking#book" style="font-weight: 600; padding: 10px 0; border-bottom: 3px solid #69BE28">{m?.cta ?? 'Book me for your event'}</a>
 </section>
 </Base>

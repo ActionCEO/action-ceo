@@ -3,12 +3,12 @@ import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import { SITE } from '../../site';
 const work = [
-  { name: 'Action Crypto', role: 'My main channel. Commentary on AI, DePIN and crypto since 2021', href: SITE.youtube, img: 0 },
-  { name: 'DePIN Day: Seattle', role: 'Creator, producer and host. 2024 and 2025', href: '/work/depin-day-seattle', img: 1 },
-  { name: 'Action Items', role: 'Weekly live show, Fridays 9:30am Pacific', href: '/shows/action-items', img: 2 },
-  { name: 'Laissez-Faire Group', role: 'Partner and Chief Communications Officer', href: '/lfg', img: -1 },
-  { name: 'Karate Combat', role: 'Livestream host, 2024 to 2025', href: '/speaking/karate-combat', img: -1 },
-  { name: 'Genzio', role: 'Host and live programming lead since 2022', href: '/shows/genzio-roundtable', img: -1 },
+  { name: 'Action Crypto', role: 'My main channel. My takes on AI, DePIN and crypto since 2021', cta: 'Watch', href: SITE.youtube, img: 0 },
+  { name: 'DePIN Day: Seattle', role: 'Creator, producer and host. 2024 and 2025', cta: 'See the event', href: '/work/depin-day-seattle', img: 1 },
+  { name: 'Action Items', role: 'My weekly live show. Fridays, 9:30am Pacific', cta: 'Watch live', href: '/shows/action-items', img: 2 },
+  { name: 'Laissez-Faire Group', role: 'Partner and Chief Communications Officer', cta: 'Work with LFG', href: '/lfg', img: -1 },
+  { name: 'Karate Combat', role: 'Livestream host, 2024 to 2025', cta: 'See the role', href: '/speaking/karate-combat', img: -1 },
+  { name: 'Genzio', role: 'Host of the Genzio Roundtable. Live programming lead since 2022', cta: 'Listen', href: '/shows/genzio-roundtable', img: -1 },
 ].map((r, i) => ({ ...r, num: '0' + (i + 1), color: '#8A9099' }));
 ---
 <Base page="work">
@@ -25,6 +25,7 @@ const work = [
 <span style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
 <span style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 4.2vw, 60px); line-height: 1.02; letter-spacing: -0.035em">{item.name}</span>
 <span style="font-size: 17px; color: #A5AAAF">{item.role}</span>
+<span style="font-size: 16px; font-weight: 600; color: #D5D8DB">{item.cta}</span>
 </span>
 </a>
 </Fragment>))}

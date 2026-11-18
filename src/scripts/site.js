@@ -65,23 +65,52 @@ const show = (row) => {
 };
 rows.forEach((r) => { r.addEventListener('mouseenter', () => show(r)); r.addEventListener('focus', () => show(r)); });
 
-// Click-to-play YouTube, with chapter jumps.
-function play(box, start) {
+// YouTube: the poster paints first, then the real player is added with no autoplay, so the first play is
+// YouTube's own button. Added when the box is near the screen or once the page is idle, whichever is first.
+const boxes = $$('[data-yt]');
+function mount(box, start) {
+  const old = box.querySelector('iframe');
+  if (old && start == null) return;
   const f = document.createElement('iframe');
-  f.src = `https://www.youtube-nocookie.com/embed/${box.dataset.yt}?autoplay=1&rel=0&start=${start || box.dataset.start || 0}`;
-  f.title = 'YouTube video player';
-  f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+  f.src = `https://www.youtube.com/embed/${box.dataset.yt}?rel=0&start=${parseInt(start ?? box.dataset.start, 10) || 0}`;
+  f.title = `YouTube video: ${box.dataset.title || 'player'}`;
+  f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen';
   f.allowFullscreen = true;
+  f.loading = 'lazy';
+  f.referrerPolicy = 'strict-origin-when-cross-origin';
   f.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0';
-  box.replaceChildren(f);
+  // A fresh iframe, not a new src on the old one, so chapter jumps do not pile up in the back button.
+  if (old) old.replaceWith(f); else box.append(f);
 }
-$$('[data-yt-play]').forEach((b) => b.addEventListener('click', () => play(b.closest('[data-yt]'))));
+if (boxes.length) {
+  // YouTube sets cookies when its player loads. Visitors in the EU, EEA, UK and Switzerland (or an unknown country)
+  // get the player only after they click the poster or accept the banner. Everyone else gets it without a click.
+  const EUY = 'AT BE BG HR CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE IS LI NO GB CH'.split(' ');
+  const auto = () => {
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { io.unobserve(e.target); mount(e.target); } }), { rootMargin: '400px' });
+      boxes.forEach((b) => io.observe(b));
+    }
+    const all = () => boxes.forEach((b) => mount(b));
+    const idle = () => (window.requestIdleCallback ? requestIdleCallback(all, { timeout: 3000 }) : setTimeout(all, 1200));
+    if (document.readyState === 'complete') idle(); else addEventListener('load', idle, { once: true });
+  };
+  const decide = (c) => {
+    let ok = false; try { ok = localStorage.getItem('consent') === 'yes'; } catch {}
+    if (ok || (c && c !== 'XX' && !EUY.includes(c))) auto();
+    else boxes.forEach((b) => b.addEventListener('click', (e) => { if (!b.querySelector('iframe')) { e.preventDefault(); mount(b); } }));
+  };
+  let g = null; try { g = sessionStorage.getItem('geo'); } catch {}
+  if (g) decide(g);
+  else fetch('/api/geo').then((r) => r.json()).then((j) => { const c = j.country || 'XX'; try { sessionStorage.setItem('geo', c); } catch {} decide(c); }).catch(() => decide('XX'));
+}
+// Chapters: reload the player at that time (still no autoplay) and keep the ?t= URL in the address bar.
 $$('[data-ch]').forEach((b) => b.addEventListener('click', (e) => {
   e.preventDefault();
   if (b.href) history.replaceState(null, '', b.href);
   $$('[data-ch]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-  const box = document.querySelector('[data-yt]');
-  if (box) { play(box, b.dataset.ch); box.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); }
+  const box = boxes[0];
+  if (box) { mount(box, b.dataset.ch); box.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); }
 }));
 
 // Forms: post to the Pages Function, show the result in place.
@@ -114,7 +143,8 @@ if (GA) {
   window.dataLayer = window.dataLayer || [];
   function gtag() { dataLayer.push(arguments); }
   const state = (v) => ({ ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: v });
-  const load = () => { const s = document.createElement('script'); s.async = true; s.src = `https://www.googletagmanager.com/gtag/js?id=${GA}`; document.head.append(s); gtag('js', new Date()); gtag('config', GA); };
+  let on = false;
+  const load = () => { on = true; const s = document.createElement('script'); s.async = true; s.src = `https://www.googletagmanager.com/gtag/js?id=${GA}`; document.head.append(s); gtag('js', new Date()); gtag('config', GA); };
   const banner = document.querySelector('[data-consent-banner]');
   const choice = localStorage.getItem('consent');
   const start = (needsBanner) => {
@@ -127,6 +157,11 @@ if (GA) {
       if (b.dataset.consent === 'yes') { gtag('consent', 'update', state('granted')); load(); }
     }));
   };
+  // Outbound clicks to YouTube, only once analytics is allowed and loaded.
+  document.addEventListener('click', (e) => {
+    const a = on && e.target.closest && e.target.closest('a[href]');
+    if (a && /(^|\.)(youtube\.com|youtu\.be)$/.test(a.hostname)) gtag('event', 'youtube_click', { link_url: a.href, link_text: (a.textContent || '').trim().slice(0, 80), page_path: location.pathname, transport_type: 'beacon' });
+  });
   const cached = sessionStorage.getItem('geo');
   if (cached) start(cached === 'XX' || EU.includes(cached));
   else fetch('/api/geo').then((r) => r.json()).then((j) => { sessionStorage.setItem('geo', j.country || 'XX'); start(!j.country || EU.includes(j.country)); }).catch(() => start(true));

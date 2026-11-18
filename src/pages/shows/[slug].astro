@@ -9,13 +9,21 @@ const eps = (await getCollection('episodes')).filter((e) => e.data.show.id === s
 const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
 const url = `${BASE}/shows/${show.id}`;
 const todo = show.data.name.startsWith('TODO');
-const name = todo ? 'The interview show' : show.data.name;
-const desc = `${name}, hosted by Action. ${show.data.summary} Schedule: ${show.data.schedule.replace(/^TODO: /, '')}.`.slice(0, 155);
+const name = todo ? 'Founder interviews' : show.data.name;
+// Search titles and descriptions, 1 per show. A show without an entry gets the plain fallback.
+const META: Record<string, { title: string; description: string }> = {
+  'action-items': { title: 'Action Items | Weekly Live Show with Crypto Host Action', description: 'Action Items is the weekly live show from crypto and AI YouTuber Action. Fridays at 9:30am Pacific on YouTube, LinkedIn and X. Watch live or catch up.' },
+  'genzio-roundtable': { title: 'Genzio Roundtable on X Spaces | Crypto Host Action', description: "No cameras, just voices. Action hosts the Genzio Roundtable on X Spaces and has led live programming at Genzio since 2022. Here's where to listen." },
+  interviews: { title: 'Founder Interviews on LFG Action | Crypto Host Action', description: "Action asks founders and builders what they're making and why it matters. Watch the interviews, including the DeAI Summit series, on LFG Action." },
+};
+const title = META[show.id]?.title ?? `${name} | Hosted by Action`;
+const desc = META[show.id]?.description ?? `${name}, hosted by Action. ${show.data.summary}`.slice(0, 155);
+const where = show.data.where.filter((w) => w.url);
 const F = "'Montserrat', Arial, sans-serif";
 const graph = [{ '@type': show.data.kind === 'podcast' ? 'PodcastSeries' : 'CreativeWorkSeries', '@id': `${url}#series`, name, url, description: show.data.summary, author: { '@id': `${BASE}/#person` }, ...(show.data.rss ? { webFeed: show.data.rss } : {}) },
   { '@type': 'WebPage', '@id': `${url}#webpage`, url, name, isPartOf: { '@id': `${BASE}/#website` } }];
 ---
-<Base title={`${name} | Hosted by Action`} description={desc.padEnd(70, ' ')} path={`/shows/${show.id}`} ogImage="/og/shows.png" graph={graph} noindex={todo}>
+<Base title={title} description={desc.padEnd(70, ' ')} path={`/shows/${show.id}`} ogImage="/og/shows.png" graph={graph} noindex={todo}>
 <Header current="Shows" />
 <header class="pad" style="padding-top: clamp(48px, 7vw, 104px); padding-bottom: 72px; display: flex; flex-direction: column; gap: 20px; align-items: flex-start">
   <a href="/shows" style="padding: 10px 0; color: #D5D8DB">All shows</a>
@@ -23,8 +31,9 @@ const graph = [{ '@type': show.data.kind === 'podcast' ? 'PodcastSeries' : 'Crea
   <p style={`margin: 0; font-family: ${F}; font-weight: 700; font-size: 22px`}>{show.data.schedule}</p>
   <p style="margin: 0; max-width: 640px; font-size: 20px; color: #D5D8DB">{show.data.summary}</p>
   <div style="display: flex; flex-wrap: wrap; gap: 4px 24px">
-    {show.data.where.map((w) => w.url ? <a href={w.url} rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">{w.label}</a> : <span style="padding: 10px 0; color: #A5AAAF">{w.label} (link coming soon)</span>)}
+    {where.map((w) => <a href={w.url} rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">{w.label}</a>)}
   </div>
+  {show.data.kind === 'audio' && <p style="margin: 0; font-size: 19px; color: #D5D8DB">Prefer video? Action Crypto is on YouTube. <a href={SITE.youtube} rel="noopener" style="border-bottom: 1px solid #FFFFFF">Watch Action Crypto</a></p>}
 </header>
 {eps.length > 0 && (
   <section class="pad" aria-label="Episodes" style="padding-bottom: 96px">

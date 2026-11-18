@@ -2,11 +2,11 @@
 name: Action Items
 order: 1
 kind: live
-schedule: Fridays, 9:30am Pacific
-summary: My weekly live show. Simulcast to YouTube, LinkedIn and X.
+schedule: Live Fridays, 9:30am Pacific
+summary: My weekly live show. No edits, no second takes.
 where:
-  - { label: YouTube, url: "https://www.youtube.com/@ActionCrypto" }
-  - { label: LinkedIn, url: "https://www.linkedin.com/in/vic-action-crypto" }
-  - { label: X, url: "https://x.com/ActionCEO" }
+  - { label: Watch live on YouTube, url: "https://www.youtube.com/@ActionCrypto" }
+  - { label: Watch on LinkedIn, url: "https://www.linkedin.com/in/vic-action-crypto" }
+  - { label: Watch on X, url: "https://x.com/ActionCEO" }
 image: studio-live
 ---

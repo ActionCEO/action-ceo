@@ -4,7 +4,8 @@ import Header from '../../components/Header.astro';
 import Video from '../../components/Video.astro';
 import { SITE } from '../../site';
 import { getEntry, render, getCollection } from 'astro:content';
-import { livePosts, catName, tagName, fmtDate, iso8601Duration, clock } from '../../lib/content';
+import { livePosts, catName, tagName, fmtDate, clock } from '../../lib/content';
+import { videoObject, ytWatch, mss } from '../../lib/youtube';
 export async function getStaticPaths() { return (await livePosts()).map((post) => ({ params: { slug: post.id }, props: { post } })); }
 const { post } = Astro.props;
 const { Content } = await render(post);
@@ -21,9 +22,7 @@ const F = "'Montserrat', Arial, sans-serif";
 const graph = [
   { '@type': 'WebPage', '@id': `${url}#webpage`, url, name: post.data.metaTitle, isPartOf: { '@id': `${BASE}/#website` }, breadcrumb: { '@id': `${url}#breadcrumb` } },
   { '@type': 'BlogPosting', '@id': `${url}#article`, headline: post.data.title, description: post.data.metaDescription, datePublished: published, dateModified: modified, author: { '@id': `${BASE}/#person` }, publisher: { '@id': `${BASE}/#person` }, mainEntityOfPage: { '@id': `${url}#webpage` }, image: BASE + og, video: { '@id': `${url}#video` }, keywords: post.data.tags.map(tagName).join(', ') },
-  { '@type': 'VideoObject', '@id': `${url}#video`, name: video.data.title, description: post.data.metaDescription, thumbnailUrl: [`https://i.ytimg.com/vi/${video.data.youtubeId}/maxresdefault.jpg`], uploadDate: video.data.publishedAt.toISOString(), duration: iso8601Duration(video.data.durationSeconds), embedUrl: `https://www.youtube.com/embed/${video.data.youtubeId}`, contentUrl: `https://www.youtube.com/watch?v=${video.data.youtubeId}`,
-    hasPart: video.data.chapters.map((c, i) => ({ '@type': 'Clip', name: c.title, startOffset: c.start, endOffset: video.data.chapters[i + 1]?.start ?? video.data.durationSeconds, url: `${url}?t=${c.start}` })),
-    ...(video.data.kind === 'live' ? { publication: { '@type': 'BroadcastEvent', isLiveBroadcast: true, startDate: video.data.publishedAt.toISOString(), endDate: new Date(+video.data.publishedAt + video.data.durationSeconds * 1000).toISOString() } } : {}) },
+  videoObject({ url, base: BASE, video: video.data, description: post.data.metaDescription }),
   { '@type': 'BreadcrumbList', '@id': `${url}#breadcrumb`, itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${BASE}/` }, { '@type': 'ListItem', position: 2, name: 'Writing', item: `${BASE}/blog` }, { '@type': 'ListItem', position: 3, name: post.data.title, item: url }] },
 ];
 ---
@@ -40,9 +39,12 @@ const graph = [
       <div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column">
         <h2 style={`margin: 0; font-family: ${F}; font-weight: 700; font-size: 22px; padding-bottom: 12px`}>Chapters</h2>
         {video.data.chapters.map((c) => (
-          <a href={`?t=${c.start}`} data-ch={c.start} role="button" aria-pressed="false" style="display: flex; gap: 16px; align-items: baseline; min-height: 52px; padding: 14px 0 14px 14px; border-left: 3px solid #0A2C52; border-top: 1px solid #0A2C52; color: #D5D8DB; font-size: 17px">
-            <span style={`font-family: ${F}; font-weight: 700; font-variant-numeric: tabular-nums`}>{clock(c.start)}</span><span>{c.title}</span>
-          </a>
+          <div style="border-top: 1px solid #0A2C52; display: flex; flex-direction: column">
+            <a href={`?t=${c.start}`} data-ch={c.start} role="button" aria-pressed="false" style="display: flex; gap: 16px; align-items: baseline; min-height: 48px; padding: 14px 0 6px 14px; border-left: 3px solid #0A2C52; color: #D5D8DB; font-size: 17px">
+              <span style={`font-family: ${F}; font-weight: 700; font-variant-numeric: tabular-nums`}>{clock(c.start)}</span><span>{c.title}</span>
+            </a>
+            <a href={ytWatch(video.data.youtubeId, c.start)} rel="noopener" aria-label={`Open on YouTube at ${mss(c.start)}: ${c.title}`} style="padding: 8px 0 14px 14px; border-left: 3px solid #0A2C52; color: #A5AAAF; font-size: 15px; text-decoration: underline; text-underline-offset: 3px">Open on YouTube at {mss(c.start)}</a>
+          </div>
         ))}
       </div>
     )}

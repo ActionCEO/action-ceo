@@ -1,10 +1,15 @@
 ---
-// Click-to-play YouTube. Nothing from the player loads until the button is pressed.
-const { id, title, start = 0, poster = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`, eager = false } = Astro.props;
+// YouTube player. The poster paints first; site.js then adds the real iframe with no autoplay,
+// so the visitor's first play is YouTube's own button (that is what counts as a view).
+// Without JavaScript the poster stays and links to the video on YouTube.
+import { ytThumb, ytWatch } from '../lib/youtube';
+const { id, title, start = 0, poster, eager = false } = Astro.props;
+const fallback = ytThumb(id, 'hqdefault');
+const src = poster ?? ytThumb(id, 'maxresdefault');
+// YouTube answers a missing maxresdefault with a 404 that still carries a 120x90 grey image, so check the size as well as the error.
+const swap = "this.onload=this.onerror=null;this.src=this.dataset.fallback";
 ---
-<div data-yt={id} data-start={start} style="position: relative; aspect-ratio: 16 / 9; background: #002346; overflow: hidden; width: 100%">
-  <img src={poster} alt="" width="1280" height="720" loading={eager ? 'eager' : 'lazy'} decoding="async" referrerpolicy="no-referrer" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
-  <button type="button" data-yt-play aria-label={`Play video: ${title}`} style="position: absolute; left: 24px; bottom: 24px; display: flex; align-items: center; gap: 14px; background: #FFFFFF; color: #06111F; border: 0; padding: 14px 20px; min-height: 52px; cursor: pointer; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 16px">
-    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3l15 9-15 9z" fill="#06111F"></path></svg><span data-yt-label>Play video</span>
-  </button>
+<div data-yt={id} data-start={start} data-title={title} style="position: relative; aspect-ratio: 16 / 9; background: #002346; overflow: hidden; width: 100%">
+  <img src={src} data-fallback={fallback} onload={`if(this.naturalWidth<300){${swap}}`} onerror={swap} alt="" width="1280" height="720" loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} decoding="async" referrerpolicy="no-referrer" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
+  <noscript><a href={ytWatch(id, Number(start) || undefined)} rel="noopener" style="position: absolute; left: 24px; bottom: 24px; display: flex; align-items: center; min-height: 52px; background: #FFFFFF; color: #06111F; padding: 14px 20px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 16px">Watch on YouTube: {title}</a></noscript>
 </div>

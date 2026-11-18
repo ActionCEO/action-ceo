@@ -2,19 +2,20 @@
 import '../styles/global.css';
 import Footer from '../components/Footer.astro';
 import { SITE, PAGES } from '../site';
-const { page, title: t0, description: d0, path: p0, ogImage: og0, type = 'website', noindex = false, graph = [], article, overlay = false } = Astro.props;
+const { page, title: t0, description: d0, path: p0, ogImage: og0, type = 'website', noindex = false, graph = [], article, overlay = false, canonical: c0 } = Astro.props;
 const meta = page ? PAGES[page] : undefined;
 const title = t0 ?? meta?.title;
 const description = d0 ?? meta?.description;
 const path = p0 ?? meta?.path ?? '/';
 const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
-const canonical = BASE + (path === '/' ? '/' : path);
+// canonical can point at another page (an episode whose video already has a post).
+const canonical = BASE + (c0 ?? (path === '/' ? '/' : path));
 const ogImage = BASE + (og0 ?? `/og/${page === 'home' ? 'home' : (path.replace(/^\//, '').replace(/\//g, '-') || 'home')}.png`);
 const sameAs = [SITE.youtube, SITE.youtubeLfg, SITE.x, SITE.xLfg, SITE.linkedin, SITE.instagram, SITE.telegram].filter(Boolean);
 const ld = {
   '@context': 'https://schema.org',
   '@graph': [
-    { '@type': 'Person', '@id': `${BASE}/#person`, name: 'Action', alternateName: 'Victor Gazio', url: `${BASE}/`, image: `${BASE}/img/studio-smile.jpg`, jobTitle: 'Partner and Chief Communications Officer', worksFor: { '@id': `${BASE}/#lfg` }, sameAs },
+    { '@type': 'Person', '@id': `${BASE}/#person`, name: 'Action', alternateName: 'Victor Gazio', url: `${BASE}/`, image: `${BASE}/img/studio-smile.jpg`, jobTitle: 'Partner and Chief Communications Officer', worksFor: { '@id': `${BASE}/#lfg` }, mainEntityOfPage: { '@id': `${BASE}/about#webpage` }, sameAs },
     { '@type': 'Organization', '@id': `${BASE}/#lfg`, name: 'Laissez-Faire Group', alternateName: 'LFG', url: SITE.lfgUrl },
     { '@type': 'WebSite', '@id': `${BASE}/#website`, url: `${BASE}/`, name: 'Action', publisher: { '@id': `${BASE}/#person` }, inLanguage: 'en-US' },
     ...(graph.length ? graph : [{ '@type': page === 'about' ? 'ProfilePage' : 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title, description, isPartOf: { '@id': `${BASE}/#website` }, about: { '@id': `${BASE}/#person` }, ...(page === 'about' ? { mainEntity: { '@id': `${BASE}/#person` } } : {}) }]),

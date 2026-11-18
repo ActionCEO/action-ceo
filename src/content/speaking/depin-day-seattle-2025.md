@@ -1,5 +1,5 @@
 ---
 event: "DePIN Day: Seattle"
-role: "Creator, producer and host"
+role: "Year 2. Same 3 jobs: creator, producer, host."
 year: "2025"
 ---

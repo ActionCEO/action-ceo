@@ -3,22 +3,34 @@ import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import Video from '../../components/Video.astro';
 import { getCollection, getEntry } from 'astro:content';
-import { fmtDate } from '../../lib/content';
+import { fmtDate, livePosts } from '../../lib/content';
+import { videoObject } from '../../lib/youtube';
+import { SITE } from '../../site';
 export async function getStaticPaths() { return (await getCollection('episodes')).map((ep) => ({ params: { slug: ep.id }, props: { ep } })); }
 const { ep } = Astro.props;
 const show = await getEntry(ep.data.show);
 const video = ep.data.video ? await getEntry(ep.data.video) : null;
 const guests = await Promise.all(ep.data.guests.map((g) => getEntry(g)));
 const F = "'Montserrat', Arial, sans-serif";
+// 1 URL per video. If this video already has a post, the post is the main page: this page points its canonical there and links to it.
+// If there is no post, this page carries the VideoObject itself.
+const post = video ? (await livePosts()).find((p) => p.data.video.id === video.id) : undefined;
+const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
+const url = `${BASE}/episodes/${ep.id}`;
 const desc = `${show.data.name} episode ${ep.data.number}: ${ep.data.title}. Hosted by Action. Watch the full episode and see who joined.`.slice(0, 155);
+const graph = video && !post ? [
+  { '@type': 'WebPage', '@id': `${url}#webpage`, url, name: ep.data.title, description: desc, isPartOf: { '@id': `${BASE}/#website` }, about: { '@id': `${BASE}/#person` }, mainEntity: { '@id': `${url}#video` } },
+  videoObject({ url, base: BASE, video: video.data, description: desc }),
+] : [];
 ---
-<Base title={`${ep.data.title.slice(0, 48)} | Action`} description={desc} path={`/episodes/${ep.id}`} ogImage="/og/shows.png">
+<Base title={`${ep.data.title.slice(0, 48)} | Action`} description={desc} path={`/episodes/${ep.id}`} canonical={post ? `/blog/${post.id}` : undefined} noindex={post?.data.draft} graph={graph} ogImage="/og/shows.png">
 <Header current="Shows" />
 <article class="pad" style="padding-top: clamp(40px, 6vw, 88px); padding-bottom: 96px; display: flex; flex-direction: column; gap: 24px">
   <a href={`/shows/${show.id}`} style="align-self: flex-start; padding: 10px 0; color: #D5D8DB">{show.data.name}, episode {ep.data.number}</a>
   <h1 style={`margin: 0; max-width: 1000px; font-family: ${F}; font-weight: 800; font-size: clamp(34px, 5vw, 72px); line-height: 1.02; letter-spacing: -0.035em`}>{ep.data.title}</h1>
   <time datetime={ep.data.publishedAt.toISOString()} style="color: #A5AAAF">{fmtDate(ep.data.publishedAt)}</time>
   {video && <div style="max-width: 1100px"><Video id={video.data.youtubeId} title={video.data.title} eager /></div>}
+  {post && <p style="margin: 0; font-size: 20px"><a href={`/blog/${post.id}`} style="border-bottom: 1px solid #FFFFFF">Read the written breakdown: {post.data.title}</a></p>}
   {guests.length > 0 && <p style="margin: 0; font-size: 20px">With {guests.map((g, i) => <>{i > 0 && ', '}<a href={`/guests/${g.id}`} style="border-bottom: 1px solid #FFFFFF">{g.data.name}</a></>)}</p>}
 </article>
 </Base>

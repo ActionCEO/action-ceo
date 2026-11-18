@@ -5,14 +5,18 @@ import { SITE } from '../site';
 import LatestVideo from '../components/LatestVideo.astro';
 import TelegramNote from '../components/TelegramNote.astro';
 const work = [
-  { name: 'Action Crypto', role: 'My main channel. Commentary since 2021', href: SITE.youtube },
+  { name: 'Action Crypto', role: 'My main channel. My takes on AI, DePIN and crypto since 2021', href: SITE.youtube },
   { name: 'DePIN Day: Seattle', role: 'Creator, producer and host. 2024 and 2025', href: '/work/depin-day-seattle' },
-  { name: 'Action Items', role: 'Weekly live show, Fridays 9:30am Pacific', href: '/shows/action-items' },
+  { name: 'Action Items', role: 'My weekly live show, on YouTube, LinkedIn and X', href: '/shows/action-items' },
   { name: 'Laissez-Faire Group', role: 'Partner and Chief Communications Officer', href: '/lfg' },
   { name: 'Karate Combat', role: 'Livestream host, 2024 to 2025', href: '/work' },
-  { name: 'Genzio', role: 'Host and live programming lead since 2022', href: '/shows/genzio-roundtable' },
+  { name: 'Genzio', role: 'Host of the Genzio Roundtable. Live programming lead since 2022', href: '/shows/genzio-roundtable' },
 ];
 import fs from 'node:fs';
+import { getCollection } from 'astro:content';
+// Hero button goes to the newest video, same pick as the latest video block. Falls back to the channel's video list.
+const newest = (await getCollection('videos')).filter((v) => v.data.channel !== 'External' && !v.id.startsWith('SAMPLE')).sort((a, b) => +b.data.publishedAt - +a.data.publishedAt)[0];
+const watchHref = newest ? `https://www.youtube.com/watch?v=${newest.data.youtubeId}` : `${SITE.youtube}/videos`;
 // Optional hero background video: drop the file at public/video/hero-stage.mp4 and it switches on.
 const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 ---
@@ -27,8 +31,8 @@ const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 <div class="px" style="position: relative; margin-top: auto; padding: 0 clamp(20px, 4.5vw, 64px) 40px; display: flex; flex-direction: column; gap: 32px">
 <h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(40px, 6.2vw, 92px); line-height: 0.98; letter-spacing: -0.035em; text-wrap: balance">I ran the company.<br>Now I break it down.</h1>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px 40px">
-<p style="margin: 0; max-width: 520px; font-size: 19px; color: #FFFFFF">I'm Action. I explain AI, DePIN and crypto in plain English on Action Crypto, and I interview the founders building it on LFG Action.</p>
-<a href="https://www.youtube.com/@ActionCrypto" rel="noopener" style="background: #69BE28; color: #06111F; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 2px">Watch on YouTube</a>
+<p style="margin: 0; max-width: 520px; font-size: 19px; color: #FFFFFF">I'm Action. I spent 6 years as a COO, doing the talking and the negotiating. Now I explain AI, DePIN and crypto in plain English on YouTube.</p>
+<a href={watchHref} rel="noopener" style="background: #69BE28; color: #06111F; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 2px">Watch the latest breakdown</a>
 <a href="/lfg" style="font-weight: 600; padding: 12px 0; border-bottom: 1px solid #FFFFFF">Need go-to-market help? That's LFG</a>
 </div>
 </div>
@@ -38,9 +42,9 @@ const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 <span class="air-dot" aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: #69BE28; animation: airpulse 1.6s ease-in-out infinite"></span>
 <span style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; letter-spacing: 0.06em">ACTION ITEMS</span>
 </div>
-<span style="color: #D5D8DB">Live every Friday, 9:30am Pacific</span>
-<span style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-variant-numeric: tabular-nums"><span data-countdown>Next show: Friday, 9:30am Pacific</span></span>
-<span style="color: #D5D8DB; margin-left: auto">YouTube, LinkedIn and X</span>
+<span style="color: #D5D8DB">Live Fridays, 9:30am Pacific</span>
+<span style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-variant-numeric: tabular-nums"><span data-countdown>Next show: Friday</span></span>
+<a href={`${SITE.youtube}/live`} rel="noopener" style="margin-left: auto; font-weight: 600; padding: 4px 0; border-bottom: 1px solid #FFFFFF">Watch live on YouTube</a>
 </div>
 </header>
 
@@ -50,16 +54,16 @@ const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 <div style="color: #A5AAAF">views on Action Crypto</div>
 </div>
 <div style="display: flex; flex-direction: column; gap: 8px">
+<div style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(44px, 5vw, 72px); line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums"><span data-count="20.7|1|K">20.7K</span></div>
+<div style="color: #A5AAAF">subscribers on Action Crypto</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
 <div style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(44px, 5vw, 72px); line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums"><span data-count="989|0|">989</span></div>
 <div style="color: #A5AAAF">videos across 2 channels</div>
 </div>
 <div style="display: flex; flex-direction: column; gap: 8px">
 <div style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(44px, 5vw, 72px); line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums"><span data-count="65000|0|+">65,000+</span></div>
-<div style="color: #A5AAAF">viewers on the DePIN Day livestream on X</div>
-</div>
-<div style="display: flex; flex-direction: column; gap: 8px">
-<div style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(44px, 5vw, 72px); line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums"><span data-count="55|0|+">55+</span></div>
-<div style="color: #A5AAAF">countries where LFG operates</div>
+<div style="color: #A5AAAF">viewers on the DePIN Day: Seattle livestream on X</div>
 </div>
 </section>
 
@@ -69,15 +73,15 @@ const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 </div>
 <div style="padding: 48px clamp(20px, 4.5vw, 64px) 0; display: flex; flex-wrap: wrap; gap: 16px 64px">
 <h2 style="margin: 0; flex: 1 1 320px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); line-height: 1.05; letter-spacing: -0.025em">DePIN Day: Seattle</h2>
-<p style="margin: 0; flex: 2 1 420px; max-width: 640px; font-size: 19px; color: #D5D8DB">I created it, produced it and hosted it. 2024 and 2025. T-Mobile, HP and Borderless Capital on stage, and 65,000+ viewers on the X livestream.</p>
+<p style="margin: 0; flex: 2 1 420px; max-width: 640px; font-size: 19px; color: #D5D8DB">My event. I created it, produced it and hosted it, 2 years running. T-Mobile, HP and Borderless Capital on stage across 2024 and 2025. <a href="/work/depin-day-seattle" style="border-bottom: 1px solid #FFFFFF">See the event</a></p>
 </div>
 </section>
 
 <div aria-hidden="true" style="overflow: clip; padding: 24px 0 0">
-<div class="band" style="white-space: nowrap; font-family: 'Montserrat', Arial, sans-serif; font-weight: 900; font-size: clamp(72px, 15vw, 230px); line-height: 0.9; letter-spacing: -0.05em; text-transform: uppercase; color: #0A2C52">Break it down. Break it down. Break it down.</div>
+<div class="band" style="white-space: nowrap; font-family: 'Montserrat', Arial, sans-serif; font-weight: 900; font-size: clamp(72px, 15vw, 230px); line-height: 0.9; letter-spacing: -0.05em; text-transform: uppercase; color: #0A2C52">AI. DePIN. Crypto. In plain English. AI. DePIN. Crypto. In plain English.</div>
 </div>
 <section class="rv" id="work" style="padding: 120px clamp(20px, 4.5vw, 64px)">
-<h2 style="margin: 0 0 40px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); letter-spacing: -0.025em">Selected work</h2>
+<h2 style="margin: 0 0 40px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); letter-spacing: -0.025em">The work</h2>
 <div style="display: flex; flex-direction: column">
 {work.map((item, i) => (<Fragment>
 <a href={item.href} style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 32px; padding: 26px 0; border-top: 1px solid #0A2C52">
@@ -94,6 +98,7 @@ const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 
 <section class="rv" id="talk" style="background: #002346; padding: 120px clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column; gap: 28px">
 <h2 style="margin: 0; max-width: 1000px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(36px, 5.2vw, 76px); line-height: 1; letter-spacing: -0.035em">Got a stage, a show or a launch? Talk to me.</h2>
-<a href="mailto:me@action.ceo" style="align-self: flex-start; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(22px, 2.4vw, 32px); padding: 8px 0; border-bottom: 3px solid #69BE28">me@action.ceo</a>
+<a href="/contact" style="align-self: flex-start; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(22px, 2.4vw, 32px); padding: 8px 0; border-bottom: 3px solid #69BE28">Get in touch</a>
+<a href="mailto:me@action.ceo" style="align-self: flex-start; padding: 10px 0; border-bottom: 1px solid #FFFFFF">me@action.ceo</a>
 </section>
 </Base>

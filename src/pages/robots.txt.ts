@@ -7,4 +7,5 @@ Disallow: /api/
 Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 Sitemap: ${new URL('sitemap-index.xml', site).href}
+Sitemap: ${new URL('video-sitemap.xml', site).href}
 `, { headers: { 'content-type': 'text/plain; charset=utf-8' } });

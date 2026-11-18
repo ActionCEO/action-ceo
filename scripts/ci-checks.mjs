@@ -37,6 +37,8 @@ for (const f of pages) {
   if (/discord/i.test(html)) errors.push(`${rel}: mentions Discord`);
   if (/Action Gazio|Victor .Action. Gazio|Action Enterprise/i.test(text)) errors.push(`${rel}: name rule broken`);
   if (/<img(?![^>]*\balt=)[^>]*>/.test(html)) errors.push(`${rel}: image without alt`);
+  if (/youtube-nocookie\.com/.test(html)) errors.push(`${rel}: embeds must use www.youtube.com, not youtube-nocookie.com`);
+  if (/"@type":"VideoObject"/.test(html) && /"contentUrl"/.test(html)) errors.push(`${rel}: VideoObject must not set contentUrl (YouTube gives no video file URL)`);
   if (/TODO|\[[A-Z][A-Z0-9 ,:'.-]{6,}\]/.test(text)) warn.push(rel);
 }
 // Sitemap: every indexable page once, canonical host only.
@@ -45,6 +47,17 @@ const locs = [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
 if (new Set(locs).size !== locs.length) errors.push('sitemap: duplicate URLs');
 for (const l of locs) if (/pages\.dev|localhost|\/\/www\.|^http:\/\//.test(l)) errors.push(`sitemap: wrong host ${l}`);
 for (const k of ['robots.txt', 'llms.txt', '404.html', '_headers', '_redirects', '_routes.json', 'sitemap-index.xml']) if (!fs.existsSync(path.join(DIST, k))) errors.push(`missing ${k}`);
+// Video sitemap: present, declared in robots.txt, tags balanced, every entry complete.
+const vsPath = path.join(DIST, 'video-sitemap.xml');
+if (!fs.existsSync(vsPath)) errors.push('missing video-sitemap.xml');
+else {
+  const vs = fs.readFileSync(vsPath, 'utf8'), n = (re) => (vs.match(re) || []).length;
+  if (!vs.startsWith('<?xml') || !/<urlset[^>]*xmlns:video=/.test(vs) || !vs.trimEnd().endsWith('</urlset>')) errors.push('video-sitemap.xml: not a video urlset');
+  const urls = n(/<url>/g);
+  for (const t of ['</url>', '<loc>', '<video:video>', '<video:thumbnail_loc>', '<video:title>', '<video:description>', '<video:player_loc>']) if (n(new RegExp(t, 'g')) !== urls) errors.push(`video-sitemap.xml: ${t} count does not match ${urls} urls`);
+  if (/&(?!amp;|lt;|gt;|quot;|apos;)/.test(vs)) errors.push('video-sitemap.xml: unescaped &');
+  if (!/video-sitemap\.xml/.test(fs.readFileSync(path.join(DIST, 'robots.txt'), 'utf8'))) errors.push('robots.txt does not list video-sitemap.xml');
+}
 const nRedirects = fs.readFileSync(path.join(DIST, '_redirects'), 'utf8').split('\n').filter((l) => l.trim() && !l.startsWith('#')).length;
 if (nRedirects > 2000) errors.push(`_redirects has ${nRedirects} rules, limit 2000`);
 // JS budget: 50 KB of first-party script per page.

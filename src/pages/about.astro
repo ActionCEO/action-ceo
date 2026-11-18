@@ -3,12 +3,12 @@ import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import { SITE } from '../site';
 const story = [
-  { label: 'Tech', year: '2005', title: 'I start in tech.', text: 'Technologist since 2005.' },
-  { label: 'GE Healthcare', year: 'Fortune 500', title: 'Marketing at GE Healthcare.', text: 'Marketing at a Fortune 500 company.' },
-  { label: 'COO', year: '6 years', title: '6 years as COO of a national education company.', text: 'As COO I was the main speaker and the main negotiator. I ran the company.' },
+  { label: 'Tech', year: '2005', title: 'I start in tech.', text: 'Tech first. Crypto shows up 7 years later.' },
+  { label: 'GE Healthcare', year: 'Fortune 500', title: 'I do marketing at GE Healthcare.', text: 'A Fortune 500 company.' },
+  { label: 'COO', year: '6 years', title: 'I run a company.', text: '6 years as COO of a national education company. I was the main speaker and the main negotiator. If it needed explaining or closing, it landed on my desk.' },
   { label: 'Crypto', year: '2012', title: 'I get into crypto.', text: 'In crypto since 2012.' },
-  { label: 'YouTube', year: '2021', title: 'I start Action Crypto.', text: 'Breakdowns on AI, DePIN and crypto. 1.6M+ views and 20.7K subscribers so far. In 2022 I join Genzio as host and live programming lead.' },
-  { label: 'DePIN Day', year: '2024, 2025', title: 'I create DePIN Day: Seattle.', text: 'Created, produced and hosted, 2 years running. T-Mobile, HP and Borderless Capital on stage. 65,000+ viewers on the X livestream. I also host livestreams for Karate Combat, 2024 to 2025.' },
+  { label: 'YouTube', year: '2021', title: 'I start Action Crypto.', text: "My takes on AI, DePIN and crypto, in plain English. 1.6M+ views and 20.7K subscribers later, I'm still at it. In 2022 I add Genzio, as host and live programming lead." },
+  { label: 'DePIN Day', year: '2024, 2025', title: 'I build my own event.', text: 'DePIN Day: Seattle. I created it, produced it and hosted it, 2 years running. T-Mobile, HP and Borderless Capital on stage across 2024 and 2025. 65,000+ viewers on the X livestream. Same stretch, I host livestreams for Karate Combat.' },
   { label: 'LFG', year: 'Now', title: 'Partner at Laissez-Faire Group.', text: 'Chief Communications Officer by title. Live every Friday on Action Items by habit.' },
 ];
 const steps = story.map((s) => ({ label: s.label, rule: '#0A2C52', color: '#8A9099' }));
@@ -17,8 +17,8 @@ const steps = story.map((s) => ({ label: s.label, rule: '#0A2C52', color: '#8A90
 <Header current="About" />
 <header style="display: flex; flex-wrap: wrap; align-items: stretch">
 <div style="flex: 1 1 460px; min-width: 0; box-sizing: border-box; padding: clamp(40px, 6vw, 96px) clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column; justify-content: flex-end; gap: 24px">
-<h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(40px, 5.4vw, 80px); line-height: 0.98; letter-spacing: -0.035em; text-wrap: balance">I ran a company before I ran a channel.</h1>
-<p style="margin: 0; max-width: 520px; font-size: 19px; color: #D5D8DB">I'm Action. I've worked in tech since 2005, spent 6 years running a company as COO, and got into crypto in 2012. Now I break down AI, DePIN and crypto in words anyone can follow.</p>
+<h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(40px, 5.4vw, 80px); line-height: 0.98; letter-spacing: -0.035em; text-wrap: balance">How a COO ended up on YouTube.</h1>
+<p style="margin: 0; max-width: 520px; font-size: 19px; color: #D5D8DB">I'm Action. I've worked in tech since 2005 and been in crypto since 2012. For 6 years I was a COO, the main speaker and the main negotiator.</p>
 </div>
 <div style="flex: 1 1 460px; min-width: 0; position: relative; min-height: 560px">
 <picture style="display: contents"><source type="image/avif" srcset="/img/studio-smile-800.avif 800w, /img/studio-smile-1156.avif 1156w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/studio-smile-800.webp 800w, /img/studio-smile-1156.webp 1156w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/studio-smile.jpg" width="1156" height="650" loading="eager" fetchpriority="high" decoding="async" alt="Action smiling at his desk in the studio" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 45% 30%"></picture>
@@ -26,7 +26,7 @@ const steps = story.map((s) => ({ label: s.label, rule: '#0A2C52', color: '#8A90
 </header>
 
 <section class="rv" aria-label="Why I break things down" style="padding: clamp(72px, 9vw, 140px) clamp(20px, 4.5vw, 64px)">
-<p style="margin: 0; max-width: 1180px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(26px, 3.6vw, 52px); line-height: 1.14; letter-spacing: -0.03em; text-wrap: pretty">A lot of people don't realize how much it matters to break information down in plain terms, so everyone can follow it. That's what I do.</p>
+<p style="margin: 0; max-width: 1180px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(26px, 3.6vw, 52px); line-height: 1.14; letter-spacing: -0.03em; text-wrap: pretty">Explaining hard things to a room was the job. It still is. The room just got bigger.</p>
 </section>
 
 <section class="rv" aria-label="My story" style="padding: 0 clamp(20px, 4.5vw, 64px) 120px">
@@ -55,11 +55,11 @@ const steps = story.map((s) => ({ label: s.label, rule: '#0A2C52', color: '#8A90
 <section class="rv" aria-label="Today" style="padding: 110px clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column">
 <div style="display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 28px 0; border-top: 1px solid #0A2C52">
 <h2 style="margin: 0; flex: 1 1 220px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 20px">Day job</h2>
-<p style="margin: 0; flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">Partner and Chief Communications Officer at Laissez-Faire Group. We do go-to-market, PR and partnerships for teams in Web3, DePIN, fintech and decentralized AI, across 55+ countries. <a href="/lfg" style="border-bottom: 1px solid #FFFFFF">Work with LFG</a></p>
+<p style="margin: 0; flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">I'm a Partner and the Chief Communications Officer at Laissez-Faire Group. We do go-to-market, PR and partnerships for teams in Web3, DePIN, fintech and decentralized AI, across 55+ countries. Launching something? That's who you call. <a href="/lfg" style="border-bottom: 1px solid #FFFFFF">Work with LFG</a></p>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 28px 0; border-top: 1px solid #0A2C52">
 <h2 style="margin: 0; flex: 1 1 220px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 20px">On camera</h2>
-<p style="margin: 0; flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">Action Crypto is my main channel: my takes, my opinions. LFG Action is where I interview founders and builders. 989 videos across both. <a href="https://www.youtube.com/@ActionCrypto" rel="noopener" style="border-bottom: 1px solid #FFFFFF">Subscribe to Action Crypto</a> or <a href="/shows" style="border-bottom: 1px solid #FFFFFF">see the shows</a></p>
+<p style="margin: 0; flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">2 channels. Action Crypto is me and my opinions. LFG Action is me asking founders and builders the questions. 989 videos between them. <a href="https://www.youtube.com/@ActionCrypto" rel="noopener" style="border-bottom: 1px solid #FFFFFF">Subscribe to Action Crypto</a> or <a href="/shows" style="border-bottom: 1px solid #FFFFFF">see all the shows</a></p>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 28px 0; border-top: 1px solid #0A2C52; border-bottom: 1px solid #0A2C52">
 <h2 style="margin: 0; flex: 1 1 220px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 20px">Home base</h2>
@@ -67,7 +67,8 @@ const steps = story.map((s) => ({ label: s.label, rule: '#0A2C52', color: '#8A90
 </div>
 </section>
 <section class="rv" id="talk" style="background: #002346; padding: 110px clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column; gap: 28px">
-<h2 style="margin: 0; max-width: 1000px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(34px, 4.8vw, 68px); line-height: 1; letter-spacing: -0.035em">Want me on your stage or your show? Let's talk.</h2>
-<a href="mailto:me@action.ceo" style="align-self: flex-start; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(22px, 2.4vw, 32px); padding: 8px 0; border-bottom: 3px solid #69BE28">me@action.ceo</a>
+<h2 style="margin: 0; max-width: 1000px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(34px, 4.8vw, 68px); line-height: 1; letter-spacing: -0.035em">That's the story. The videos are better.</h2>
+<a href="https://www.youtube.com/@ActionCrypto" rel="noopener" style="align-self: flex-start; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(22px, 2.4vw, 32px); padding: 8px 0; border-bottom: 3px solid #69BE28">Watch Action Crypto</a>
+<a href="/contact" style="align-self: flex-start; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Want me on your stage or your show? Let's talk.</a>
 </section>
 </Base>

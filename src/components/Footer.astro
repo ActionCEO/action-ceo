@@ -1,11 +1,12 @@
 ---
 import { SITE } from '../site';
-const L = [['YouTube @ActionCrypto', SITE.youtube], ['YouTube @LFGAction', SITE.youtubeLfg], ['X @ActionCEO', SITE.x], ['X @LFGAction', SITE.xLfg], ['LinkedIn', SITE.linkedin], ['Instagram', SITE.instagram]];
+const L = [['Subscribe: YouTube @ActionCrypto', SITE.youtube], ['YouTube @LFGAction', SITE.youtubeLfg], ['X @ActionCEO', SITE.x], ['X @LFGAction', SITE.xLfg], ['LinkedIn', SITE.linkedin], ['Instagram', SITE.instagram]];
 ---
 <footer class="pad" style="border-top: 1px solid #0A2C52; padding-top: 40px; padding-bottom: 40px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px 48px; font-size: 16px; color: #A5AAAF">
+  <p style="margin: 0; flex: 1 1 100%; color: #D5D8DB">AI, DePIN and crypto in plain English.</p>
   <div style="display: flex; flex-wrap: wrap; gap: 4px 28px">
     {L.map(([t, h]) => <a href={h} rel="noopener" style="padding: 10px 0">{t}</a>)}
-    {SITE.telegram ? <a href={SITE.telegram} rel="noopener" style="padding: 10px 0">Telegram</a> : <span style="padding: 10px 0">Telegram (link coming soon)</span>}
+    {SITE.telegram && <a href={SITE.telegram} rel="noopener" style="padding: 10px 0">Telegram</a>}
     <a href={`mailto:${SITE.email}`} style="padding: 10px 0">{SITE.email}</a>
     <a href="/lfg" style="padding: 10px 0">Laissez-Faire Group</a>
   </div>
