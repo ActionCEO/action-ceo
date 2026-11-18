@@ -6,7 +6,7 @@
 *,*::before,*::after{box-sizing:border-box}
 html{background:#06111F;color-scheme:dark;-webkit-text-size-adjust:100%}
 body{margin:0;background:#06111F;color:#FFFFFF;font-family:'Open Sans',Arial,sans-serif;font-size:17px;line-height:1.55;overflow-x:clip}
-img{max-width:100%}
+img{max-width:100%;height:auto}
 a{color:#FFFFFF;text-decoration:none}a:hover{color:#A5AAAF}
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid #69BE28;outline-offset:3px}
 input::placeholder,textarea::placeholder{color:#A5AAAF}
