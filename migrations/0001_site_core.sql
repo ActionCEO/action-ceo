@@ -26,7 +26,7 @@ CREATE INDEX IF NOT EXISTS site_form_submissions_contact ON site_form_submission
 
 CREATE TABLE IF NOT EXISTS site_pipeline_channels (id TEXT PRIMARY KEY, handle TEXT NOT NULL, name TEXT NOT NULL);
 INSERT OR IGNORE INTO site_pipeline_channels (id, handle, name) VALUES
-  ('TODO_CHANNEL_ID_ACTIONCRYPTO','@ActionCrypto','ActionCrypto'),('TODO_CHANNEL_ID_LFGACTION','@LFGAction','LFGAction');
+  ('UC6xEgfbdmzk_ybYIilWRRoA','@ActionCrypto','ActionCrypto'),('TODO_CHANNEL_ID_LFGACTION','@LFGAction','LFGAction');
 CREATE TABLE IF NOT EXISTS site_pipeline_ingest_rules (
   channel_id TEXT NOT NULL REFERENCES site_pipeline_channels(id), kind TEXT NOT NULL CHECK (kind IN ('video','live','short')),
   enabled INTEGER NOT NULL CHECK (enabled IN (0,1)), PRIMARY KEY (channel_id, kind)

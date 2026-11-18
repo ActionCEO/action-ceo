@@ -5,11 +5,11 @@ import { livePosts } from '../lib/content';
 export const GET: APIRoute = async ({ site }) => {
   const u = (p: string) => new URL(p, site).href.replace(/\/$/, p === '/' ? '/' : '');
   const posts = (await livePosts()).filter((p) => !p.data.draft);
-  const shows = (await getCollection('shows')).filter((s) => !s.data.name.startsWith('TODO'));
+  const shows = (await getCollection('shows')).filter((s) => !s.data.name.startsWith('TODO')).sort((a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id));
   const body = [
     '# Action',
     '',
-    '> Action breaks down AI, DePIN and crypto in plain English on YouTube, hosts Action Items live every Friday, and is a Partner and Chief Communications Officer at Laissez-Faire Group (LFG). Formal name: Victor Gazio.',
+    '> Action breaks down AI, DePIN and crypto in plain English on YouTube, hosts Action Items live every Friday, and is a Partner and Chief Communications Officer at Laissez-Faire Group (LFG).',
     '',
     '## Pages',
     ...Object.entries(PAGES).filter(([k]) => k !== 'notfound').map(([, p]) => `- [${p.title}](${u(p.path)}): ${p.description}`),

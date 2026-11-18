@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
 import { SITE, PAGES } from '../site';
 const { page, title: t0, description: d0, path: p0, ogImage: og0, type = 'website', noindex = false, graph = [], article, overlay = false, canonical: c0 } = Astro.props;
 const meta = page ? PAGES[page] : undefined;
@@ -11,6 +12,8 @@ const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
 // canonical can point at another page (an episode whose video already has a post).
 const canonical = BASE + (c0 ?? (path === '/' ? '/' : path));
 const ogImage = BASE + (og0 ?? `/og/${page === 'home' ? 'home' : (path.replace(/^\//, '').replace(/\//g, '-') || 'home')}.png`);
+// The nav sits outside <main>. Which item is marked current comes from the page's path.
+const current = ([['/work', 'Work'], ['/shows', 'Shows'], ['/episodes', 'Shows'], ['/guests', 'Shows'], ['/speaking', 'Speaking'], ['/blog', 'Writing'], ['/about', 'About'], ['/contact', 'Contact']].find(([p]) => path === p || path.startsWith(p + '/')) ?? [])[1] ?? '';
 const sameAs = [SITE.youtube, SITE.youtubeLfg, SITE.x, SITE.xLfg, SITE.linkedin, SITE.instagram, SITE.telegram].filter(Boolean);
 const ld = {
   '@context': 'https://schema.org',
@@ -62,6 +65,7 @@ const ld = {
 </head>
 <body data-ga={SITE.ga4Id} data-pagefind-body={page === 'notfound' ? undefined : ''}>
 <a class="skip" href="#content">Skip to content</a>
+<Header nav current={current} overlay={overlay} />
 <main id="main">
 <slot />
 </main>

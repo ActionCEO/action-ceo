@@ -1,5 +1,35 @@
 # Changelog
 
+## 1.0.1, 2026-11-18
+SEO and copy pass, then fixes from the independent site review and copy review.
+
+### SEO and copy pass (commit 56aba77)
+- Page titles and descriptions rewritten from the SEO research. Site copy rewritten in Action's voice.
+- The YouTube player moved from youtube-nocookie.com to www.youtube.com and loads without a click outside the EU, UK and Switzerland.
+- Every Telegram mention is hidden until the group link exists.
+
+### Departures from the brief
+- **Not click-to-play everywhere** (brief 7.7). Visitors outside the EU, EEA, UK and Switzerland get YouTube's own player with no autoplay, so embedded plays count as views. Visitors in the EU, EEA, UK and Switzerland, and anyone whose country is unknown, press "Load video" first. Action still has to confirm this trade against page speed.
+- **Page titles changed from the brief's 7.1 table.** 8 of 9 are new (only Home matches). Pending Action's sign-off. The old and new titles are listed in `copy-changes.md` in the research notes.
+
+### Fixed today
+- Video: a real "Load video" button is back in the video box, with a play icon, keyboard access and a visible focus ring. It goes away when the player loads. With scripts off the poster and the "Watch on YouTube" link remain.
+- Video and consent: saying yes to analytics no longer loads the YouTube player. In the EU, EEA, UK, Switzerland and unknown countries the player loads only from the button. A chapter click before that saves the time and moves focus to the button.
+- Analytics: blocked browser storage can no longer stop the script. The country lookup runs 1 time per page view and is shared by the player and analytics.
+- Work page: no "Photo coming" box. LFG, Karate Combat and Genzio show studio stills with alt text that describes the photo. The image you see first now loads first. New closing line.
+- Posts: no "Telegram link coming soon". Small text raised to 16px.
+- Titles: posts end with "| Action, YouTuber", episodes with "| Action, Host", guests with "| Guest of Crypto Host Action". Post SEO titles are 41 characters max in the schema, the CMS, the content gate, the CI checks and the pipeline.
+- Descriptions: guest pages never fall under 70 characters. Episode and guest descriptions never cut a word in half.
+- llms.txt: no formal name, and shows are listed in their set order.
+- IndexNow: key and key file added. The workflow reads the key from the file, so the secret is optional.
+- Pipeline, daily checks and the IndexNow ping skip with 1 warning line and a green run until secrets and config are in place.
+- Shows: a blank "where" link saved from the CMS no longer fails the build.
+- Contact form: emails are scrubbed from the name in the Telegram alert, the alert no longer holds up the reply, and a form sent with scripts off goes back to the Contact page instead of showing raw JSON.
+- Headers: HSTS no longer asks for browser preload.
+- Sitemap: each page's date comes from the last commit to its own file.
+- The nav sits outside the main content landmark.
+- Sample content has a plain sample title.
+
 ## 1.0.0, 2026-11-15
 First build from Agent Brief v3 and the approved direction A designs.
 

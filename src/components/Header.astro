@@ -1,11 +1,18 @@
 ---
-const { current = '' } = Astro.props;
+// The nav is drawn 1 time per page by the layout (src/layouts/Base.astro), outside <main>, with the `nav` prop.
+// Pages still place <Header /> where their content starts. There it leaves only the skip-link target and, on Home,
+// a spacer that keeps the hero text clear of the nav that sits over the hero photo.
+const { current = '', nav = false, overlay = false } = Astro.props;
 const NAV = [['Work', '/work'], ['Shows', '/shows'], ['Speaking', '/speaking'], ['Writing', '/blog'], ['About', '/about'], ['Contact', '/contact']];
+const home = /^\/(index\.html)?$/.test(Astro.url.pathname);
 ---
-<nav aria-label="Main" class="pad" style="position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px; padding-top: 28px; padding-bottom: 28px">
+{nav ? (
+<nav aria-label="Main" class:list={['pad', { 'nav-over': overlay }]} style="position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px; padding-top: 28px; padding-bottom: 28px">
   <a href="/" aria-label="Action, home" style="display: flex; padding: 6px 0"><img src="/img/action-wordmark-white.png" alt="Action" width="120" height="32" style="display: block; height: 32px; width: auto"></a>
   <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; font-size: 16px">
     {NAV.map(([n, h]) => <a href={h} aria-current={n === current ? 'page' : undefined} style={`padding: 12px 0${n === current ? '; border-bottom: 2px solid #FFFFFF' : ''}`}>{n}</a>)}
   </div>
 </nav>
-<span id="content" tabindex="-1"></span>
+) : (
+<Fragment>{home && <div class="nav-room" aria-hidden="true"></div>}<span id="content" tabindex="-1"></span></Fragment>
+)}

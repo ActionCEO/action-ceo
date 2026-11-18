@@ -21,6 +21,7 @@ for (const p of posts) {
   if (!vid.has(d.video)) errors.push(`${at}: video "${d.video}" not found in videos/`);
   if (d.video !== d.youtubeVideoId) errors.push(`${at}: video and youtubeVideoId must match`);
   if (seen.has(d.video)) errors.push(`${at}: video ${d.video} already has a post (${seen.get(d.video)})`); else seen.set(d.video, at);
+  if (String(d.metaTitle ?? '').length > 41) errors.push(`${at}: metaTitle is ${String(d.metaTitle).length} characters, 41 max (the page adds " | Action, YouTuber")`);
   if (!cats.has(d.category)) errors.push(`${at}: unknown category "${d.category}"`);
   for (const t of d.tags ?? []) if (!tags.has(t)) errors.push(`${at}: unknown tag "${t}"`);
   if (d.draft === false && !(d.reviewState === 'approved' && d.publishedAt)) errors.push(`${at}: draft: false needs reviewState: approved and publishedAt`);

@@ -14,4 +14,10 @@ export const catName = (s: string) => CATEGORIES.find((c) => c.slug === s)?.name
 export const tagName = (s: string) => TAGS.find((c) => c.slug === s)?.name ?? s;
 export const fmtDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'America/Los_Angeles' });
 export const iso8601Duration = (s: number) => `PT${Math.floor(s / 3600)}H${Math.floor((s % 3600) / 60)}M${s % 60}S`;
+// Shorten to n characters without cutting a word in half. Trailing punctuation is dropped.
+export const cut = (s: string, n: number) => {
+  if (s.length <= n) return s;
+  const head = s.slice(0, n + 1), at = head.lastIndexOf(' ');
+  return (at > 0 ? head.slice(0, at) : s.slice(0, n)).replace(/[\s,.;:!?'"(-]+$/, '');
+};
 export const clock = (s: number) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;

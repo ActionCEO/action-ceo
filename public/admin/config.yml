@@ -25,7 +25,7 @@ collections:
       - { name: reviewState, label: Review state, widget: select, options: [needs_review, approved], default: needs_review }
       - { name: publishedAt, label: "Published at (required to publish)", widget: datetime, required: false }
       - { name: title, label: Title, widget: string }
-      - { name: metaTitle, label: "SEO title (50 max)", widget: string, pattern: ['^.{1,50}$', '50 characters max'] }
+      - { name: metaTitle, label: "SEO title (41 max)", widget: string, pattern: ['^.{1,41}$', '41 characters max'] }
       - { name: metaDescription, label: "SEO description (70 to 155)", widget: text, pattern: ['^[\s\S]{70,155}$', '70 to 155 characters'] }
       - { name: excerpt, label: "Excerpt (320 max)", widget: text, pattern: ['^[\s\S]{0,320}$', '320 characters max'] }
       - { name: category, label: Category, widget: select, options: [ai, depin, crypto, interviews, action-items] }

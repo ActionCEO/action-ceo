@@ -3,7 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import Video from '../../components/Video.astro';
 import { getCollection, getEntry } from 'astro:content';
-import { fmtDate, livePosts } from '../../lib/content';
+import { fmtDate, livePosts, cut } from '../../lib/content';
 import { videoObject } from '../../lib/youtube';
 import { SITE } from '../../site';
 export async function getStaticPaths() { return (await getCollection('episodes')).map((ep) => ({ params: { slug: ep.id }, props: { ep } })); }
@@ -17,13 +17,17 @@ const F = "'Montserrat', Arial, sans-serif";
 const post = video ? (await livePosts()).find((p) => p.data.video.id === video.id) : undefined;
 const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
 const url = `${BASE}/episodes/${ep.id}`;
-const desc = `${show.data.name} episode ${ep.data.number}: ${ep.data.title}. Hosted by Action. Watch the full episode and see who joined.`.slice(0, 155);
+// Description: 155 characters at most, never cut in the middle of a word. The last sentence goes first, then the title is shortened.
+const lead = `${show.data.name} episode ${ep.data.number}: `, by = ' Hosted by Action.', more = ' Watch the full episode and see who joined.';
+const stop = (t: string) => (/[?!]$/.test(t) ? t : `${t}.`);
+const epTitle = ep.data.title.trim().replace(/\.+$/, '');
+const desc = (lead + stop(epTitle) + by + more).length <= 155 ? lead + stop(epTitle) + by + more : lead + stop(cut(epTitle, Math.max(20, 154 - lead.length - by.length))) + by;
 const graph = video && !post ? [
   { '@type': 'WebPage', '@id': `${url}#webpage`, url, name: ep.data.title, description: desc, isPartOf: { '@id': `${BASE}/#website` }, about: { '@id': `${BASE}/#person` }, mainEntity: { '@id': `${url}#video` } },
   videoObject({ url, base: BASE, video: video.data, description: desc }),
 ] : [];
 ---
-<Base title={`${ep.data.title.slice(0, 48)} | Action`} description={desc} path={`/episodes/${ep.id}`} canonical={post ? `/blog/${post.id}` : undefined} noindex={post?.data.draft} graph={graph} ogImage="/og/shows.png">
+<Base title={`${cut(ep.data.title, 41)} | Action, Host`} description={desc} path={`/episodes/${ep.id}`} canonical={post ? `/blog/${post.id}` : undefined} noindex={post?.data.draft} graph={graph} ogImage="/og/shows.png">
 <Header current="Shows" />
 <article class="pad" style="padding-top: clamp(40px, 6vw, 88px); padding-bottom: 96px; display: flex; flex-direction: column; gap: 24px">
   <a href={`/shows/${show.id}`} style="align-self: flex-start; padding: 10px 0; color: #D5D8DB">{show.data.name}, episode {ep.data.number}</a>

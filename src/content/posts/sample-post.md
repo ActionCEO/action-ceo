@@ -1,5 +1,5 @@
 ---
-title: "Jensen Huang Is Out. Bitcoin Is Below $70K. What Breaks Next?"
+title: "Sample post for layout preview"
 metaTitle: "Sample post layout (draft, not published)"
 metaDescription: "Sample draft used to preview the post layout. It is never built on production because draft is true. Delete after the first real post."
 excerpt: "Sample draft used to preview the post layout."

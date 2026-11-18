@@ -3,9 +3,12 @@
 // Never scrapes transcripts and never downloads video or audio.
 import fs from 'node:fs';
 import * as yaml from 'js-yaml';
-import { env, d1, tg, tgFlush, tgFailed, appToken, gh, googleToken, isoToSeconds, slugify, parseChapters, srtToText, now, RUN_URL } from './lib.mjs';
+import { setupDone, env, d1, tg, tgFlush, tgFailed, appToken, gh, googleToken, isoToSeconds, slugify, fitWords, parseChapters, srtToText, now, RUN_URL } from './lib.mjs';
 
 const cfg = JSON.parse(fs.readFileSync(new URL('./config.json', import.meta.url), 'utf8'));
+// Not set up yet: say so in 1 line and end green.
+if (!setupDone('YouTube to blog pipeline', ['ANTHROPIC_API_KEY', 'YOUTUBE_API_KEY', 'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET', ...cfg.channels.map((c) => c.refreshTokenSecret), 'CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ACCOUNT_ID', 'D1_DATABASE_ID', 'BOT_APP_ID', 'BOT_APP_PRIVATE_KEY', 'TELEGRAM_BOT_TOKEN', 'TELEGRAM_CHAT_ID'],
+  { model: cfg.model, ...Object.fromEntries(cfg.channels.map((c) => [`channel ID for ${c.name}`, c.id])) })) process.exit(0);
 const cats = yaml.load(fs.readFileSync('src/data/categories.yaml', 'utf8')).map((c) => c.slug);
 const tags = yaml.load(fs.readFileSync('src/data/tags.yaml', 'utf8')).map((c) => c.slug);
 const attempt = (job, step, ok, detail = '') => d1('INSERT INTO site_pipeline_job_attempts (job_id, step, ok, detail, run_url, created_at) VALUES (?1, ?2, ?3, ?4, ?5, ?6)', [job, step, ok ? 1 : 0, String(detail).slice(0, 500), RUN_URL, now()]);
@@ -82,13 +85,15 @@ for (const job of jobs) {
     let draft = await ask();
     if (bad(draft)) draft = await ask('\n\nYour last answer contained an em dash, en dash or hashtag. None are allowed. Rewrite without them.');
     if (bad(draft)) throw new Error('draft still contains a dash or hashtag after 1 retry');
+    // metaTitle: 41 characters max (src/content.config.ts). Shorten on a word, never mid word.
+    const metaTitle = fitWords(String(draft.metaTitle || draft.title), 41);
     let slug = slugify(draft.slug || draft.title);
     const own = `youtubeVideoId: ${job.video_id}`;
     if (fs.existsSync(`src/content/posts/${slug}.md`) && !fs.readFileSync(`src/content/posts/${slug}.md`, 'utf8').includes(own)) slug = `${slug.slice(0, 58)}-${job.video_id.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
     const category = cats.includes(draft.category) ? draft.category : cats[0];
     const useTags = (draft.tags ?? []).filter((t) => tags.includes(t)).slice(0, 10);
     if ((draft.metaDescription ?? '').length < 70) throw new Error('draft metaDescription is under 70 characters');
-    const fm = { title: draft.title, metaTitle: draft.metaTitle.slice(0, 50), metaDescription: draft.metaDescription.slice(0, 155), excerpt: draft.excerpt.slice(0, 320), category, tags: useTags, takeaways: (draft.takeaways ?? []).slice(0, 5), youtubeVideoId: job.video_id, video: job.video_id, origin: 'pipeline', draft: true, reviewState: 'needs_review' };
+    const fm = { title: draft.title, metaTitle, metaDescription: draft.metaDescription.slice(0, 155), excerpt: draft.excerpt.slice(0, 320), category, tags: useTags, takeaways: (draft.takeaways ?? []).slice(0, 5), youtubeVideoId: job.video_id, video: job.video_id, origin: 'pipeline', draft: true, reviewState: 'needs_review' };
     const files = {
       [`src/content/videos/${job.video_id}.json`]: JSON.stringify({ youtubeId: job.video_id, title: v.snippet.title, channel: ch.name, kind, publishedAt: v.liveStreamingDetails?.actualStartTime ?? v.snippet.publishedAt, durationSeconds: seconds, chapters }, null, 2) + '\n',
       [`src/content/transcripts/${job.video_id}.en.md`]: `---\nvideo: "${job.video_id}"\nlanguage: en\nsource: ${source}\n---\n${text}\n`,

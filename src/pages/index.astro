@@ -8,8 +8,8 @@ const work = [
   { name: 'Action Crypto', role: 'My main channel. My takes on AI, DePIN and crypto since 2021', href: SITE.youtube },
   { name: 'DePIN Day: Seattle', role: 'Creator, producer and host. 2024 and 2025', href: '/work/depin-day-seattle' },
   { name: 'Action Items', role: 'My weekly live show, on YouTube, LinkedIn and X', href: '/shows/action-items' },
-  { name: 'Laissez-Faire Group', role: 'Partner and Chief Communications Officer', href: '/lfg' },
-  { name: 'Karate Combat', role: 'Livestream host, 2024 to 2025', href: '/work' },
+  { name: 'Laissez-Faire Group', role: 'My day job. Go-to-market, PR and partnerships across 55+ countries', href: '/lfg' },
+  { name: 'Karate Combat', role: 'Livestream host, 2024 to 2025', href: '/speaking/karate-combat' },
   { name: 'Genzio', role: 'Host of the Genzio Roundtable. Live programming lead since 2022', href: '/shows/genzio-roundtable' },
 ];
 import fs from 'node:fs';
@@ -31,9 +31,9 @@ const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 <div class="px" style="position: relative; margin-top: auto; padding: 0 clamp(20px, 4.5vw, 64px) 40px; display: flex; flex-direction: column; gap: 32px">
 <h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(40px, 6.2vw, 92px); line-height: 0.98; letter-spacing: -0.035em; text-wrap: balance">I ran the company.<br>Now I break it down.</h1>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px 40px">
-<p style="margin: 0; max-width: 520px; font-size: 19px; color: #FFFFFF">I'm Action. I spent 6 years as a COO, doing the talking and the negotiating. Now I explain AI, DePIN and crypto in plain English on YouTube.</p>
+<p style="margin: 0; max-width: 520px; font-size: 19px; color: #FFFFFF">I'm Action. I spent 6 years as a COO, doing the talking and the negotiating. Now I explain AI, DePIN and crypto in plain English on my channel, Action Crypto.</p>
 <a href={watchHref} rel="noopener" style="background: #69BE28; color: #06111F; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 2px">Watch the latest breakdown</a>
-<a href="/lfg" style="font-weight: 600; padding: 12px 0; border-bottom: 1px solid #FFFFFF">Need go-to-market help? That's LFG</a>
+<a href="/lfg" style="font-weight: 600; padding: 12px 0; border-bottom: 1px solid #FFFFFF">Go-to-market help is at LFG</a>
 </div>
 </div>
 
@@ -97,8 +97,9 @@ const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 <TelegramNote />
 
 <section class="rv" id="talk" style="background: #002346; padding: 120px clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column; gap: 28px">
-<h2 style="margin: 0; max-width: 1000px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(36px, 5.2vw, 76px); line-height: 1; letter-spacing: -0.035em">Got a stage, a show or a launch? Talk to me.</h2>
-<a href="/contact" style="align-self: flex-start; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(22px, 2.4vw, 32px); padding: 8px 0; border-bottom: 3px solid #69BE28">Get in touch</a>
+<h2 style="margin: 0; max-width: 1000px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(36px, 5.2vw, 76px); line-height: 1; letter-spacing: -0.035em">Start with a video. If you want me on your stage after that, get in touch.</h2>
+<a href={watchHref} rel="noopener" style="align-self: flex-start; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(22px, 2.4vw, 32px); padding: 8px 0; border-bottom: 3px solid #69BE28">Watch Action Crypto</a>
+<a href="/contact" style="align-self: flex-start; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Get in touch</a>
 <a href="mailto:me@action.ceo" style="align-self: flex-start; padding: 10px 0; border-bottom: 1px solid #FFFFFF">me@action.ceo</a>
 </section>
 </Base>

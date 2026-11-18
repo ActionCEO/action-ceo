@@ -15,6 +15,7 @@ jobs:
       - run: npm ci
       - run: node scripts/pipeline/indexnow.mjs
         env:
+          # Optional. The key is public and is read from public/<key>.txt when this secret is not set.
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

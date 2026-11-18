@@ -1,6 +1,15 @@
 // Shared helpers for the YouTube to blog pipeline. No dependencies beyond Node 22.
 import crypto from 'node:crypto';
 export const env = (k, need = true) => { const v = process.env[k]; if (!v && need) throw new Error(`Missing secret ${k}`); return v; };
+// Scheduled jobs call this first. Before setup is finished (a secret is missing or config.json still holds a TODO value)
+// the job logs 1 line and ends green, so GitHub does not send a failure email every hour.
+export function setupDone(job, secrets, config = {}) {
+  const missing = secrets.filter((k) => !process.env[k]);
+  const todo = Object.entries(config).filter(([, v]) => !v || /TODO/i.test(String(v))).map(([k]) => k);
+  if (!missing.length && !todo.length) return true;
+  console.log(`::warning::${job} skipped: setup is not finished.${missing.length ? ` Missing secrets: ${missing.join(', ')}.` : ''}${todo.length ? ` Still TODO in scripts/pipeline/config.json: ${todo.join(', ')}.` : ''} See SETUP.md.`);
+  return false;
+}
 export const RUN_URL = process.env.GITHUB_RUN_ID ? `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}` : '';
 export const now = () => new Date().toISOString();
 
@@ -53,6 +62,8 @@ export async function googleToken(refresh) {
 }
 export const isoToSeconds = (d) => { const m = d.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/) || []; return (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3] || 0); };
 export const slugify = (s) => s.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 70).replace(/-+$/, '');
+// Shorten to n characters without cutting a word in half.
+export const fitWords = (s, n) => { s = s.trim(); if (s.length <= n) return s; const head = s.slice(0, n + 1), at = head.lastIndexOf(' '); return (at > 0 ? head.slice(0, at) : s.slice(0, n)).replace(/[\s,.;:!?'"(-]+$/, ''); };
 // Chapters from a description: lines that start with a timestamp.
 export function parseChapters(desc) {
   const out = [];

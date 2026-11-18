@@ -12,9 +12,9 @@ const todo = show.data.name.startsWith('TODO');
 const name = todo ? 'Founder interviews' : show.data.name;
 // Search titles and descriptions, 1 per show. A show without an entry gets the plain fallback.
 const META: Record<string, { title: string; description: string }> = {
-  'action-items': { title: 'Action Items | Weekly Live Show with Crypto Host Action', description: 'Action Items is the weekly live show from crypto and AI YouTuber Action. Fridays at 9:30am Pacific on YouTube, LinkedIn and X. Watch live or catch up.' },
-  'genzio-roundtable': { title: 'Genzio Roundtable on X Spaces | Crypto Host Action', description: "No cameras, just voices. Action hosts the Genzio Roundtable on X Spaces and has led live programming at Genzio since 2022. Here's where to listen." },
-  interviews: { title: 'Founder Interviews on LFG Action | Crypto Host Action', description: "Action asks founders and builders what they're making and why it matters. Watch the interviews, including the DeAI Summit series, on LFG Action." },
+  'action-items': { title: "Action Items | Action's Weekly Live Crypto and AI Show", description: 'Action Items is the weekly live show from crypto and AI YouTuber Action. Fridays at 9:30am Pacific on YouTube, LinkedIn and X.' },
+  'genzio-roundtable': { title: 'Genzio Roundtable on X Spaces | Hosted by Action', description: 'Action hosts the Genzio Roundtable, a voice-only show on X Spaces, and has led live programming at Genzio since 2022.' },
+  interviews: { title: 'Founder Interviews | Action, Host of LFG Action', description: 'Action interviews founders and builders about what they are building, including his DeAI Summit interviews. Watch on the LFG Action YouTube channel.' },
 };
 const title = META[show.id]?.title ?? `${name} | Hosted by Action`;
 const desc = META[show.id]?.description ?? `${name}, hosted by Action. ${show.data.summary}`.slice(0, 155);
@@ -33,7 +33,7 @@ const graph = [{ '@type': show.data.kind === 'podcast' ? 'PodcastSeries' : 'Crea
   <div style="display: flex; flex-wrap: wrap; gap: 4px 24px">
     {where.map((w) => <a href={w.url} rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">{w.label}</a>)}
   </div>
-  {show.data.kind === 'audio' && <p style="margin: 0; font-size: 19px; color: #D5D8DB">Prefer video? Action Crypto is on YouTube. <a href={SITE.youtube} rel="noopener" style="border-bottom: 1px solid #FFFFFF">Watch Action Crypto</a></p>}
+  {show.data.kind === 'audio' && <p style="margin: 0; font-size: 19px; color: #D5D8DB">For video, Action Crypto is on YouTube. <a href={SITE.youtube} rel="noopener" style="border-bottom: 1px solid #FFFFFF">Watch Action Crypto</a></p>}
 </header>
 {eps.length > 0 && (
   <section class="pad" aria-label="Episodes" style="padding-bottom: 96px">

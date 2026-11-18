@@ -12,5 +12,5 @@ Hard rules:
 
 Return 1 JSON object with exactly these keys:
 title (string), slug (lowercase words joined by hyphens), excerpt (320 characters max), category (1 of the allowed categories),
-metaTitle (50 characters max), metaDescription (70 to 155 characters), body (markdown; use ## headings that follow the chapters; no H1),
+metaTitle (41 characters max, the site adds " | Action, YouTuber" after it), metaDescription (70 to 155 characters), body (markdown; use ## headings that follow the chapters; no H1),
 tags (array of allowed tags only, 10 max), suggestedNewTags (array, may be empty), takeaways (array of 3 short strings).

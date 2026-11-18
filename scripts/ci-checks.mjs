@@ -15,6 +15,8 @@ for (const f of pages) {
   const noindex = /<meta name="robots" content="noindex"/.test(html);
   const title = pick(html, /<title>([^<]*)<\/title>/), desc = pick(html, /<meta name="description" content="([^"]*)"/);
   const dec = (s) => (s || '').replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+  // Posts: metaTitle (41 max) plus " | Action, YouTuber". Same limit as src/content.config.ts, the CMS and the pipeline.
+  if (title && /^[\\/]blog[\\/]/.test(rel)) { const t = dec(title), end = ' | Action, YouTuber'; if (!t.endsWith(end)) errors.push(`${rel}: post title must end with "${end}"`); else if (t.length - end.length > 41) errors.push(`${rel}: post metaTitle over 41 (${t.length - end.length})`); }
   if (!title) errors.push(`${rel}: missing title`);
   else { if (dec(title).length > 60) errors.push(`${rel}: title over 60 (${dec(title).length})`); if (!noindex) { if (titles.has(title)) errors.push(`${rel}: duplicate title with ${titles.get(title)}`); titles.set(title, rel); } }
   if (!desc) errors.push(`${rel}: missing description`);

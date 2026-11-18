@@ -1,5 +1,5 @@
 ---
 event: "Karate Combat"
-role: "Livestream host."
+role: "I hosted livestreams for Karate Combat."
 year: "2024 to 2025"
 ---

@@ -33,7 +33,7 @@ const posts = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/posts' }),
   schema: z.object({
     title: z.string().min(3),
-    metaTitle: z.string().max(50),
+    metaTitle: z.string().max(41), // the page title adds " | Action, YouTuber" (19 characters), 60 in all
     metaDescription: z.string().min(70).max(155),
     excerpt: z.string().max(320),
     category: z.enum(CATS),
@@ -53,7 +53,7 @@ const shows = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/shows' }),
   schema: z.object({
     name: z.string(), order: z.number().int(), kind: z.enum(['live', 'audio', 'podcast']),
-    schedule: z.string(), summary: z.string(), where: z.array(z.object({ label: z.string(), url: z.string().url().or(z.literal('')) }).strict()),
+    schedule: z.string(), summary: z.string(), where: z.array(z.object({ label: z.string(), url: blank(z.string().url().optional()) }).strict()),
     rss: blank(z.string().url().optional()), image: blank(z.string().optional()),
   }).strict(),
 });

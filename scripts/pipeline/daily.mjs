@@ -1,6 +1,8 @@
 // Daily: orphan checks, build count for the month, stuck jobs. Any finding is a Telegram alert.
 import fs from 'node:fs';
-import { d1, tg, tgFlush, env, RUN_URL } from './lib.mjs';
+import { setupDone, d1, tg, tgFlush, env, RUN_URL } from './lib.mjs';
+// Not set up yet: say so in 1 line and end green.
+if (!setupDone('Daily checks', ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ACCOUNT_ID', 'D1_DATABASE_ID', 'PAGES_PROJECT', 'TELEGRAM_BOT_TOKEN', 'TELEGRAM_CHAT_ID'])) process.exit(0);
 const rows = await d1(fs.readFileSync('sql/orphan_checks.sql', 'utf8').replace(/^--.*$/gm, ''));
 if (rows.length) await tg(`Orphan check found rows\nCount: ${rows.length}\n${[...new Set(rows.map((r) => r.problem))].join(', ')}`, RUN_URL ? ['Open report', RUN_URL] : undefined);
 console.log('orphans', rows);

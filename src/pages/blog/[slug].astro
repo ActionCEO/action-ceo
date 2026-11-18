@@ -26,7 +26,7 @@ const graph = [
   { '@type': 'BreadcrumbList', '@id': `${url}#breadcrumb`, itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${BASE}/` }, { '@type': 'ListItem', position: 2, name: 'Writing', item: `${BASE}/blog` }, { '@type': 'ListItem', position: 3, name: post.data.title, item: url }] },
 ];
 ---
-<Base title={`${post.data.metaTitle} | Action`} description={post.data.metaDescription} path={`/blog/${post.id}`} ogImage={og} type="article" graph={graph} noindex={post.data.draft} article={{ published, modified, tags: post.data.tags.map(tagName) }}>
+<Base title={`${post.data.metaTitle} | Action, YouTuber`} description={post.data.metaDescription} path={`/blog/${post.id}`} ogImage={og} type="article" graph={graph} noindex={post.data.draft} article={{ published, modified, tags: post.data.tags.map(tagName) }}>
 <Header current="Writing" />
 <article>
   <header class="pad" style="padding-top: clamp(32px, 5vw, 72px); padding-bottom: 40px; display: flex; flex-direction: column; gap: 20px; max-width: 1100px">
@@ -43,7 +43,7 @@ const graph = [
             <a href={`?t=${c.start}`} data-ch={c.start} role="button" aria-pressed="false" style="display: flex; gap: 16px; align-items: baseline; min-height: 48px; padding: 14px 0 6px 14px; border-left: 3px solid #0A2C52; color: #D5D8DB; font-size: 17px">
               <span style={`font-family: ${F}; font-weight: 700; font-variant-numeric: tabular-nums`}>{clock(c.start)}</span><span>{c.title}</span>
             </a>
-            <a href={ytWatch(video.data.youtubeId, c.start)} rel="noopener" aria-label={`Open on YouTube at ${mss(c.start)}: ${c.title}`} style="padding: 8px 0 14px 14px; border-left: 3px solid #0A2C52; color: #A5AAAF; font-size: 15px; text-decoration: underline; text-underline-offset: 3px">Open on YouTube at {mss(c.start)}</a>
+            <a href={ytWatch(video.data.youtubeId, c.start)} rel="noopener" aria-label={`Open on YouTube at ${mss(c.start)}: ${c.title}`} style="padding: 8px 0 14px 14px; border-left: 3px solid #0A2C52; color: #A5AAAF; font-size: 16px; text-decoration: underline; text-underline-offset: 3px">Open on YouTube at {mss(c.start)}</a>
           </div>
         ))}
       </div>
@@ -65,7 +65,7 @@ const graph = [
     )}
     <div style="display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; padding-top: 40px">
       <a href={SITE.youtube} rel="noopener" style={`background: #69BE28; color: #06111F; font-family: ${F}; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 2px`}>Subscribe on YouTube</a>
-      {SITE.telegram ? <a href={SITE.telegram} rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Talk about it on Telegram</a> : <span style="color: #D5D8DB">Telegram link coming soon</span>}
+      {SITE.telegram && <a href={SITE.telegram} rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Talk about it on Telegram</a>}
     </div>
   </section>
 </article>
