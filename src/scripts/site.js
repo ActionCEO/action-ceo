@@ -131,3 +131,11 @@ if (GA) {
   if (cached) start(cached === 'XX' || EU.includes(cached));
   else fetch('/api/geo').then((r) => r.json()).then((j) => { sessionStorage.setItem('geo', j.country || 'XX'); start(!j.country || EU.includes(j.country)); }).catch(() => start(true));
 }
+
+// Hero background video: desktop only, never with reduced motion or data saver. The still stays underneath as the fallback.
+const hv = document.querySelector('[data-hero-video]');
+if (hv && !reduce && innerWidth > 800 && !(navigator.connection && navigator.connection.saveData)) {
+  hv.addEventListener('playing', () => { hv.style.opacity = 1; }, { once: true });
+  hv.src = hv.dataset.src;
+  hv.play().catch(() => {});
+}

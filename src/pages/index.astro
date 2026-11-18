@@ -12,10 +12,14 @@ const work = [
   { name: 'Karate Combat', role: 'Livestream host, 2024 to 2025', href: '/work' },
   { name: 'Genzio', role: 'Host and live programming lead since 2022', href: '/shows/genzio-roundtable' },
 ];
+import fs from 'node:fs';
+// Optional hero background video: drop the file at public/video/hero-stage.mp4 and it switches on.
+const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 ---
 <Base page="home" overlay>
 <header style="position: relative; min-height: 900px; display: flex; flex-direction: column; overflow: hidden">
 <picture style="display: contents"><source type="image/avif" srcset="/img/studio-hero-800.avif 800w, /img/studio-hero-1600.avif 1600w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/studio-hero-800.webp 800w, /img/studio-hero-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/studio-hero.jpg" width="2400" height="1348" loading="eager" fetchpriority="high" decoding="async" alt="Action in his studio looking into the camera, guitars on the wall behind him" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%"></picture>
+{heroVideo && <video data-hero-video data-src="/video/hero-stage.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 30%; opacity: 0; transition: opacity 600ms cubic-bezier(.4,0,.2,1)"></video>}
 <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(to top, #06111F 0%, rgba(6,17,31,0.78) 30%, rgba(6,17,31,0.2) 58%, rgba(6,17,31,0.82) 100%)"></div>
 
 <Header current="" />
