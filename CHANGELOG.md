@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.2, 2026-11-18
+First deploy, without GitHub.
+- Cloudflare: D1 `action-ceo` (44c8d572-99ac-484a-91fa-708acc38debd) and `action-ceo-preview` (ed542a52-3585-4772-9dc7-6405b1189af1), both with `migrations/0001_site_core.sql` applied and bound as `DB` to production and preview. IDs are in `wrangler.toml`.
+- Turnstile widget "action.ceo contact form" for action.ceo and action-ceo.pages.dev. Real site key in `src/site.ts`.
+- Pages project `action-ceo` live at action-ceo.pages.dev by Direct Upload.
+- New `scripts/direct-upload.mjs` and `scripts/worker-entry.js`: pack the build with a single `_worker.js` that serves `/api/contact` and `/api/geo`, since dashboard uploads cannot compile `functions/`. The upload copy drops unused Pagefind files and re-encodes the JPG fallbacks.
+- New `scripts/compress-og.mjs` in the build: share images go to a 256-colour palette (1,883 KB to 1,533 KB).
+
 ## 1.0.1, 2026-11-18
 SEO and copy pass, then fixes from the independent site review and copy review.
 

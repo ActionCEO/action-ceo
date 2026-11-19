@@ -14,7 +14,7 @@ export const SITE = {
   telegram: '', // TODO: Telegram group link. Empty hides every Telegram mention.
   lfgUrl: 'https://laissezfairegroup.com',
   ga4Id: '', // TODO: GA4 measurement ID (G-XXXXXXX). Empty turns analytics off.
-  turnstileSiteKey: '1x00000000000000000000AA', // TODO: real Turnstile site key. This is Cloudflare's always-pass test key.
+  turnstileSiteKey: '0x4AAAAAAGH9wIco4yTHXkii',
   consentVersion: '2026-11-15',
   indexNowKey: '2dfe00ab9adf93cea3f2c1cfdddf3ac0', // Public key. The file public/<key>.txt holds the same value.
 };

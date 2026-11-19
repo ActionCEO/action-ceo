@@ -4,3 +4,5 @@ dist
 .wrangler
 .dev.vars
 .cache
+deploy/
+action-ceo-deploy.zip

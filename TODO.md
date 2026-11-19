@@ -6,10 +6,12 @@ Until the accounts and keys below exist, the forms cannot send, the admin cannot
 
 ## Needs Action (accounts and keys)
 
-1. **Cloudflare and GitHub accounts, and the public repo.** Everything below hangs off these. `SETUP.md` sections 1 to 3.
-2. **2 D1 databases.** Create production and preview, then put both IDs in `wrangler.toml` (lines 9 and 15, both say TODO). A placeholder ID may fail the Pages deploy.
-3. **Turnstile widget.** Put the site key in `src/site.ts` (`turnstileSiteKey`). The current value is Cloudflare's always-pass test key.
-4. **4 Function secrets** in Cloudflare Pages, for production and preview: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TURNSTILE_SECRET_KEY`, `IP_HASH_SALT_1`. Without the salt and the database the form answers "The form is not set up yet."
+Done on 2026-11-18: Cloudflare account (me@action.ceo), both D1 databases with the schema applied, the Turnstile widget, and the Pages project `action-ceo`. The site is live at https://action-ceo.pages.dev (marked noindex, so search engines skip it). action.ceo itself is untouched.
+
+1. **GitHub account and the public repo.** GitHub's sign-up blocked the browser. Until a repo exists, deploys are Direct Uploads: `npm run build && node scripts/direct-upload.mjs`, then upload `action-ceo-deploy.zip` under Pages > action-ceo > Create deployment. The project can be connected to a repo later (Settings > Build > Git repository > Connect).
+2. **2 Function secrets in Cloudflare Pages, production and preview:** `TURNSTILE_SECRET_KEY` (Turnstile > "action.ceo contact form" > secret key) and `IP_HASH_SALT_1` (any long random string, for example from `openssl rand -hex 32`). Then deploy again; secrets and bindings only apply to new deployments. Until then the form answers "The form is not set up yet."
+3. **Telegram alerts:** `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` as secrets too. Optional: the form saves to D1 without them, it just does not ping.
+4. **Custom domain and DNS.** Add action.ceo under Pages > Custom domains only when Action says so. Email runs on this domain, so check the MX records first (`SETUP.md` section 5).
 5. **14 GitHub Actions secrets** for the pipeline and daily checks. Full list in `SETUP.md` section 3. The hourly run stays green and skips until all are set.
 6. **Telegram group link.** `src/site.ts`, `telegram`. 1 line switches on the footer, Home, the Writing page and every post. Empty means Telegram shows nowhere.
 7. **GA4 measurement ID.** `src/site.ts`, `ga4Id`. Empty means analytics is off and no banner shows.
