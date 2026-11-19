@@ -317,3 +317,19 @@ picture>source{display:none}
 @media (max-width:600px){.post-nav{grid-template-columns:1fr}.post-nav-a{text-align:left !important;align-items:flex-start !important}}
 .row-pic{flex:none;display:block;width:112px;height:auto;aspect-ratio:16/9;object-fit:cover}
 @media (max-width:600px){.row-pic{width:88px}}
+
+/* Contact page. Left: what you can ask for, each one a button that sets the form. Right: the form. Both fill the width. */
+.ct-grid{display:grid;gap:56px clamp(40px,6vw,96px);padding:clamp(48px,6vw,96px) clamp(20px,4.5vw,64px) 110px}
+.ct-side{min-width:0}
+.ct-form{min-width:0;display:flex;flex-direction:column;gap:20px;scroll-margin-top:110px}
+.ct-picks{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ct-pick{box-sizing:border-box;width:100%;height:100%;min-height:52px;display:flex;flex-direction:column;gap:6px;justify-content:center;text-align:left;padding:14px 16px;background:#0A1B30;border:1px solid #0A2C52;border-left:4px solid #0A2C52;border-radius:2px;color:#FFFFFF;cursor:pointer;font:inherit}
+.ct-pick-h{font:800 17px/1.2 'Montserrat',Arial,sans-serif;letter-spacing:-.01em}
+.ct-pick-d{display:none;font-size:16px;line-height:1.45;color:#D5D8DB}
+.ct-pick[aria-pressed="true"]{border-color:#69BE28;background:#0A2C52}
+.ct-pick:focus-visible{outline:3px solid #69BE28;outline-offset:2px}
+@media (hover:hover){.ct-pick:hover{border-left-color:#69BE28;background:#0A2C52}}
+.ct-note{margin:32px 0 0;max-width:520px;color:#D5D8DB}
+.ct-mail{display:inline-flex;align-items:center;gap:12px;padding:6px 0;border-bottom:3px solid #69BE28;font:700 clamp(20px,2.2vw,28px) 'Montserrat',Arial,sans-serif;overflow-wrap:anywhere}
+@media (min-width:700px){.ct-picks{grid-template-columns:1fr;gap:12px}.ct-pick{padding:18px 22px}.ct-pick-h{font-size:clamp(20px,1.9vw,26px)}.ct-pick-d{display:block}}
+@media (min-width:960px){.ct-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:start}}

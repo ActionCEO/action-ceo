@@ -303,3 +303,19 @@ if (hv && !reduce && innerWidth > 800 && !(navigator.connection && navigator.con
   hv.src = hv.dataset.src;
   hv.play().catch(() => {});
 }
+
+// Contact page: the "Pick what fits" buttons set the form's first field and take you to the form.
+(() => {
+  const sel = document.getElementById('c-type');
+  const picks = [...document.querySelectorAll('[data-pick]')];
+  if (!sel || !picks.length) return;
+  const sync = () => picks.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.pick === sel.value)));
+  sel.addEventListener('change', sync);
+  picks.forEach((b) => b.addEventListener('click', () => {
+    sel.value = b.dataset.pick; sync();
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (sel.getBoundingClientRect().top < 0 || sel.getBoundingClientRect().bottom > innerHeight) sel.closest('form').scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' });
+    document.getElementById('c-name')?.focus({ preventScroll: true });
+  }));
+  sync();
+})();

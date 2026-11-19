@@ -1,20 +1,32 @@
 ---
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
 import { SITE } from '../site';
 
 ---
 <Base page="contact">
 <Header current="Contact" />
-<section style="padding: clamp(48px, 7vw, 104px) clamp(20px, 4.5vw, 64px) 110px; display: flex; flex-wrap: wrap; gap: 48px 64px">
-<div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 24px; align-items: flex-start">
-<h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(44px, 7vw, 108px); line-height: 1.02; letter-spacing: -0.035em; ">Say hi.</h1>
-<p style="margin: 0; max-width: 420px; font-size: 20px; color: #D5D8DB">Speaking, hosting, press, sponsorship or go-to-market work with LFG. Pick what fits and tell me what you need.</p>
-<a href="mailto:me@action.ceo" style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(22px, 2.4vw, 30px); padding: 8px 0; border-bottom: 3px solid #69BE28">me@action.ceo</a>
-<p style="margin: 0; max-width: 420px; color: #D5D8DB">Just want to argue about a video? The YouTube comments are open. <a href={SITE.youtube} rel="noopener" style="border-bottom: 1px solid #FFFFFF">Go to {SITE.channel}</a></p>
-<picture style="display: contents"><source type="image/avif" srcset="/img/studio-smile-800.avif 800w, /img/studio-smile-1156.avif 1156w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/studio-smile-800.webp 800w, /img/studio-smile-1156.webp 1156w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/studio-smile.jpg" width="1156" height="650" loading="eager" fetchpriority="high" decoding="async" alt="Action smiling at his desk" style="width: 100%; max-width: 440px; aspect-ratio: 4 / 3; object-fit: cover; object-position: 45% 30%; margin-top: 16px"></picture>
+<PageHero img="studio-warm" big={1156} w={1156} h={650} alt="Action smiling at the camera in his studio" pos="50% 25%" posPhone="50% 20%">
+<h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(40px, 5.4vw, 80px); line-height: 0.98; letter-spacing: -0.035em">Don't be shy, <span style="white-space: nowrap">say hi.</span></h1>
+<p style="margin: 0; max-width: 560px; font-size: 19px; color: #FFFFFF">Speaking, hosting, press, sponsorship or go-to-market work with LFG. Pick what fits and tell me what you&nbsp;need.</p>
+<p style="margin: 0"><a href={`mailto:${SITE.email}`} class="ct-mail"><Icon name="mail" size={22} />{SITE.email}</a></p>
+</PageHero>
+<section class="ct-grid">
+<div class="ct-side">
+<h2 class="sec-h" style="margin-bottom: 28px">Pick what fits.</h2>
+<ul role="list" class="ct-picks">
+<li><button type="button" class="ct-pick" data-pick="Speaking" aria-pressed="false"><span class="ct-pick-h">Speaking</span><span class="ct-pick-d">Keynotes, panels and fireside chats on AI, DePIN, crypto and RWAs.</span></button></li>
+<li><button type="button" class="ct-pick" data-pick="Hosting or guest spot" aria-pressed="false"><span class="ct-pick-h">Hosting</span><span class="ct-pick-d">Your stage, livestream, X Space or show. I guest on shows too.</span></button></li>
+<li><button type="button" class="ct-pick" data-pick="Be a guest on my show" aria-pressed="false"><span class="ct-pick-h">Come on my show</span><span class="ct-pick-d">Founders and builders with something real to show.</span></button></li>
+<li><button type="button" class="ct-pick" data-pick="LFG partnership" aria-pressed="false"><span class="ct-pick-h">Go-to-market with LFG</span><span class="ct-pick-d">Marketing, PR and launch work through Laissez-Faire Group.</span></button></li>
+<li><button type="button" class="ct-pick" data-pick="Sponsorship" aria-pressed="false"><span class="ct-pick-h">Sponsorship</span><span class="ct-pick-d">Videos and live shows on Action Crypto and LFG Action.</span></button></li>
+<li><button type="button" class="ct-pick" data-pick="Media" aria-pressed="false"><span class="ct-pick-h">Press</span><span class="ct-pick-d">Quotes, interviews and background on AI and crypto.</span></button></li>
+</ul>
+<p class="ct-note">Just want to argue about a video? The YouTube comments are open. <a href={SITE.youtube} rel="noopener" style="border-bottom: 1px solid #FFFFFF">Go to {SITE.channel}</a></p>
 </div>
-<form data-form method="post" action="/api/contact" novalidate style="flex: 2 1 480px; min-width: 0; max-width: 720px; display: flex; flex-direction: column; gap: 20px">
+<form data-form method="post" action="/api/contact" novalidate class="ct-form">
 <div style="display: flex; flex-direction: column; gap: 8px"><label for="c-type" style="font-weight: 600; font-size: 16px">What is this about?</label><select id="c-type" name="type" style="box-sizing: border-box; width: 100%; min-height: 52px; padding: 14px 16px; background: #0A2C52; border: 1px solid #A5AAAF; border-radius: 2px; color: #FFFFFF; font-family: 'Open Sans', Arial, sans-serif; font-size: 17px"><option>Speaking</option><option value="Hosting or guest spot">Book me to host, or to guest on your show</option><option value="Be a guest on my show">Be a guest on my show or podcast</option><option value="LFG partnership">LFG: go-to-market, marketing or PR</option><option>Sponsorship</option><option>Media</option><option>Other</option></select></div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 20px">
 <div style="display: flex; flex-direction: column; gap: 8px"><label for="c-name" style="font-weight: 600; font-size: 16px">Your name</label><input id="c-name" name="name" type="text" required autocomplete="name" placeholder="" style="box-sizing: border-box; width: 100%; min-height: 52px; padding: 14px 16px; background: #0A2C52; border: 1px solid #A5AAAF; border-radius: 2px; color: #FFFFFF; font-family: 'Open Sans', Arial, sans-serif; font-size: 17px"></div><div style="display: flex; flex-direction: column; gap: 8px"><label for="c-email" style="font-weight: 600; font-size: 16px">Email</label><input id="c-email" name="email" type="email" required autocomplete="email" placeholder="" style="box-sizing: border-box; width: 100%; min-height: 52px; padding: 14px 16px; background: #0A2C52; border: 1px solid #A5AAAF; border-radius: 2px; color: #FFFFFF; font-family: 'Open Sans', Arial, sans-serif; font-size: 17px"></div>
