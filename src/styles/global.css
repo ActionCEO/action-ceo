@@ -230,3 +230,17 @@ span.pv-genzio{position:static;aspect-ratio:16/9}
 @media (min-width:360px) and (max-width:600px){.links2{display:grid;grid-template-columns:auto auto;justify-content:start;gap:4px 28px}.links2>a{justify-self:start}}
 .tags{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
 .tags li{padding:8px 14px;border:1px solid #326496;border-radius:2px;font:700 15px 'Montserrat',Arial,sans-serif;color:#D5D8DB}
+/* Speaking: featured events (words left, picture right, both open the event page) and plain conference rows. */
+.sp-hero{object-position:27% 30%}
+.sp-item{display:flex;flex-wrap:wrap;gap:20px 48px;padding:36px 0;border-top:1px solid #0A2C52;align-items:center}
+.sp-text{flex:3 1 340px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.sp-media{flex:0 0 auto;display:block;width:min(420px,100%);overflow:hidden}
+.sp-media img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.sp-media:hover img{transform:scale(1.04)}
+@media (max-width:800px){.sp-media{width:100%}}
+/* Item heading: 1 step below a section heading, so the 2 never look alike. */
+.item-h{margin:0;font:800 clamp(22px,2.4vw,32px)/1.1 'Montserrat',Arial,sans-serif;letter-spacing:-.02em}
+.item-h a{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:6px;text-decoration-thickness:2px}
+.item-h a:hover{color:#FFFFFF;text-decoration-color:#69BE28}
+.row-flat .row-name{font-size:clamp(19px,1.9vw,24px)}
+.tags-lg li{padding:10px 18px;font-size:clamp(16px,1.6vw,20px);color:#FFFFFF}

@@ -2,46 +2,62 @@
 import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import { SITE } from '../../site';
+import Icon from '../../components/Icon.astro';
+// Featured: events with their own page and a picture. The picture and the title both open the page.
+const featured = [
+  { name: 'DePIN Day: Seattle', href: '/work/depin-day-seattle', text: 'Co-organized and hosted, 2 years running. T-Mobile, HP and Borderless Capital on stage across 2024 and 2025. 65,000+ viewers on the X livestream.', img: 'depin-wide', big: 1456, alt: 'Action speaking on the DePIN Day: Seattle stage', links: [['Watch 2024', '/speaking/depin-day-seattle-2024'], ['Watch 2025', '/speaking/depin-day-seattle-2025']] },
+  { name: 'Karate Combat', href: '/speaking/karate-combat', text: 'I hosted the pit side livestreams, calling fights live from next to the pit.', img: 'kc-pitside', big: 1456, alt: 'Action commentating pitside at a Karate Combat event' },
+  { name: 'DeRec Alliance', href: '/speaking/derec-alliance', text: "I hosted the DeRec Alliance community call on Hedera's YouTube channel. It's the featured video on derec.org.", yt: 'qr5dz0QqCK0', alt: 'Thumbnail of the DeRec Alliance community call hosted by Action' },
+];
+// Conferences: no dates on purpose (Action does not go every year). Add a row here when there is a new one.
+const conferences = [
+  { name: 'DCENTRAL', what: 'Speaker' },
+  { name: 'ETHDenver', what: 'Stage host. I also ran the X Spaces' },
+  { name: 'TOKEN2049', what: 'Founder interviews on site, including with io.net' },
+  { name: 'Bitcoin Conference', what: 'Interviews with founders and teams, 3 years running' },
+];
+const topics = ['AI', 'DePIN', 'Crypto', 'RWAs', 'Commodities', 'Go-to-market'];
 
 ---
 <Base page="speaking">
 <Header current="Speaking" />
 <header style="position: relative; min-height: 640px; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden">
-<picture style="display: contents"><source type="image/avif" srcset="/img/stage-keynote-800.avif 800w, /img/stage-keynote-1456.avif 1456w" sizes="100vw"><source type="image/webp" srcset="/img/stage-keynote-800.webp 800w, /img/stage-keynote-1456.webp 1456w" sizes="100vw"><img src="/img/stage-keynote.jpg" width="1456" height="813" loading="eager" fetchpriority="high" decoding="async" class="hero-img" alt="Action speaking on a conference stage with a microphone" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 30%"></picture>
+<picture style="display: contents"><source type="image/avif" srcset="/img/stage-keynote-800.avif 800w, /img/stage-keynote-1456.avif 1456w" sizes="100vw"><source type="image/webp" srcset="/img/stage-keynote-800.webp 800w, /img/stage-keynote-1456.webp 1456w" sizes="100vw"><img src="/img/stage-keynote.jpg" width="1456" height="813" loading="eager" fetchpriority="high" decoding="async" class="hero-img sp-hero" alt="Action speaking on a conference stage with a microphone" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"></picture>
 <div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(to top, #06111F 4%, rgba(6,17,31,0.72) 45%, rgba(6,17,31,0.35) 100%)"></div>
 <div style="position: relative; padding: 0 clamp(20px, 4.5vw, 64px) 56px; display: flex; flex-direction: column; gap: 24px; align-items: flex-start">
 <h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(44px, 7vw, 108px); line-height: 1.02; letter-spacing: -0.035em; ">Put me on stage.</h1>
-<p style="margin: 0; max-width: 600px; font-size: 20px">I host and I speak. I co-organized and hosted DePIN Day: Seattle. I keep it in plain English so the whole room follows.</p>
-<a href="#book" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Book me</a>
+<p style="margin: 0; max-width: 680px; font-size: 20px">I host and I speak. I co-organized and hosted DePIN Day: Seattle, spoke at DCENTRAL, hosted stages at ETHDenver, and ran founder interviews at TOKEN2049 and the Bitcoin Conference. I keep it in plain English so the whole room follows.</p>
+<a href="#book" class="cta-link"><Icon name="mail" size={26} />Book me</a>
 </div>
 </header>
-<section aria-label="Past events" style="padding: 96px clamp(20px, 4.5vw, 64px) 40px">
-<h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); line-height: 1.02; letter-spacing: -0.035em; ">Stages and streams so far</h2>
-<div style="margin-top: 32px">
-<article class="rv" style="display: flex; flex-wrap: wrap; gap: 20px 48px; padding: 36px 0; border-top: 1px solid #0A2C52; align-items: center">
-<div style="flex: 0 1 140px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 22px; font-variant-numeric: tabular-nums">2024 and 2025</div>
-<div style="flex: 3 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 6px"><h3 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(24px, 3vw, 40px); line-height: 1.02; letter-spacing: -0.035em; "><a href="/work/depin-day-seattle" style="border-bottom: 1px solid #FFFFFF">DePIN Day: Seattle</a></h3><p style="margin: 0; color: #D5D8DB; font-size: 19px">Co-organized and hosted, 2 years running. T-Mobile, HP and Borderless Capital on stage across 2024 and 2025. 65,000+ viewers on the X livestream. </p><p style="margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 4px 24px"><a href="/speaking/depin-day-seattle-2024" style="font-weight: 600; padding: 8px 0; border-bottom: 1px solid #FFFFFF">Watch 2024</a><a href="/speaking/depin-day-seattle-2025" style="font-weight: 600; padding: 8px 0; border-bottom: 1px solid #FFFFFF">Watch 2025</a></p></div>
-<picture style="display: contents"><source type="image/avif" srcset="/img/depin-stage-800.avif 800w, /img/depin-stage-1456.avif 1456w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/depin-stage-800.webp 800w, /img/depin-stage-1456.webp 1456w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/depin-stage.jpg" width="1456" height="721" loading="lazy" decoding="async" alt="The DePIN Day: Seattle stage from the back of the room" class="ci" style="flex: 1 1 280px; min-width: 0; max-width: 460px; width: 100%; aspect-ratio: 16 / 9; object-fit: cover"></picture>
+<section aria-label="Past events" style="padding: clamp(64px, 8vw, 96px) clamp(20px, 4.5vw, 64px) 40px">
+<h2 class="sec-h">Stages, conferences and streams</h2>
+<div>
+{featured.map((f) => (
+<article class="rv sp-item">
+<div class="sp-text"><h3 class="item-h"><a href={f.href}>{f.name}</a></h3><p style="margin: 0; color: #D5D8DB; font-size: 19px">{f.text}</p>
+<p class="links2" style="margin: 6px 0 0">{(f.links ?? [['See more', f.href]]).map(([label, href]) => <a href={href} class="go" style="font-weight: 600; padding: 8px 0; border-bottom: 1px solid #FFFFFF">{label}</a>)}</p></div>
+<a href={f.href} class="sp-media" aria-label={f.name} tabindex="-1">{f.yt
+  ? <img src={`https://i.ytimg.com/vi/${f.yt}/sddefault.jpg`} width="640" height="480" loading="lazy" decoding="async" alt={f.alt}>
+  : <picture style="display: contents"><source type="image/avif" srcset={`/img/${f.img}-800.avif 800w, /img/${f.img}-${f.big}.avif ${f.big}w`} sizes="(max-width: 800px) 100vw, 460px"><source type="image/webp" srcset={`/img/${f.img}-800.webp 800w, /img/${f.img}-${f.big}.webp ${f.big}w`} sizes="(max-width: 800px) 100vw, 460px"><img src={`/img/${f.img}.jpg`} width="1456" height="813" loading="lazy" decoding="async" alt={f.alt}></picture>}</a>
 </article>
-<article class="rv" style="display: flex; flex-wrap: wrap; gap: 20px 48px; padding: 36px 0; border-top: 1px solid #0A2C52; align-items: center">
-<div style="flex: 0 1 140px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 22px; font-variant-numeric: tabular-nums">2024 to 2025</div>
-<div style="flex: 3 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 6px"><h3 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(24px, 3vw, 40px); line-height: 1.02; letter-spacing: -0.035em; "><a href="/speaking/karate-combat" style="border-bottom: 1px solid #FFFFFF">Karate Combat</a></h3><p style="margin: 0; color: #D5D8DB; font-size: 19px">I hosted the pit side livestreams, calling fights live from next to the pit.</p></div>
-<picture style="display: contents"><source type="image/avif" srcset="/img/kc-pitside-800.avif 800w, /img/kc-pitside-1456.avif 1456w" sizes="(max-width: 800px) 100vw, 460px"><source type="image/webp" srcset="/img/kc-pitside-800.webp 800w, /img/kc-pitside-1456.webp 1456w" sizes="(max-width: 800px) 100vw, 460px"><img src="/img/kc-pitside.jpg" width="1456" height="813" loading="lazy" decoding="async" class="ci" alt="Action commentating pitside at a Karate Combat event" style="flex: 1 1 280px; min-width: 0; max-width: 460px; width: 100%; aspect-ratio: 16 / 9; object-fit: cover"></picture>
-</article>
-<article class="rv" style="display: flex; flex-wrap: wrap; gap: 20px 48px; padding: 36px 0; border-top: 1px solid #0A2C52; align-items: center">
-<div style="flex: 0 1 140px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 22px; font-variant-numeric: tabular-nums">2024</div>
-<div style="flex: 3 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 6px"><h3 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(24px, 3vw, 40px); line-height: 1.02; letter-spacing: -0.035em; "><a href="/speaking/derec-alliance" style="border-bottom: 1px solid #FFFFFF">DeRec Alliance</a></h3><p style="margin: 0; color: #D5D8DB; font-size: 19px">I hosted the DeRec Alliance community call on Hedera's YouTube channel. It's the featured video on derec.org.</p></div>
-<img src="https://i.ytimg.com/vi/qr5dz0QqCK0/sddefault.jpg" width="640" height="480" loading="lazy" decoding="async" class="ci" alt="Thumbnail of the DeRec Alliance community call hosted by Action" style="flex: 1 1 280px; min-width: 0; max-width: 460px; width: 100%; aspect-ratio: 16 / 9; object-fit: cover">
-</article>
+))}
+</div>
+<h3 class="item-h rv" style="margin: 56px 0 8px">Conferences</h3>
+<div class="rows">
+{conferences.map((c) => (
+<div class="row row-flat"><span class="row-main"><span class="row-name">{c.name}</span><span class="row-role">{c.what}</span></span></div>
+))}
 </div>
 </section>
-<section class="rv" aria-label="Topics" style="padding: 56px clamp(20px, 4.5vw, 64px) 96px">
-<h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); line-height: 1.02; letter-spacing: -0.035em; ">What I talk about</h2>
-<p style="margin: 0; max-width: 760px; font-size: 20px; color: #D5D8DB">AI, DePIN, crypto and go-to-market. All of it in plain English.</p>
+<section class="rv" aria-label="Topics" style="padding: 56px clamp(20px, 4.5vw, 64px) 96px; display: flex; flex-direction: column; gap: 20px; align-items: flex-start">
+<h2 class="sec-h" style="margin-bottom: 8px">What I talk about</h2>
+<ul class="tags tags-lg" aria-label="Topics">{topics.map((t) => <li>{t}</li>)}</ul>
+<p style="margin: 0; font-size: 20px; color: #D5D8DB">All of it in plain English.</p>
 </section>
 <section class="rv" id="book" aria-label="Booking form" style="background: #002346; padding: 96px clamp(20px, 4.5vw, 64px); display: flex; flex-wrap: wrap; gap: 40px 64px">
 <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 16px">
-<h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(34px, 4.8vw, 68px); line-height: 1.02; letter-spacing: -0.035em; ">Book me</h2>
+<h2 class="callout-h">Book me</h2>
 <p style="margin: 0; max-width: 420px; font-size: 19px; color: #E3E6E9">Tell me about the event. The more detail, the faster I can say yes.</p>
 </div>
 <form data-form method="post" action="/api/contact" novalidate style="flex: 2 1 480px; min-width: 0; max-width: 720px; display: flex; flex-direction: column; gap: 20px">
