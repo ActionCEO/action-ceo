@@ -5,6 +5,8 @@ import { SITE } from '../site';
 import LatestVideo from '../components/LatestVideo.astro';
 import TelegramNote from '../components/TelegramNote.astro';
 import Icon from '../components/Icon.astro';
+import LiveBar from '../components/LiveBar.astro';
+import CallOut from '../components/CallOut.astro';
 // Each row gets a small mark: a logo file from public/img, the YouTube icon, or 2 letters until a logo file arrives.
 const work = [
   { name: SITE.channel, role: 'My main channel. My takes on AI, DePIN and crypto since 2021', href: SITE.youtube, yt: true },
@@ -43,15 +45,7 @@ const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 </div>
 </div>
 
-<div class="ticker" style="position: relative; border-top: 1px solid rgba(165,170,175,0.35); padding: 18px clamp(20px, 4.5vw, 64px); display: flex; flex-wrap: wrap; align-items: center; gap: 10px 36px; font-size: 16px">
-<div style="display: flex; align-items: center; gap: 12px">
-<span class="air-dot" aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: #69BE28; animation: airpulse 1.6s ease-in-out infinite"></span>
-<span style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; letter-spacing: 0.06em">ACTION ITEMS</span>
-</div>
-<span style="color: #D5D8DB">Live Fridays, 9:30am Pacific</span>
-<span style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-variant-numeric: tabular-nums"><span data-countdown>Next show: Friday</span></span>
-<a href={`${SITE.youtube}/live`} rel="noopener" class="ticker-cta ext" style="margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 4px 0; border-bottom: 1px solid #FFFFFF"><Icon name="youtube" size={20} />Watch live on YouTube<span class="sr">, opens in a new tab</span></a>
-</div>
+<div style="position: relative; padding: 0 clamp(20px, 4.5vw, 64px) 40px"><LiveBar cta="watch" /></div>
 </header>
 
 <section class="rv" aria-label="By the numbers" style="padding: 96px clamp(20px, 4.5vw, 64px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 48px 32px">
@@ -103,10 +97,9 @@ const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 
 <TelegramNote />
 
-<section class="rv" id="talk" style="background: #002346; padding: 120px clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column; gap: 28px">
-<h2 style="margin: 0; max-width: 1000px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(36px, 5.2vw, 76px); line-height: 1; letter-spacing: -0.035em">Start with a video, an interview or a Space. If you want me on your stage after that, get in touch.</h2>
-<a href={SITE.youtube} rel="noopener" class="ext" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 12px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(22px, 2.4vw, 32px); padding: 8px 0; border-bottom: 3px solid #69BE28"><Icon name="youtube" size={30} />Watch {SITE.channel}<span class="sr">, opens in a new tab</span></a>
-<a href="/contact" style="align-self: flex-start; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Get in touch</a>
-<a href={`mailto:${SITE.email}`} style="align-self: flex-start; padding: 10px 0; border-bottom: 1px solid #FFFFFF">{SITE.email}</a>
-</section>
+<CallOut heading="Start with a video, an interview or a Space. If you want me on your stage after that, get in touch." links={[
+  { label: `Watch ${SITE.channel}`, href: SITE.youtube, icon: 'youtube', title: `${SITE.channel} on YouTube` },
+  { label: 'Get in touch', href: '/contact', icon: 'mail' },
+  { label: SITE.email, href: `mailto:${SITE.email}` },
+]} />
 </Base>

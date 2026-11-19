@@ -1,0 +1,17 @@
+---
+// The closing box on a page: 1 big line, an optional row of labels or a short note (slot), then the links.
+// Every page uses this, so the size, the green underline and the icons match everywhere.
+// links: the first is the main one (big, green underline). icon: 'mail', 'youtube' or none. External links get the new-tab mark.
+import Icon from './Icon.astro';
+const { heading, links = [], id = 'talk' } = Astro.props;
+const ext = (h: string) => /^https?:/.test(h);
+---
+<section class="rv callout" id={id}>
+  <h2 class="callout-h">{heading}</h2>
+  <slot />
+  <div class="callout-links">
+    {links.map((l: { label: string; href: string; icon?: string; title?: string }, i: number) => (
+      <a href={l.href} title={l.title} rel={ext(l.href) ? 'noopener' : undefined} class:list={[i === 0 ? 'cta-link' : 'cta-sub', ext(l.href) ? 'ext' : l.href.startsWith('mailto:') ? '' : 'go']}>{l.icon && <Icon name={l.icon} size={i === 0 ? 28 : 20} />}{l.label}{ext(l.href) && <span class="sr">, opens in a new tab</span>}</a>
+    ))}
+  </div>
+</section>

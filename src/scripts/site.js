@@ -24,7 +24,7 @@ if (cds.length) {
     const m = Math.floor(s / 60); s -= m * 60;
     for (const el of cds) {
       const lead = el.dataset.countdown || 'Next show in ';
-      el.textContent = live ? 'On air now' : `${lead}${d}d ${pad(h)}h ${pad(m)}m ${pad(s)}s`;
+      el.textContent = live ? 'On air now' : `${lead}${d}d\u00A0${pad(h)}h\u00A0${pad(m)}m\u00A0${pad(s)}s`; // non-breaking spaces: the time wraps as 1 piece
     }
   };
   tick(); setInterval(tick, 1000);

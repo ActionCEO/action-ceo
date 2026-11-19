@@ -1,0 +1,17 @@
+---
+// The "next live show" bar: green edge, a live dot, the countdown to Friday 9:30am Pacific, and 1 YouTube button.
+// Home and Shows both use it so the 2 pages match. cta: 'watch' (the live page) or 'subscribe'.
+import Icon from './Icon.astro';
+import { SITE } from '../site';
+const { cta = 'watch' } = Astro.props;
+const href = cta === 'subscribe' ? `${SITE.youtube}?sub_confirmation=1` : `${SITE.youtube}/live`;
+const label = cta === 'subscribe' ? 'Subscribe on YouTube' : 'Watch live on YouTube';
+const title = cta === 'subscribe' ? `Subscribe to ${SITE.channel} on YouTube` : `${SITE.channel} live on YouTube`;
+---
+<div class="livebar">
+  <div style="display: flex; flex-direction: column; gap: 6px; min-width: 0">
+    <span style="display: flex; align-items: center; gap: 12px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.08em; color: #D5D8DB"><span class="air-dot" aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: #69BE28; animation: airpulse 1.6s ease-in-out infinite"></span>NEXT LIVE SHOW</span>
+    <span style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(22px, 2.4vw, 30px); font-variant-numeric: tabular-nums"><span data-countdown="Action Items in ">Action Items, Fridays 9:30am Pacific</span></span>
+  </div>
+  <a href={href} rel="noopener" title={title} class="btn-line ext"><Icon name="youtube" size={22} />{label}<span class="sr">, opens in a new tab</span></a>
+</div>

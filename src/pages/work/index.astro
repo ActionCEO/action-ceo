@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import { SITE } from '../../site';
 import Icon from '../../components/Icon.astro';
+import CallOut from '../../components/CallOut.astro';
 import { getCollection } from 'astro:content';
 // Each row has 1 preview: it fills the panel on the right on desktop and sits under the row on phones.
 // pos keeps Action in frame when a wide photo is cropped to the tall panel (object-position).
@@ -57,10 +58,8 @@ const DO = ['Hosting', 'Speaking', 'Video', 'Live shows', 'Marketing', 'PR', 'Go
 ))}
 </div>
 </section>
-<section class="rv callout">
-<h2 class="sec-h" style="margin-bottom: 0; max-width: 1100px">I host shows and events, make videos, and run marketing, PR and go-to-market for teams in AI, DePIN and crypto.</h2>
+<CallOut heading="I host shows and events, make videos, and run marketing, PR and go-to-market for teams in AI, DePIN and crypto." links={[{ label: 'Get in touch', href: '/contact', icon: 'mail' }]}>
 <ul class="tags" aria-label="What I do">{DO.map((d) => <li>{d}</li>)}</ul>
 <p style="margin: 0; font-size: 20px; color: #D5D8DB">Tell me what you need and I'll tell you if I'm the right fit.</p>
-<a href="/contact" class="btn-solid"><Icon name="mail" size={20} />Get in touch</a>
-</section>
+</CallOut>
 </Base>
