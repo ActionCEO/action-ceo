@@ -52,6 +52,8 @@ summary{cursor:pointer}
 .hero-img{object-position:50% 30%}
 /* Phones and tablets (up to 1100px): the photo sits in the top half so the headline never covers the face. */
 @media (max-width:1100px){
+  .home-hero{min-height:0 !important}
+  .px{animation:none !important}
   .hero-img{object-position:30% 22%;inset:0 0 auto 0 !important;height:62vh !important}
   .hero-shade{background:linear-gradient(to bottom, rgba(6,17,31,.55) 0, rgba(6,17,31,0) 16%, rgba(6,17,31,0) 38vh, #06111F 62vh) !important}
   .nav-room{height:46vh}
@@ -80,8 +82,8 @@ summary{cursor:pointer}
 .strip img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
 .pv{transition:opacity .35s ease}
 .row-thumb{display:none}
-@media (max-width:800px){[data-pv]{color:#FFFFFF !important}}
-@media (max-width:800px){.pvpanel{display:none !important}.row-thumb{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;margin-top:12px}span.row-thumb{display:flex}}
+@media (max-width:949px){[data-pv]{color:#FFFFFF !important}}
+@media (max-width:949px){.pvpanel{display:none !important}.row-thumb{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;margin-top:12px}span.row-thumb{display:flex}}
 [data-step][aria-pressed="true"],[data-ch][aria-pressed="true"]{color:#FFFFFF !important;border-left-color:#69BE28 !important}
 [data-pv].on{color:#FFFFFF !important}
 .ytplay{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;background:rgba(6,17,31,.25);color:#06111F;cursor:pointer;display:flex;align-items:center;justify-content:center}
@@ -201,7 +203,7 @@ html .prog{display:block;animation:prog linear both;animation-timeline:scroll(ro
 .pvpanel{flex:2 1 320px;position:sticky;top:96px;aspect-ratio:4/5;max-height:calc(100vh - 128px);background:#002346;overflow:hidden}
 .pv-genzio{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 38%,#7C4DFF 0%,#4A1FB8 48%,#1C0B4A 100%)}
 span.pv-genzio{position:static;aspect-ratio:16/9}
-@media (min-width:801px){.row-thumb.pv-genzio{display:none}}
+@media (min-width:950px){.row-thumb.pv-genzio{display:none}}
 .pv-show{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:20px;padding:24px;background:linear-gradient(160deg,#0A2C52,#06111F)}
 .pv-show img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border:1px solid #12355E}
 .pv-live{display:inline-flex;align-items:center;gap:10px;font:800 16px 'Montserrat',Arial,sans-serif;letter-spacing:.04em;text-transform:uppercase}
@@ -244,3 +246,14 @@ span.pv-genzio{position:static;aspect-ratio:16/9}
 .item-h a:hover{color:#FFFFFF;text-decoration-color:#69BE28}
 .row-flat .row-name{font-size:clamp(19px,1.9vw,24px)}
 .tags-lg li{padding:10px 18px;font-size:clamp(16px,1.6vw,20px);color:#FFFFFF}
+/* <source> inside a display:contents <picture> must not become a flex item (it added stray gaps beside photos). */
+picture>source{display:none}
+/* Live bar button: 1 line always; full width on phones. */
+.livebar .btn-line{white-space:nowrap}
+@media (max-width:600px){.livebar .btn-line{width:100%;justify-content:center;padding-inline:12px}}
+/* The new-tab arrow inside a button or flex link: the gap already spaces it. */
+.btn-line.ext::after,.cta-link.ext::after,.cta-sub.ext::after,.links2 .ext::after{margin-left:0}
+/* Work: pause button for the cycling preview. */
+.pv-pause{position:absolute;right:12px;bottom:12px;z-index:2;min-height:36px;padding:6px 12px;border:1px solid rgba(255,255,255,.5);border-radius:2px;background:rgba(6,17,31,.72);color:#FFFFFF;font:700 13px 'Montserrat',Arial,sans-serif;cursor:pointer}
+.pv-pause[hidden]{display:none}
+@media (max-width:1100px){.page-hero-shade{background:linear-gradient(to right,#06111F 0%,rgba(6,17,31,.88) 45%,rgba(6,17,31,.45) 100%),linear-gradient(to top,#06111F 0%,rgba(6,17,31,0) 45%) !important}}

@@ -24,7 +24,7 @@ if (cds.length) {
     const m = Math.floor(s / 60); s -= m * 60;
     for (const el of cds) {
       const lead = el.dataset.countdown || 'Next show in ';
-      el.textContent = live ? 'On air now' : `${lead}${d}d\u00A0${pad(h)}h\u00A0${pad(m)}m\u00A0${pad(s)}s`; // non-breaking spaces: the time wraps as 1 piece
+      el.textContent = live ? 'On air now' : `${lead}${d ? d + 'd\u00A0' : ''}${pad(h)}h\u00A0${pad(m)}m\u00A0${pad(s)}s`; // non-breaking spaces: the time wraps as 1 piece
     }
   };
   tick(); setInterval(tick, 1000);
@@ -152,16 +152,26 @@ const show = (row) => {
   pvs.forEach((i) => { i.style.opacity = i.dataset.pvImg === row.dataset.pv ? 1 : 0; });
 };
 if (rows.length) {
-  let at = 0, steps = 0, timer = 0, seen = false;
-  const stop = () => { clearInterval(timer); timer = 0; steps = Infinity; };
-  const tick = () => { if (document.hidden || !seen) return; at = (at + 1) % rows.length; show(rows[at]); if (++steps >= rows.length * 2) stop(); };
+  let at = 0, steps = 0, timer = 0, seen = false, paused = false;
+  const pause = document.querySelector('[data-pv-pause]');
+  const stop = () => { clearInterval(timer); timer = 0; steps = Infinity; if (pause) pause.hidden = true; };
+  const tick = () => { if (document.hidden || !seen || paused) return; at = (at + 1) % rows.length; show(rows[at]); if (++steps >= rows.length * 2) stop(); };
   rows.forEach((r) => ['mouseenter', 'focus', 'touchstart'].forEach((ev) => r.addEventListener(ev, () => { stop(); show(r); }, { passive: true })));
   const panel = document.querySelector('.pvpanel');
-  if (panel && !reduce && matchMedia('(min-width: 801px)').matches && 'IntersectionObserver' in window) {
+  if (panel && !reduce && matchMedia('(min-width: 950px)').matches && 'IntersectionObserver' in window) {
     new IntersectionObserver((es) => { seen = es[0].isIntersecting; }, { threshold: 0.3 }).observe(panel);
     timer = setInterval(tick, 4000);
+    // A visible way to hold the picture still while it is cycling.
+    if (pause) { pause.hidden = false; pause.addEventListener('click', () => { paused = !paused; pause.textContent = paused ? 'Play' : 'Pause'; }); }
   }
 }
+
+// Pictures with a stand-in: if the first file is missing (some YouTube thumbnails are), show the stand-in.
+$$('img[data-fallback]').forEach((img) => {
+  const swap = () => { if (img.dataset.fallback) { img.src = img.dataset.fallback; delete img.dataset.fallback; } };
+  img.addEventListener('error', swap);
+  if (img.complete && !img.naturalWidth) swap();
+});
 
 // Country lookup: 1 request per page view, shared by the player and analytics. 'XX' means unknown.
 // Visitors in the EU, EEA, UK and Switzerland, and anyone whose country is unknown, are asked first.

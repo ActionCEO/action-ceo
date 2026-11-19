@@ -28,7 +28,7 @@ const watchHref = newestPost ? `/blog/${newestPost.id}` : newest ? `https://www.
 const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 ---
 <Base page="home" overlay>
-<header style="position: relative; min-height: 900px; display: flex; flex-direction: column; overflow: hidden">
+<header class="home-hero" style="position: relative; min-height: 900px; display: flex; flex-direction: column; overflow: hidden">
 <picture style="display: contents"><source type="image/avif" srcset="/img/studio-hero-800.avif 800w, /img/studio-hero-1920.avif 1920w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/studio-hero-800.webp 800w, /img/studio-hero-1920.webp 1920w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/studio-hero.jpg" width="1920" height="1080" loading="eager" fetchpriority="high" decoding="async" class="hero-img hero-flip" alt="Action smiling at the camera in his studio, guitars on the wall behind him" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"></picture>
 {heroVideo && <video data-hero-video data-src="/video/hero-stage.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 30%; opacity: 0; transition: opacity 600ms cubic-bezier(.4,0,.2,1)"></video>}
 <div aria-hidden="true" class="hero-shade" style="position: absolute; inset: 0; background: linear-gradient(to top, #06111F 0%, rgba(6,17,31,0.78) 30%, rgba(6,17,31,0.2) 58%, rgba(6,17,31,0.82) 100%)"></div>
