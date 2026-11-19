@@ -221,8 +221,8 @@ span.pv-genzio{position:static;aspect-ratio:16/9}
 /* Next live show bar (src/components/LiveBar.astro). */
 .livebar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 40px;padding:24px 28px;background:#002346;border-left:3px solid #69BE28}
 /* Shows: 1 size for every picture or logo panel beside a show. */
-.show-media{flex:1 1 260px;align-self:flex-start;min-width:0;width:100%;max-width:420px;height:auto;aspect-ratio:16/9;object-fit:cover}
-@media (max-width:800px){.show-media{flex-basis:100%;max-width:none}}
+.show-media{flex:0 0 auto;align-self:flex-start;width:min(360px,100%);height:auto;aspect-ratio:16/9;object-fit:cover}
+@media (max-width:800px){.show-media{width:100%}}
 .genzio-bg{background:radial-gradient(circle at 50% 38%,#7C4DFF 0%,#4A1FB8 48%,#1C0B4A 100%)}
 /* A short set of links: side by side on desktop, 2 to a line on phones. */
 .links2{display:flex;flex-wrap:wrap;gap:4px 24px}
