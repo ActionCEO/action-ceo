@@ -281,3 +281,29 @@ picture>source{display:none}
 #search .pagefind-ui__result-thumb{width:200px;max-width:34%;aspect-ratio:16/9}
 #search .pagefind-ui__result-image{width:100%;height:100%;object-fit:cover}
 #search .pagefind-ui__result-link{font:800 clamp(18px,1.8vw,24px)/1.2 'Montserrat',Arial,sans-serif}
+/* Post page. Top: the video stays in view while a long chapter list scrolls beside it. Body: the written post on the
+   left at a comfortable reading width, and a side column (short version, subscribe, share) that follows the page.
+   On phones the side column comes first, then the post. */
+.post-top{padding-bottom:72px;display:flex;flex-wrap:wrap;gap:32px 48px;align-items:flex-start}
+.post-video{flex:3 1 520px;min-width:0}
+@media (min-width:1000px){.post-video{position:sticky;top:96px}}
+.post-body{padding-bottom:80px;display:flex;flex-direction:column;gap:40px}
+.post-side{display:flex;flex-direction:column;gap:24px}
+.post-main{min-width:0}
+@media (min-width:1100px){
+  .post-body{display:grid;grid-template-columns:minmax(0,760px) minmax(280px,1fr);column-gap:clamp(48px,6vw,96px);align-items:start}
+  .post-main{grid-column:1;grid-row:1}
+  .post-side{grid-column:2;grid-row:1;position:sticky;top:96px;max-width:440px}
+  .post-main .prose{max-width:none}
+}
+.post-transcript{margin-top:40px;padding:16px 0;border-top:1px solid #0A2C52;border-bottom:1px solid #0A2C52}
+.post-transcript summary{min-height:44px;display:flex;align-items:center;cursor:pointer;color:#A5AAAF;font:700 16px 'Montserrat',Arial,sans-serif}
+.post-transcript summary:hover{color:#FFFFFF}
+.post-nav{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.post-nav-a{display:flex;flex-direction:column;gap:8px;padding:20px;border:1px solid #12355E;border-radius:2px;background:#06111F}
+.post-nav-a:hover{border-color:#69BE28;color:#FFFFFF}
+.post-nav-k{display:inline-flex;align-items:center;gap:6px;font:800 13px 'Montserrat',Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#A5AAAF}
+.post-nav-t{font:700 clamp(17px,1.6vw,22px)/1.25 'Montserrat',Arial,sans-serif}
+@media (max-width:600px){.post-nav{grid-template-columns:1fr}.post-nav-a{text-align:left !important;align-items:flex-start !important}}
+.row-pic{flex:none;display:block;width:112px;height:auto;aspect-ratio:16/9;object-fit:cover}
+@media (max-width:600px){.row-pic{width:88px}}

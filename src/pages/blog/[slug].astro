@@ -7,6 +7,7 @@ import { getEntry, render, getCollection } from 'astro:content';
 import { livePosts, catName, tagName, fmtDate, clock } from '../../lib/content';
 import { videoObject, ytWatch, ytThumb, mss } from '../../lib/youtube';
 import Icon from '../../components/Icon.astro';
+import CallOut from '../../components/CallOut.astro';
 export async function getStaticPaths() { return (await livePosts()).map((post) => ({ params: { slug: post.id }, props: { post } })); }
 const { post } = Astro.props;
 const { Content } = await render(post);
@@ -14,6 +15,10 @@ const video = await getEntry(post.data.video);
 const transcript = (await getCollection('transcripts')).find((t) => t.data.video.id === video.id);
 const T = transcript ? await render(transcript) : null;
 const related = (await livePosts()).filter((p) => p.id !== post.id).sort((a, b) => Number(b.data.category === post.data.category) - Number(a.data.category === post.data.category)).slice(0, 3);
+// Newer and older posts, by publish date, for the 2 buttons under the post.
+const all = await livePosts(), at = all.findIndex((p) => p.id === post.id);
+const newer = at > 0 ? all[at - 1] : null, older = at >= 0 && at < all.length - 1 ? all[at + 1] : null;
+const live = video.data.kind === 'live';
 const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
 const url = `${BASE}/blog/${post.id}`;
 const published = (post.data.publishedAt ?? new Date()).toISOString();
@@ -34,12 +39,13 @@ const graph = [
 <div class="prog" aria-hidden="true"></div>
 <span hidden data-pagefind-meta="image[data-img]" data-img={ytThumb(video.data.youtubeId, 'hqdefault')}></span>
 <article>
-  <header class="pad" style="padding-top: clamp(32px, 5vw, 72px); padding-bottom: 40px; display: flex; flex-direction: column; gap: 20px; max-width: 1100px">
-    <nav aria-label="Breadcrumb" style="display: flex; flex-wrap: wrap; gap: 4px 20px; color: #A5AAAF; font-size: 16px"><a href="/blog" style="color: #D5D8DB; padding: 10px 0">Blog</a><span style="padding: 10px 0">{catName(post.data.category)}</span><time datetime={published} style="padding: 10px 0">{post.data.publishedAt ? fmtDate(post.data.publishedAt) : 'Draft'}</time><span style="padding: 10px 0">By <a href="/about" style="border-bottom: 1px solid #A5AAAF">Action</a></span></nav>
-    <h1 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(34px, 5vw, 72px); line-height: 1.02; letter-spacing: -0.035em`}>{post.data.title}</h1>
+  <header class="pad" style="padding-top: clamp(32px, 5vw, 72px); padding-bottom: 40px; display: flex; flex-direction: column; gap: 20px">
+    <nav aria-label="Breadcrumb" style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; color: #A5AAAF; font-size: 16px"><a href="/blog" style="color: #D5D8DB; padding: 10px 0">Blog</a><span style="padding: 10px 0">{catName(post.data.category)}</span><time datetime={published} style="padding: 10px 0">{post.data.publishedAt ? fmtDate(post.data.publishedAt) : 'Draft'}</time><span style="padding: 10px 0">By <a href="/about" style="border-bottom: 1px solid #A5AAAF">Action</a></span>{live && <span class="live-tag"><i class="live-dot" aria-hidden="true"></i>Live show</span>}</nav>
+    <h1 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(34px, 5vw, 72px); line-height: 1.02; letter-spacing: -0.035em; text-wrap: balance`}>{post.data.title}</h1>
+    {live && <p style="margin: 0; font-size: 18px; color: #D5D8DB">This was a live show: recorded in 1 take with no edits{post.data.category === 'action-items' && <Fragment>, on <a href="/shows/action-items" style="border-bottom: 1px solid #A5AAAF">Action Items</a>, Fridays at 9:30am Pacific</Fragment>}.</p>}
   </header>
-  <section class="pad" aria-label="Video and chapters" style="padding-bottom: 72px; display: flex; flex-wrap: wrap; gap: 32px 48px; align-items: flex-start">
-    <div style="flex: 3 1 520px; min-width: 0"><Video id={video.data.youtubeId} title={video.data.title} eager /></div>
+  <section class="pad post-top" aria-label="Video and chapters">
+    <div class="post-video"><Video id={video.data.youtubeId} title={video.data.title} eager /></div>
     {video.data.chapters.length > 0 && (
       <div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column">
         <h2 style={`margin: 0; font-family: ${F}; font-weight: 700; font-size: 22px; padding-bottom: 12px`}>Chapters</h2>
@@ -54,41 +60,50 @@ const graph = [
       </div>
     )}
   </section>
-  <section class="pad" aria-label="Post" style="padding-bottom: 72px">
-    {post.data.takeaways.length > 0 && (
-      <div style="max-width: 720px; border-left: 3px solid #326496; padding: 4px 0 4px 20px; margin-bottom: 32px">
-        <h2 style={`margin: 0 0 8px; font-family: ${F}; font-weight: 700; font-size: 22px`}>The short version</h2>
-        <ul style="margin: 0; padding-left: 20px; font-size: 19px; line-height: 1.7; color: #E3E6E9">{post.data.takeaways.map((t) => <li>{t}</li>)}</ul>
+  <section class="pad post-body" aria-label="Post">
+    <aside class="post-side">
+      {post.data.takeaways.length > 0 && (
+        <div style="border-left: 3px solid #69BE28; padding: 4px 0 4px 20px">
+          <h2 style={`margin: 0 0 8px; font-family: ${F}; font-weight: 700; font-size: 22px`}>The short version</h2>
+          <ul style="margin: 0; padding-left: 20px; font-size: 18px; line-height: 1.6; color: #E3E6E9">{post.data.takeaways.map((t) => <li style="margin-bottom: 8px">{t}</li>)}</ul>
+        </div>
+      )}
+      <a href={`${SITE.youtube}?sub_confirmation=1`} rel="noopener" title={`Subscribe to ${SITE.channel} on YouTube`} class="btn-line ext" style="align-self: flex-start"><Icon name="youtube" size={22} />Subscribe to {SITE.channel}<span class="sr">, opens in a new tab</span></a>
+      {SITE.telegram && <a href={SITE.telegram} rel="noopener" style="align-self: flex-start; font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Talk about it on Telegram</a>}
+      <div class="share" role="group" aria-label="Share this post">
+        <button type="button" class="chip" data-share="native" hidden>Share</button>
+        <button type="button" class="chip" data-share="copy"><span data-share-label aria-live="polite">Copy link</span></button>
+        <a class="chip" href={`https://x.com/intent/post?text=${shareText}&url=${shareUrl}`} rel="noopener"><Icon name="x" size={16} />Post on X</a>
+        <a class="chip" href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`} rel="noopener"><Icon name="linkedin" size={16} />Share on LinkedIn</a>
+        <a class="chip" href={`https://t.me/share/url?url=${shareUrl}&text=${shareText}`} rel="noopener"><Icon name="telegram" size={16} />Send on Telegram</a>
       </div>
-    )}
-    <div class="prose"><Content /></div>
-    {T && (
-      <details data-transcript data-pagefind-ignore style="max-width: 720px; border-top: 1px solid #0A2C52; border-bottom: 1px solid #0A2C52; padding: 20px 0; margin-top: 32px">
-        <summary style={`font-family: ${F}; font-weight: 700; font-size: 20px; min-height: 44px`}>Read the full transcript</summary>
-        <div class="prose" style="font-size: 17px; color: #D5D8DB; margin-top: 16px"><T.Content /></div>
-      </details>
-    )}
-    <div style="display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; padding-top: 40px">
-      <a href={SITE.youtube} rel="noopener" style={`background: #69BE28; color: #06111F; font-family: ${F}; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 2px`}>Subscribe on YouTube</a>
-      {SITE.telegram && <a href={SITE.telegram} rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Talk about it on Telegram</a>}
-    </div>
-    <div class="share" role="group" aria-label="Share this post" style="padding-top: 28px">
-      <button type="button" class="chip" data-share="native" hidden>Share</button>
-      <button type="button" class="chip" data-share="copy"><span data-share-label aria-live="polite">Copy link</span></button>
-      <a class="chip" href={`https://x.com/intent/post?text=${shareText}&url=${shareUrl}`} rel="noopener"><Icon name="x" size={16} />Post on X</a>
-      <a class="chip" href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`} rel="noopener"><Icon name="linkedin" size={16} />Share on LinkedIn</a>
-      <a class="chip" href={`https://t.me/share/url?url=${shareUrl}&text=${shareText}`} rel="noopener"><Icon name="telegram" size={16} />Send on Telegram</a>
+    </aside>
+    <div class="post-main">
+      <div class="prose"><Content /></div>
+      {T && (
+        <details data-transcript data-pagefind-ignore class="post-transcript">
+          <summary>Full transcript, word for word</summary>
+          <div class="prose" style="font-size: 17px; color: #D5D8DB; margin-top: 16px"><T.Content /></div>
+        </details>
+      )}
     </div>
   </section>
 </article>
-{related.length > 0 && (
-  <section class="pad" aria-label="Related posts" style="padding-bottom: 96px">
-    <h2 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); letter-spacing: -0.035em`}>Keep going</h2>
-    <div style="margin-top: 28px; display: flex; flex-direction: column">
-      {related.map((r) => <a href={`/blog/${r.id}`} style={`padding: 22px 0; border-top: 1px solid #0A2C52; font-family: ${F}; font-weight: 700; font-size: clamp(20px, 2.2vw, 28px)`}>{r.data.title}</a>)}
-    </div>
-  </section>
-)}
+<section class="pad alt" aria-label="More videos" style="padding-top: clamp(56px, 7vw, 96px); padding-bottom: clamp(56px, 7vw, 96px)">
+  <h2 class="sec-h">More videos</h2>
+  {(newer || older) && <div class="post-nav">
+    {older ? <a href={`/blog/${older.id}`} class="post-nav-a"><span class="post-nav-k"><Icon name="left" size={18} />Previous</span><span class="post-nav-t">{older.data.title}</span></a> : <span></span>}
+    {newer ? <a href={`/blog/${newer.id}`} class="post-nav-a" style="text-align: right; align-items: flex-end"><span class="post-nav-k">Next<Icon name="right" size={18} /></span><span class="post-nav-t">{newer.data.title}</span></a> : <span></span>}
+  </div>}
+  {related.length > 0 && <div class="rows" style="display: flex; flex-direction: column; margin-top: 32px">
+    {related.map((r) => <a href={`/blog/${r.id}`} class="row"><img src={ytThumb(r.data.youtubeVideoId, 'hqdefault')} alt="" width="480" height="360" loading="lazy" decoding="async" class="row-pic"><span class="row-main"><span class="row-name">{r.data.title}</span><span class="row-role">{catName(r.data.category)}</span></span><span class="row-go" aria-hidden="true"><Icon name="go" size={22} /></span></a>)}
+  </div>}
+  <p style="margin: 28px 0 0"><a href="/blog" class="go" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">See all videos</a></p>
+</section>
+<CallOut heading="Got a topic you want covered? Send me a message." links={[
+  { label: 'Get in touch', href: '/contact', icon: 'mail' },
+  { label: `Subscribe to ${SITE.channel}`, href: `${SITE.youtube}?sub_confirmation=1`, icon: 'youtube', title: `Subscribe to ${SITE.channel} on YouTube` },
+]} />
 <script is:inline>
   // Deep links: /blog/post?t=250 starts the video at that chapter.
   (function () { var t = new URLSearchParams(location.search).get('t'); var box = document.querySelector('[data-yt]'); if (t && box) box.dataset.start = String(parseInt(t, 10) || 0); })();
