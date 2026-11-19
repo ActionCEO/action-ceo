@@ -1,28 +1,43 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
-import { SITE } from '../../site';
+import { SITE, PAGES } from '../../site';
 import { livePosts, catName, fmtDate, CATEGORIES } from '../../lib/content';
 const posts = await livePosts();
 const F = "'Montserrat', Arial, sans-serif";
+const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
+const url = `${BASE}/blog`;
+// Topic buttons: only topics that have a post, in the order of src/data/categories.yaml.
+const cats = CATEGORIES.map((c) => ({ ...c, n: posts.filter((p) => p.data.category === c.slug).length })).filter((c) => c.n > 0);
+// Search engines get the list as data too: the blog, every post in order, and the breadcrumb.
+const graph = [
+  { '@type': 'CollectionPage', '@id': `${url}#webpage`, url, name: PAGES.blog.title, description: PAGES.blog.description, inLanguage: 'en-US', isPartOf: { '@id': `${BASE}/#website` }, about: { '@id': `${BASE}/#person` }, breadcrumb: { '@id': `${url}#breadcrumb` }, mainEntity: { '@id': `${url}#blog` } },
+  { '@type': 'Blog', '@id': `${url}#blog`, url, name: 'Action: AI, DePIN and crypto video blog', inLanguage: 'en-US', author: { '@id': `${BASE}/#person` }, publisher: { '@id': `${BASE}/#person` },
+    blogPost: posts.map((p) => ({ '@type': 'BlogPosting', '@id': `${BASE}/blog/${p.id}#article`, url: `${BASE}/blog/${p.id}`, headline: p.data.title, datePublished: p.data.publishedAt?.toISOString(), dateModified: (p.data.updatedAt ?? p.data.publishedAt)?.toISOString(), author: { '@id': `${BASE}/#person` }, image: `${BASE}/og/blog-${p.id}.png` })) },
+  { '@type': 'BreadcrumbList', '@id': `${url}#breadcrumb`, itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${BASE}/` }, { '@type': 'ListItem', position: 2, name: 'Blog', item: url }] },
+];
 ---
-<Base page="blog">
+<Base page="blog" graph={graph}>
 <Header current="Blog" />
 <header class="pad" style="padding-top: clamp(48px, 7vw, 104px); padding-bottom: 48px; display: flex; flex-direction: column; gap: 24px">
   <h1 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(44px, 7vw, 108px); line-height: 1.02; letter-spacing: -0.035em`}><span class="nw">Every video,</span> <span class="nw">written out.</span></h1>
   <p style="margin: 0; max-width: 680px; font-size: 20px; color: #D5D8DB">Each video gets its own page: <span class="nw">watch it</span>, skim the key points, or <span class="nw">read it</span> start to finish with the full transcript. Search by topic below.</p>
   <div id="search" style="max-width: 520px"></div>
+  {cats.length > 1 && <div class="chips" data-chips hidden role="group" aria-label="Filter by topic">
+    <button type="button" class="chip" data-filter="all" aria-pressed="true" aria-label={`All topics, ${posts.length} posts`}>All<small>{posts.length}</small></button>
+    {cats.map((c) => <button type="button" class="chip" data-filter={c.slug} aria-pressed="false" aria-label={`${c.name}, ${c.n} ${c.n === 1 ? 'post' : 'posts'}`}>{c.name}<small>{c.n}</small></button>)}
+  </div>}
 </header>
 <section class="pad rows" aria-label="Posts" style="padding-bottom: 96px">
   {posts.length === 0 && <p style="margin: 0; padding: 32px 0; border-top: 1px solid #0A2C52; font-size: 20px; color: #D5D8DB">Nothing to read yet. Plenty to watch. <a href={SITE.youtube} rel="noopener" style="border-bottom: 1px solid #FFFFFF">Watch on YouTube</a></p>}
-  {posts.map((p) => (
-    <a href={`/blog/${p.id}`} class="vcard" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 20px 40px; padding: 32px 0; border-top: 1px solid #0A2C52; align-items: center">
-      <img src={`https://i.ytimg.com/vi/${p.data.youtubeVideoId}/hq720.jpg`} onload={`if(this.naturalWidth<300&&!this.dataset.f){this.dataset.f=1;this.src='https://i.ytimg.com/vi/${p.data.youtubeVideoId}/hqdefault.jpg'}`} onerror={`this.onerror=null;this.src='https://i.ytimg.com/vi/${p.data.youtubeVideoId}/hqdefault.jpg'`} alt="" width="1280" height="720" loading="lazy" decoding="async" style="flex: 1 1 260px; max-width: 380px; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover">
-      <span style="flex: 3 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
-        <span style="font-size: 16px; color: #A5AAAF">{catName(p.data.category)} · {p.data.publishedAt ? fmtDate(p.data.publishedAt) : 'Draft'}</span>
-        <span style={`font-family: ${F}; font-weight: 800; font-size: clamp(22px, 2.8vw, 38px); line-height: 1.08; letter-spacing: -0.03em`}>{p.data.title}</span>
+  {posts.map((p, i) => (
+    <a href={`/blog/${p.id}`} class="vcard" data-cat={p.data.category} style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 20px 40px; padding: 32px 0; border-top: 1px solid #0A2C52; align-items: center">
+      <img src={`https://i.ytimg.com/vi/${p.data.youtubeVideoId}/hq720.jpg`} onload={`if(this.naturalWidth<300&&!this.dataset.f){this.dataset.f=1;this.src='https://i.ytimg.com/vi/${p.data.youtubeVideoId}/hqdefault.jpg'}`} onerror={`this.onerror=null;this.src='https://i.ytimg.com/vi/${p.data.youtubeVideoId}/hqdefault.jpg'`} alt="" width="1280" height="720" loading={i < 2 ? 'eager' : 'lazy'} decoding="async" style="flex: 1 1 260px; max-width: 380px; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover">
+      <div style="flex: 3 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 16px; color: #A5AAAF">{catName(p.data.category)} · {p.data.publishedAt ? <time datetime={p.data.publishedAt.toISOString()}>{fmtDate(p.data.publishedAt)}</time> : 'Draft'}</span>
+        <h2 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(22px, 2.8vw, 38px); line-height: 1.08; letter-spacing: -0.03em`}>{p.data.title}</h2>
         <span style="color: #D5D8DB">{p.data.excerpt}</span>
-      </span>
+      </div>
     </a>
   ))}
 </section>

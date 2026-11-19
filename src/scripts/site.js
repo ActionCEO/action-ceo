@@ -57,6 +57,64 @@ if (menuBtn && menu) {
   document.addEventListener('click', (e) => { if (menu.classList.contains('open') && !e.target.closest('.site-nav')) set(false); });
 }
 
+// Nav: sticks to the top, slides away on the way down the page and comes back on the way up.
+const navEl = document.querySelector('.site-nav');
+if (navEl) {
+  let last = Math.max(0, scrollY), queued = false;
+  const upd = () => {
+    queued = false;
+    const y = Math.max(0, scrollY);
+    navEl.classList.toggle('stuck', y > 24);
+    if (y < 160 || (menu && menu.classList.contains('open')) || navEl.querySelector(':focus-visible')) navEl.classList.remove('away');
+    else if (y > last + 8) navEl.classList.add('away');
+    else if (y < last - 8) navEl.classList.remove('away');
+    if (Math.abs(y - last) > 8) last = y;
+  };
+  // Keyboard focus landing in the nav brings it back at once.
+  navEl.addEventListener('focusin', () => navEl.classList.remove('away'));
+  addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(upd); } }, { passive: true });
+  upd();
+}
+
+// Reveals: each block fades up 1 time when it scrolls into view, then stays. Anything already on screen (or above it)
+// is left alone, and .mo goes on <html> only after that check, so nothing visible ever blinks out.
+const rv = $$('.rv, .rows > *, .ci');
+if (rv.length && !reduce && 'IntersectionObserver' in window) {
+  rv.forEach((el) => { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('in'); });
+  document.documentElement.classList.add('mo');
+  const io = new IntersectionObserver((es) => {
+    let n = 0;
+    es.forEach((e) => {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      e.target.style.setProperty('--d', `${Math.min(n++, 5) * 70}ms`);
+      e.target.classList.add('in');
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0 }); // 0, not a ratio: a fully clipped .ci image has no visible area to measure
+  rv.filter((el) => !el.classList.contains('in')).forEach((el) => io.observe(el));
+}
+
+// Blog: topic filter. The buttons only show with JavaScript; every post is in the page either way.
+const chipBox = document.querySelector('[data-chips]'), chips = $$('[data-filter]');
+if (chipBox) chipBox.hidden = false;
+chips.forEach((c) => c.addEventListener('click', () => {
+  chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
+  $$('[data-cat]').forEach((r) => { r.hidden = c.dataset.filter !== 'all' && r.dataset.cat !== c.dataset.filter; });
+}));
+
+// Posts: share. Phones get the system share sheet; everyone gets copy link.
+$$('[data-share]').forEach((b) => {
+  const native = b.dataset.share === 'native';
+  if (native) { if (!navigator.share) return; b.hidden = false; }
+  b.addEventListener('click', async () => {
+    const url = location.origin + location.pathname, h1 = document.querySelector('h1');
+    if (native) { try { await navigator.share({ title: h1 ? h1.textContent.trim() : document.title, url }); } catch {} return; }
+    const label = b.querySelector('[data-share-label]');
+    try { await navigator.clipboard.writeText(url); label.textContent = 'Link copied'; } catch { label.textContent = 'Copy failed'; }
+    setTimeout(() => { label.textContent = 'Copy link'; }, 2200);
+  });
+});
+
 // About: story chapters. A tap brings the chapter list to the top of the screen so the text below is in view.
 const steps = $$('[data-step]'), panels = $$('[data-panel]');
 if (steps.length) panels.forEach((p, i) => { p.hidden = i !== 0; });

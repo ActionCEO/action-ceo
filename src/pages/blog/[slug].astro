@@ -5,7 +5,8 @@ import Video from '../../components/Video.astro';
 import { SITE } from '../../site';
 import { getEntry, render, getCollection } from 'astro:content';
 import { livePosts, catName, tagName, fmtDate, clock } from '../../lib/content';
-import { videoObject, ytWatch, mss } from '../../lib/youtube';
+import { videoObject, ytWatch, ytThumb, mss } from '../../lib/youtube';
+import Icon from '../../components/Icon.astro';
 export async function getStaticPaths() { return (await livePosts()).map((post) => ({ params: { slug: post.id }, props: { post } })); }
 const { post } = Astro.props;
 const { Content } = await render(post);
@@ -19,15 +20,18 @@ const published = (post.data.publishedAt ?? new Date()).toISOString();
 const modified = (post.data.updatedAt ?? post.data.publishedAt ?? new Date()).toISOString();
 const og = `/og/blog-${post.id}.png`;
 const F = "'Montserrat', Arial, sans-serif";
+const words = (post.body ?? '').replace(/[#*_>\[\]()`]/g, ' ').split(/\s+/).filter(Boolean).length;
+const shareText = encodeURIComponent(post.data.title), shareUrl = encodeURIComponent(url);
 const graph = [
-  { '@type': 'WebPage', '@id': `${url}#webpage`, url, name: post.data.metaTitle, isPartOf: { '@id': `${BASE}/#website` }, breadcrumb: { '@id': `${url}#breadcrumb` } },
-  { '@type': 'BlogPosting', '@id': `${url}#article`, headline: post.data.title, description: post.data.metaDescription, datePublished: published, dateModified: modified, author: { '@id': `${BASE}/#person` }, publisher: { '@id': `${BASE}/#person` }, mainEntityOfPage: { '@id': `${url}#webpage` }, image: BASE + og, video: { '@id': `${url}#video` }, keywords: post.data.tags.map(tagName).join(', ') },
+  { '@type': 'WebPage', '@id': `${url}#webpage`, url, name: post.data.metaTitle, description: post.data.metaDescription, inLanguage: 'en-US', datePublished: published, dateModified: modified, primaryImageOfPage: { '@type': 'ImageObject', url: BASE + og, width: 1200, height: 630 }, isPartOf: { '@id': `${BASE}/#website` }, breadcrumb: { '@id': `${url}#breadcrumb` } },
+  { '@type': 'BlogPosting', '@id': `${url}#article`, headline: post.data.title, description: post.data.metaDescription, datePublished: published, dateModified: modified, author: { '@id': `${BASE}/#person` }, publisher: { '@id': `${BASE}/#person` }, mainEntityOfPage: { '@id': `${url}#webpage` }, image: [BASE + og, ytThumb(video.data.youtubeId, 'hqdefault')], inLanguage: 'en-US', articleSection: catName(post.data.category), wordCount: words, isPartOf: { '@id': `${BASE}/blog#blog` }, video: { '@id': `${url}#video` }, keywords: post.data.tags.map(tagName).join(', ') },
   videoObject({ url, base: BASE, video: video.data, description: post.data.metaDescription }),
   { '@type': 'BreadcrumbList', '@id': `${url}#breadcrumb`, itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${BASE}/` }, { '@type': 'ListItem', position: 2, name: 'Blog', item: `${BASE}/blog` }, { '@type': 'ListItem', position: 3, name: post.data.title, item: url }] },
 ];
 ---
 <Base title={`${post.data.metaTitle} | Action, YouTuber`} description={post.data.metaDescription} path={`/blog/${post.id}`} ogImage={og} type="article" graph={graph} noindex={post.data.draft} article={{ published, modified, tags: post.data.tags.map(tagName) }}>
 <Header current="Blog" />
+<div class="prog" aria-hidden="true"></div>
 <article>
   <header class="pad" style="padding-top: clamp(32px, 5vw, 72px); padding-bottom: 40px; display: flex; flex-direction: column; gap: 20px; max-width: 1100px">
     <nav aria-label="Breadcrumb" style="display: flex; flex-wrap: wrap; gap: 4px 20px; color: #A5AAAF; font-size: 16px"><a href="/blog" style="color: #D5D8DB; padding: 10px 0">Blog</a><span style="padding: 10px 0">{catName(post.data.category)}</span><time datetime={published} style="padding: 10px 0">{post.data.publishedAt ? fmtDate(post.data.publishedAt) : 'Draft'}</time><span style="padding: 10px 0">By <a href="/about" style="border-bottom: 1px solid #A5AAAF">Action</a></span></nav>
@@ -66,6 +70,13 @@ const graph = [
     <div style="display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; padding-top: 40px">
       <a href={SITE.youtube} rel="noopener" style={`background: #69BE28; color: #06111F; font-family: ${F}; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 2px`}>Subscribe on YouTube</a>
       {SITE.telegram && <a href={SITE.telegram} rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Talk about it on Telegram</a>}
+    </div>
+    <div class="share" role="group" aria-label="Share this post" style="padding-top: 28px">
+      <button type="button" class="chip" data-share="native" hidden>Share</button>
+      <button type="button" class="chip" data-share="copy"><span data-share-label aria-live="polite">Copy link</span></button>
+      <a class="chip" href={`https://x.com/intent/post?text=${shareText}&url=${shareUrl}`} rel="noopener"><Icon name="x" size={16} />Post on X</a>
+      <a class="chip" href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`} rel="noopener"><Icon name="linkedin" size={16} />Share on LinkedIn</a>
+      <a class="chip" href={`https://t.me/share/url?url=${shareUrl}&text=${shareText}`} rel="noopener"><Icon name="telegram" size={16} />Send on Telegram</a>
     </div>
   </section>
 </article>
