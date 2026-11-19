@@ -3,13 +3,13 @@ import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import { SITE } from '../site';
 const story = [
-  { label: 'Tech', year: '2005', title: 'I start in tech.', text: 'This is where it starts. Crypto is still 7 years away.' },
-  { label: 'GE Healthcare', year: 'Marketing', title: 'GE Healthcare.', text: 'I do marketing at a Fortune 500 company.' },
-  { label: 'COO', year: '6 years', title: 'I run a company.', text: '6 years as COO of a national education company. I was the main speaker and the main negotiator. I ran the company.' },
-  { label: 'Crypto', year: '2012', title: 'I get into crypto.', text: '9 years before Action Crypto exists.' },
+  { label: 'Tech', year: '2005', title: 'I start in tech.', text: "By 2005 I'm editing video in Adobe Premiere, running Google Ads, reading Google Analytics and running my own eBay business. Crypto is still 7 years away." },
+  { label: 'GE Healthcare', year: 'Fortune 500', title: 'Marketing at GE Healthcare.', text: 'Earlier in my career I did marketing at GE Healthcare and presented to leadership at a Fortune 500 company.' },
+  { label: 'COO', year: '6 years', title: 'I ran a company.', text: '6 years as COO of a national education company that ran summer camps. I was the main speaker and the main negotiator. When COVID sent everyone home, the camps stopped, and that chapter closed.' },
+  { label: 'Crypto', year: '2012', title: 'I get into crypto.', text: 'I start mining Bitcoin in 2012. In 2013 I add Dogecoin and Litecoin. That is 9 years before Action Crypto exists.' },
   { label: 'YouTube', year: '2021', title: 'I start Action Crypto.', text: "My takes on AI, DePIN and crypto. 1.6M+ views and 20.7K subscribers later, I'm still at it. In 2022 I join Genzio as host and live programming lead." },
-  { label: 'DePIN Day', year: '2024, 2025', title: 'I build my own event.', text: 'DePIN Day: Seattle. I created it, produced it and hosted it, 2 years running. T-Mobile, HP and Borderless Capital on stage across 2024 and 2025. 65,000+ viewers on the X livestream. Same stretch, I host livestreams for Karate Combat.' },
-  { label: 'LFG', year: 'Now', title: 'Partner at Laissez-Faire Group.', text: "I'm the Chief Communications Officer. I'm also live every Friday on Action Items." },
+  { label: 'DePIN Day', year: '2024, 2025', title: 'I build events.', text: 'DePIN Day: Seattle. I co-organized it and hosted it, 2 years running. T-Mobile, HP and Borderless Capital on stage across 2024 and 2025. 65,000+ viewers on the X livestream. Same stretch, I host livestreams for Karate Combat.' },
+  { label: 'LFG', year: 'Now', title: 'Partner at Laissez-Faire Group.', text: "I'm a Partner and the Chief Communications Officer. Go-to-market strategy, marketing and communications sit with me, and I host the founder interviews on LFG Action. I'm also live every Friday on Action Items." },
 ];
 const steps = story.map((s) => ({ label: s.label, rule: '#0A2C52', color: '#8A9099' }));
 ---
@@ -29,7 +29,7 @@ const steps = story.map((s) => ({ label: s.label, rule: '#0A2C52', color: '#8A90
 <p style="margin: 0; max-width: 1180px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(26px, 3.6vw, 52px); line-height: 1.14; letter-spacing: -0.03em; text-wrap: pretty">Breaking things down so everyone can follow matters more than people think. It was my job as a COO. It's my job now.</p>
 </section>
 
-<section class="rv" aria-label="My story" style="padding: 0 clamp(20px, 4.5vw, 64px) 120px">
+<section class="rv" aria-label="My story" data-story style="padding: 0 clamp(20px, 4.5vw, 64px) 120px; scroll-margin-top: 16px">
 <div style="border-top: 1px solid #0A2C52; display: flex; flex-wrap: wrap; gap: 32px 64px; padding-top: 40px">
 <div role="group" aria-label="Pick a chapter" style="flex: 1 1 220px; display: flex; flex-direction: column; align-items: flex-start; gap: 2px">
 {steps.map((st, i) => (<Fragment>
@@ -49,21 +49,21 @@ const steps = story.map((s) => ({ label: s.label, rule: '#0A2C52', color: '#8A90
 </section>
 
 <div style="overflow: clip">
-<picture style="display: contents"><source type="image/avif" srcset="/img/depin-stage-800.avif 800w, /img/depin-stage-1446.avif 1446w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/depin-stage-800.webp 800w, /img/depin-stage-1446.webp 1446w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/depin-stage.jpg" width="1446" height="819" loading="lazy" decoding="async" class="zi"  alt="The DePIN Day: Seattle stage from the back of the room, Action alone on stage" style="display: block; width: 100%; height: clamp(300px, 40vw, 580px); object-fit: cover"></picture>
+<picture style="display: contents"><source type="image/avif" srcset="/img/depin-chestup-800.avif 800w, /img/depin-chestup-1456.avif 1456w" sizes="100vw"><source type="image/webp" srcset="/img/depin-chestup-800.webp 800w, /img/depin-chestup-1456.webp 1456w" sizes="100vw"><img src="/img/depin-chestup.jpg" width="1456" height="813" loading="lazy" decoding="async" class="par"  alt="Action on stage at DePIN Day: Seattle, holding a microphone" style="display: block; width: 100%; height: clamp(300px, 40vw, 580px); object-fit: cover; object-position: 50% 30%"></picture>
 </div>
 
 <section class="rv" aria-label="Today" style="padding: 110px clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column">
 <div style="display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 28px 0; border-top: 1px solid #0A2C52">
 <h2 style="margin: 0; flex: 1 1 220px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 20px">Day job</h2>
-<p style="margin: 0; flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">I'm a Partner and the Chief Communications Officer at Laissez-Faire Group. We do go-to-market, PR and partnerships for teams in Web3, DePIN, fintech and decentralized AI, across 55+ countries. If you're launching, that's who you call. <a href="/lfg" style="border-bottom: 1px solid #FFFFFF">Work with LFG</a></p>
+<p style="margin: 0; flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">I'm a Partner and the Chief Communications Officer at Laissez-Faire Group. Go-to-market strategy, marketing and communications sit with me, for teams in Web3, DePIN, fintech and decentralized AI. If you're launching, that's who you call. <a href="/lfg" style="border-bottom: 1px solid #FFFFFF">Work with LFG</a></p>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 28px 0; border-top: 1px solid #0A2C52">
 <h2 style="margin: 0; flex: 1 1 220px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 20px">On camera</h2>
-<p style="margin: 0; flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">2 channels. Action Crypto is me and my opinions. LFG Action is me asking founders and builders the questions. 989 videos between them. <a href="https://www.youtube.com/@ActionCrypto" rel="noopener" style="border-bottom: 1px solid #FFFFFF">Subscribe to Action Crypto</a> or <a href="/shows" style="border-bottom: 1px solid #FFFFFF">see all the shows</a></p>
+<p style="margin: 0; flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">2 channels. {SITE.channel} is me and my opinions. LFG Action is me asking founders and builders the questions. 989 videos between them. <a href="https://www.youtube.com/@ActionCrypto" rel="noopener" style="border-bottom: 1px solid #FFFFFF">Subscribe to Action Crypto</a> or <a href="/shows" style="border-bottom: 1px solid #FFFFFF">see all the shows</a></p>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 28px 0; border-top: 1px solid #0A2C52; border-bottom: 1px solid #0A2C52">
 <h2 style="margin: 0; flex: 1 1 220px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 20px">Home base</h2>
-<p style="margin: 0; flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">Vista, California.</p>
+<p style="margin: 0; flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">San Diego, California.</p>
 </div>
 </section>
 <section class="rv" id="talk" style="background: #002346; padding: 110px clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column; gap: 28px">

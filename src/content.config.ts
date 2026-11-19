@@ -21,6 +21,9 @@ const videos = defineCollection({
     publishedAt: z.coerce.date(),
     durationSeconds: z.number().int().positive(),
     chapters: z.array(z.object({ start: z.number().int().min(0), title: z.string().min(1) }).strict()).default([]),
+    // Which show or set the video belongs to. Show pages list their videos from this.
+    series: z.enum(['action-items', 'explainers', 'depin-day', 'deai-podcast', 'interviews', 'hosting']).optional(),
+    guest: z.string().optional(),
   }).strict(),
 });
 
@@ -55,6 +58,9 @@ const shows = defineCollection({
     name: z.string(), order: z.number().int(), kind: z.enum(['live', 'audio', 'podcast']),
     schedule: z.string(), summary: z.string(), where: z.array(z.object({ label: z.string(), url: blank(z.string().url().optional()) }).strict()),
     rss: blank(z.string().url().optional()), image: blank(z.string().optional()),
+    // Recent episodes that live off YouTube (X Spaces), newest first.
+    rooms: z.array(z.object({ title: z.string(), month: z.string(), url: z.string().url() }).strict()).default([]),
+    series: z.array(z.object({ id: z.string(), heading: z.string(), blurb: blank(z.string().optional()) }).strict()).default([]),
   }).strict(),
 });
 

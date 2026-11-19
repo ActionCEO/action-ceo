@@ -48,12 +48,24 @@ if (counts.length && !reduce && 'IntersectionObserver' in window) {
   counts.forEach((c) => io.observe(c));
 }
 
-// About: story chapters.
+// Phone menu: the button opens and closes the links; Escape or a tap outside closes them.
+const menuBtn = document.querySelector('[data-menu]'), menu = document.getElementById('nav-links');
+if (menuBtn && menu) {
+  const set = (open) => { menuBtn.setAttribute('aria-expanded', String(open)); menu.classList.toggle('open', open); };
+  menuBtn.addEventListener('click', () => set(menuBtn.getAttribute('aria-expanded') !== 'true'));
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && menu.classList.contains('open')) { set(false); menuBtn.focus(); } });
+  document.addEventListener('click', (e) => { if (menu.classList.contains('open') && !e.target.closest('.site-nav')) set(false); });
+}
+
+// About: story chapters. A tap brings the chapter list to the top of the screen so the text below is in view.
 const steps = $$('[data-step]'), panels = $$('[data-panel]');
 if (steps.length) panels.forEach((p, i) => { p.hidden = i !== 0; });
 steps.forEach((b) => b.addEventListener('click', () => {
   steps.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
   panels.forEach((p) => { p.hidden = p.dataset.panel !== b.dataset.step; });
+  const top = document.querySelector('[data-story]');
+  if (top && top.getBoundingClientRect().top > 8) top.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  else { const panel = panels.find((p) => !p.hidden); if (panel && panel.getBoundingClientRect().top > innerHeight * 0.6) panel.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); }
 }));
 
 // Work: preview image follows hover and keyboard focus.

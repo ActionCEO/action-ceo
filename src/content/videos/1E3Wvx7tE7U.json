@@ -1,1 +1,47 @@
-{ "youtubeId": "1E3Wvx7tE7U", "title": "Tezos Is Back? 25 Tons of Copper, RWAs & Quantum Security", "channel": "ActionCrypto", "kind": "video", "publishedAt": "2026-11-05T16:00:09Z", "durationSeconds": 783, "chapters": [] }
+{
+ "youtubeId": "1E3Wvx7tE7U",
+ "title": "Tezos Is Back? 25 Tons of Copper, RWAs & Quantum Security",
+ "channel": "ActionCrypto",
+ "kind": "video",
+ "publishedAt": "2026-11-05T08:00:09-08:00",
+ "durationSeconds": 782,
+ "chapters": [
+  {
+   "start": 0,
+   "title": "Real copper onchain, through Tezos"
+  },
+  {
+   "start": 87,
+   "title": "Metals.io: 25 tons of tokenized copper"
+  },
+  {
+   "start": 186,
+   "title": "What do xCu holders actually own?"
+  },
+  {
+   "start": 308,
+   "title": "Why copper demand matters"
+  },
+  {
+   "start": 378,
+   "title": "Etherlink: is there a real economy?"
+  },
+  {
+   "start": 470,
+   "title": "Quantum computers vs your crypto wallet"
+  },
+  {
+   "start": 548,
+   "title": "Tezos X and the Ganesha upgrade"
+  },
+  {
+   "start": 627,
+   "title": "Is a real Tezos economy forming?"
+  },
+  {
+   "start": 696,
+   "title": "Three things I’m watching next"
+  }
+ ],
+ "series": "explainers"
+}

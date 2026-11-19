@@ -1,6 +1,6 @@
 // Contact and booking forms. Turnstile check, write to D1, alert Action on Telegram.
 // The raw IP is never stored: only a salted SHA-256 hash, with the salt version.
-const TYPES = ['Speaking', 'Hosting or guest spot', 'LFG partnership', 'Sponsorship', 'Media', 'Other'];
+const TYPES = ['Speaking', 'Hosting or guest spot', 'Be a guest on my show', 'LFG partnership', 'Sponsorship', 'Media', 'Other']; // must match site_inquiry_types
 const SALT_VERSION = 1;
 const CONSENT_VERSION = '2026-11-15'; // must match SITE.consentVersion and a row in site_consent_texts
 const asJson = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });

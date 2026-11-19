@@ -18,10 +18,56 @@ summary{cursor:pointer}
 /* Home: the nav sits over the hero photo. .nav-room holds the same height inside the hero (105px on 1 row, 165px on 2, 222px on 3). */
 .nav-over{position:absolute !important;top:0;left:0;right:0;z-index:2}
 .nav-room{flex:none;height:105px}
-@media (max-width:700px){.nav-room{height:165px}}
-@media (max-width:520px){.nav-room{height:222px}}
+
+/* Main nav. Phones get a menu button; without JavaScript (no .js on <html>) the links simply wrap. */
+.site-nav{position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 32px;padding-top:28px;padding-bottom:28px}
+.nav-links{display:flex;flex-wrap:wrap;align-items:center;gap:8px 28px;font-size:16px}
+.nav-links a{padding:12px 0;border-bottom:2px solid transparent}
+.nav-links a.cur{border-bottom-color:#FFFFFF}
+.menu-btn{display:none;align-items:center;gap:10px;min-height:44px;padding:8px 0 8px 12px;background:none;border:0;color:#FFFFFF;font:700 16px 'Montserrat',Arial,sans-serif;cursor:pointer}
+.menu-bars{display:flex;flex-direction:column;gap:5px;width:24px}
+.menu-bars span{display:block;height:2px;background:#FFFFFF;transition:transform .2s cubic-bezier(.4,0,.2,1),opacity .2s}
+.menu-btn[aria-expanded="true"] .menu-bars span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] .menu-bars span:nth-child(2){opacity:0}
+.menu-btn[aria-expanded="true"] .menu-bars span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media (max-width:760px){
+  .js .menu-btn{display:inline-flex}
+  .js .nav-links{display:none;position:absolute;top:100%;left:0;right:0;z-index:20;flex-direction:column;align-items:stretch;gap:0;padding:8px clamp(20px,4.5vw,64px) 24px;background:#06111F;border-bottom:1px solid #0A2C52;box-shadow:0 18px 40px rgba(0,0,0,.45)}
+  .js .nav-links.open{display:flex;animation:menuin .22s cubic-bezier(.2,.7,.2,1) both}
+  .js .nav-links a{padding:16px 0;font:700 22px 'Montserrat',Arial,sans-serif;border-bottom:1px solid #0A2C52}
+  .js .nav-links a.cur{color:#69BE28;border-bottom-color:#0A2C52}
+}
+@keyframes menuin{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+/* Home hero photo: keep the face in frame on narrow screens. */
+.hero-img{object-position:50% 30%}
+/* Phones: the photo sits in the top half so the headline never covers the face. */
+@media (max-width:760px){
+  .hero-img{object-position:30% 22%;inset:0 0 auto 0 !important;height:62vh !important}
+  .hero-shade{background:linear-gradient(to bottom, rgba(6,17,31,.55) 0, rgba(6,17,31,0) 16%, rgba(6,17,31,0) 38vh, #06111F 62vh) !important}
+  .nav-room{height:46vh}
+}
+/* Footer socials: logo plus handle; on phones the logos only. */
+.soc{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 14px;border:1px solid #0A2C52;border-radius:2px;color:#D5D8DB}
+.soc:hover{border-color:#326496;color:#FFFFFF}
+@media (max-width:600px){.soc-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.soc{padding:10px}}
+/* Links that leave the site open in a new tab (added at build) and get a small arrow in running text. */
+.prose a[target="_blank"]::after,.ext::after{content:"";display:inline-block;width:.7em;height:.7em;margin-left:.3em;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' d='M14 4h6v6M20 4 10 14M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' d='M14 4h6v6M20 4 10 14M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5'/%3E%3C/svg%3E") center/contain no-repeat}
+.nw{white-space:nowrap}
+/* Video cards (Home, Blog, show pages). */
+.vcard{display:flex;flex-direction:column;gap:14px}
+.vthumb{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;background:#0A2C52}
+.vthumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.vcard:hover .vthumb img,.vcard:focus-visible .vthumb img{transform:scale(1.04)}
+.vthumb .vplay{position:absolute;left:16px;bottom:16px;display:flex;align-items:center;justify-content:center;width:56px;height:56px;background:#FFFFFF;color:#06111F;border-radius:2px;transition:background-color .18s}
+.vcard:hover .vplay{background:#69BE28}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:40px 32px}
+/* Photo strips (Karate Combat, Work). */
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:12px}
+.strip img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
 .pv{transition:opacity .35s ease}
-@media (max-width:800px){.pvpanel{display:none}}
+.row-thumb{display:none}
+@media (max-width:800px){[data-pv]{color:#FFFFFF !important}}
+@media (max-width:800px){.pvpanel{display:none}.row-thumb{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;margin-top:12px}}
 [data-step][aria-pressed="true"],[data-ch][aria-pressed="true"]{color:#FFFFFF !important;border-left-color:#69BE28 !important}
 [data-pv].on{color:#FFFFFF !important}
 .ytplay{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;background:rgba(6,17,31,.25);color:#06111F;cursor:pointer;display:flex;align-items:center;justify-content:center}
@@ -41,6 +87,14 @@ a,button{transition:color .18s cubic-bezier(.4,0,.2,1),border-color .18s cubic-b
 .band{animation:slideL linear both;animation-timeline:view()}
 @keyframes imgin{from{transform:scale(1.14)}to{transform:scale(1)}}
 .zi{animation:imgin cubic-bezier(.4,0,.2,1) both;animation-timeline:view();animation-range:entry 0% cover 50%}
+@keyframes rowin{from{opacity:0;transform:translateX(-36px)}to{opacity:1;transform:none}}
+.rows>*{animation:rowin cubic-bezier(.2,.7,.2,1) both;animation-timeline:view();animation-range:entry 0% entry 70%}
+@keyframes clipin{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+.ci{animation:clipin cubic-bezier(.4,0,.2,1) both;animation-timeline:view();animation-range:entry 5% cover 35%}
+@keyframes drift{from{transform:translateY(-6%) scale(1.12)}to{transform:translateY(6%) scale(1.12)}}
+.par{animation:drift linear both;animation-timeline:view()}
+@keyframes heroimg{to{transform:scale(1.08)}}
+.hero-img{animation:heroimg linear both;animation-timeline:scroll(root);animation-range:0 700px}
 }}
 @media (prefers-reduced-motion:reduce){.stepin,.air-dot{animation:none !important}.pv,a,button,.ytplay span{transition:none}}
 .prose{max-width:720px;font-size:19px;line-height:1.7;color:#E3E6E9}
@@ -48,6 +102,7 @@ a,button{transition:color .18s cubic-bezier(.4,0,.2,1),border-color .18s cubic-b
 .prose h3{font-family:'Montserrat',Arial,sans-serif;font-weight:700;font-size:22px;color:#FFFFFF;margin:36px 0 12px}
 .prose p,.prose ul,.prose ol{margin:0 0 24px}
 .prose a{border-bottom:1px solid #FFFFFF}
+.prose img{display:block;width:100%;height:auto;margin:8px 0 24px}
 .prose li{margin-bottom:8px}
 .consent{position:fixed;left:16px;right:16px;bottom:16px;z-index:50;max-width:720px;margin:0 auto;background:#002346;border:1px solid #A5AAAF;padding:20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
 .consent button{min-height:48px;padding:12px 20px;border-radius:2px;border:1px solid #FFFFFF;background:none;color:#FFFFFF;font:600 16px 'Open Sans',Arial,sans-serif;cursor:pointer}

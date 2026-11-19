@@ -1,0 +1,25 @@
+---
+// A video as a thumbnail card. It opens the video's post on this site when there is one, otherwise YouTube.
+import { getCollection } from 'astro:content';
+import { livePosts, fmtDate } from '../lib/content';
+import Icon from './Icon.astro';
+const { video, eager = false, showGuest = false } = Astro.props;
+const v = video.data;
+const post = (await livePosts()).find((p) => p.data.video.id === video.id);
+const href = post ? `/blog/${post.id}` : `https://www.youtube.com/watch?v=${v.youtubeId}`;
+const title = post ? post.data.title : v.title.replace(/\s*\|\s*The DeAI Podcast.*$/, '');
+const mins = Math.round(v.durationSeconds / 60);
+const len = mins >= 60 ? `${Math.floor(mins / 60)}h ${mins % 60}m` : `${mins} min`;
+const F = "'Montserrat', Arial, sans-serif";
+---
+<a href={href} class="vcard" rel={post ? undefined : 'noopener'}>
+  <span class="vthumb">
+    <img src={`https://i.ytimg.com/vi/${v.youtubeId}/hq720.jpg`} onerror={`this.onerror=null;this.src='https://i.ytimg.com/vi/${v.youtubeId}/mqdefault.jpg'`} alt="" width="1280" height="720" loading={eager ? 'eager' : 'lazy'} decoding="async">
+    <span class="vplay" aria-hidden="true"><Icon name="play" size={26} /></span>
+  </span>
+  <span style="display: flex; flex-direction: column; gap: 6px">
+    <span style="font-size: 15px; color: #A5AAAF">{fmtDate(v.publishedAt)} · {len}{showGuest && v.guest ? ` · with ${v.guest}` : ''}</span>
+    <span style={`font-family: ${F}; font-weight: 800; font-size: clamp(19px, 1.6vw, 23px); line-height: 1.15; letter-spacing: -0.02em`}>{title}</span>
+    <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; color: #D5D8DB">{post ? 'Read and watch' : <>Watch on YouTube <Icon name="out" size={14} label="opens in a new tab" /></>}</span>
+  </span>
+</a>

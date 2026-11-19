@@ -2,44 +2,49 @@
 import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import { SITE } from '../../site';
+import Icon from '../../components/Icon.astro';
+// img: which preview photo shows for the row (desktop panel) and as the row's thumbnail on phones.
+const IMGS = ['portrait', 'depin-stage', 'studio-live', 'stage-keynote', 'kc-pitside', 'genzio'];
 const work = [
-  { name: 'Action Crypto', role: 'My main channel. My takes on AI, DePIN and crypto since 2021', cta: 'Watch', href: SITE.youtube, img: 0 },
-  { name: 'DePIN Day: Seattle', role: 'Creator, producer and host. 2024 and 2025', cta: 'See the event', href: '/work/depin-day-seattle', img: 1 },
-  { name: 'Action Items', role: 'My weekly live show. Fridays, 9:30am Pacific', cta: 'Watch live', href: '/shows/action-items', img: 2 },
-  { name: 'Laissez-Faire Group', role: 'Partner and Chief Communications Officer', cta: 'Work with LFG', href: '/lfg', img: 3 },
+  { name: SITE.channel, role: 'My main channel. My takes on AI, DePIN and crypto since 2021', cta: 'Watch on YouTube', href: SITE.youtube, img: 0, yt: true },
+  { name: 'DePIN Day: Seattle', role: 'Co-organizer and host. 2024 and 2025', cta: 'See the event', href: '/work/depin-day-seattle', img: 1 },
+  { name: 'Action Items', role: 'My weekly live show. Fridays, 9:30am Pacific', cta: 'See the show', href: '/shows/action-items', img: 2, yt: true },
+  { name: 'Laissez-Faire Group', role: 'Partner and CCO: go-to-market, marketing and communications', cta: 'Work with LFG', href: '/lfg', img: 3 },
   { name: 'Karate Combat', role: 'Livestream host, 2024 to 2025', cta: 'See the role', href: '/speaking/karate-combat', img: 4 },
-  { name: 'Genzio', role: 'Host of the Genzio Roundtable. Live programming lead since 2022', cta: 'See the show', href: '/shows/genzio-roundtable', img: 2 },
+  { name: 'Genzio', role: 'Host of the Genzio Roundtable. Live programming lead since 2022', cta: 'See the show', href: '/shows/genzio-roundtable', img: 5 },
 ].map((r, i) => ({ ...r, num: '0' + (i + 1), color: '#8A9099' }));
 ---
 <Base page="work">
 <Header current="Work" />
 <header style="padding: clamp(48px, 7vw, 104px) clamp(20px, 4.5vw, 64px) 56px; display: flex; flex-direction: column; gap: 24px">
 <h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(44px, 7vw, 108px); line-height: 1.02; letter-spacing: -0.035em; ">Work.</h1>
-<p style="margin: 0; max-width: 620px; font-size: 20px; color: #D5D8DB">Channels I run, shows I host, an event I created, and the firm where I'm a Partner.</p>
+<p style="margin: 0; max-width: 620px; font-size: 20px; color: #D5D8DB">Channels I run, shows I host, events I co-organized, and the firm where I'm a Partner.</p>
 </header>
 <section class="rv" aria-label="Projects" style="padding: 0 clamp(20px, 4.5vw, 64px) 120px; display: flex; flex-wrap: wrap; gap: 40px 64px; align-items: flex-start">
-<div style="flex: 3 1 480px; min-width: 0; display: flex; flex-direction: column">
+<div class="rows" style="flex: 3 1 480px; min-width: 0; display: flex; flex-direction: column">
 {work.map((item, i) => (<Fragment>
 <a href={item.href} data-pv={item.img} data-name={item.name} class={i === 1 ? "on" : ""} style={`display: flex; gap: 24px; align-items: baseline; padding: 24px 0; border-top: 1px solid #0A2C52; color: ${item.color}`}>
 <span style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 16px; color: #A5AAAF; font-variant-numeric: tabular-nums">{item.num}</span>
-<span style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+<span style="display: flex; flex-direction: column; gap: 6px; min-width: 0; flex: 1">
 <span style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 4.2vw, 60px); line-height: 1.02; letter-spacing: -0.035em">{item.name}</span>
 <span style="font-size: 17px; color: #A5AAAF">{item.role}</span>
-<span style="font-size: 16px; font-weight: 600; color: #D5D8DB">{item.cta}</span>
+<span style="display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 600; color: #D5D8DB">{item.yt && <Icon name="youtube" size={22} />}{item.cta}{item.href.startsWith('http') ? <Icon name="out" size={16} label="opens in a new tab" /> : <span aria-hidden="true">→</span>}</span>
+<img class="row-thumb" src={IMGS[item.img] === 'genzio' ? '/img/genzio-card.png' : `/img/${IMGS[item.img]}-800.webp`} alt="" width="800" height="450" loading="lazy" decoding="async">
 </span>
 </a>
 </Fragment>))}
 </div>
 <div class="pvpanel" style="flex: 2 1 320px; position: relative; aspect-ratio: 4 / 5; background: #002346; overflow: hidden">
 <picture style="display: contents"><source type="image/avif" srcset="/img/portrait-800.avif 800w, /img/portrait-1324.avif 1324w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/portrait-800.webp 800w, /img/portrait-1324.webp 1324w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/portrait.jpg" width="1324" height="1580" loading="lazy" decoding="async" data-pv-img="0" class="pv"  alt="Action at the mic on Action Crypto" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0"></picture>
-<picture style="display: contents"><source type="image/avif" srcset="/img/depin-stage-800.avif 800w, /img/depin-stage-1446.avif 1446w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/depin-stage-800.webp 800w, /img/depin-stage-1446.webp 1446w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/depin-stage.jpg" width="1446" height="819" loading="eager" fetchpriority="high" decoding="async" data-pv-img="1" class="pv"  alt="The DePIN Day: Seattle stage from the back of the room" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1"></picture>
+<picture style="display: contents"><source type="image/avif" srcset="/img/depin-stage-800.avif 800w, /img/depin-stage-1456.avif 1456w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/depin-stage-800.webp 800w, /img/depin-stage-1456.webp 1456w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/depin-stage.jpg" width="1456" height="727" loading="eager" fetchpriority="high" decoding="async" data-pv-img="1" class="pv"  alt="The DePIN Day: Seattle stage from the back of the room" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1"></picture>
 <picture style="display: contents"><source type="image/avif" srcset="/img/studio-live-800.avif 800w, /img/studio-live-1156.avif 1156w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/studio-live-800.webp 800w, /img/studio-live-1156.webp 1156w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/studio-live.jpg" width="1156" height="650" loading="lazy" decoding="async" data-pv-img="2" class="pv"  alt="Action live in his studio" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0"></picture>
-<picture style="display: contents"><source type="image/avif" srcset="/img/studio-interview-800.avif 800w, /img/studio-interview-1156.avif 1156w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/studio-interview-800.webp 800w, /img/studio-interview-1156.webp 1156w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/studio-interview.jpg" width="1156" height="650" loading="lazy" decoding="async" data-pv-img="3" class="pv"  alt="Action at the mic in his studio in a dark polo, guitars on the wall behind him" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0"></picture>
-<picture style="display: contents"><source type="image/avif" srcset="/img/studio-warm-800.avif 800w, /img/studio-warm-1156.avif 1156w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/studio-warm-800.webp 800w, /img/studio-warm-1156.webp 1156w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/studio-warm.jpg" width="1156" height="650" loading="lazy" decoding="async" data-pv-img="4" class="pv"  alt="Action in his studio in a checked shirt, smiling at the camera" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0"></picture>
+<picture style="display: contents"><source type="image/avif" srcset="/img/stage-keynote-800.avif 800w, /img/stage-keynote-1456.avif 1456w" sizes="40vw"><source type="image/webp" srcset="/img/stage-keynote-800.webp 800w, /img/stage-keynote-1456.webp 1456w" sizes="40vw"><img src="/img/stage-keynote.jpg" width="1456" height="813" loading="lazy" decoding="async" data-pv-img="3" class="pv"  alt="Action on a conference stage holding a microphone" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0"></picture>
+<picture style="display: contents"><source type="image/avif" srcset="/img/kc-pitside-800.avif 800w, /img/kc-pitside-1456.avif 1456w" sizes="40vw"><source type="image/webp" srcset="/img/kc-pitside-800.webp 800w, /img/kc-pitside-1456.webp 1456w" sizes="40vw"><img src="/img/kc-pitside.jpg" width="1456" height="813" loading="lazy" decoding="async" data-pv-img="4" class="pv"  alt="Action commentating pitside at a Karate Combat event" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0"></picture>
+<div data-pv-img="5" class="pv" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 40%, #326496 0%, #002346 55%, #06111F 100%); opacity: 0"><img src="/img/genzio-logo-white.png" width="500" height="159" alt="Genzio logo" loading="lazy" style="width: 60%; height: auto"></div>
 </div>
 </section>
 <section class="rv" style="background: #002346; padding: 110px clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column; gap: 28px; align-items: flex-start">
-<h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(34px, 4.8vw, 68px); line-height: 1.02; letter-spacing: -0.035em; max-width: 1000px">I host, I produce and I do go-to-market. Tell me what you need.</h2>
+<h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(34px, 4.8vw, 68px); line-height: 1.02; letter-spacing: -0.035em; max-width: 1000px">I host, I build events and I do go-to-market. Tell me what you need.</h2>
 <a href="/contact" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Get in touch</a>
 </section>
 </Base>

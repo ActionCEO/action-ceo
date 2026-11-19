@@ -1,5 +1,8 @@
 ---
 event: "DePIN Day: Seattle"
-role: "Year 2. Same 3 jobs: creator, producer, host."
+role: "Year 2. Co-organizer and host again."
 year: "2025"
+location: "Seattle, Washington"
+image: depin-wide
+video: ano9zoU9mHE
 ---

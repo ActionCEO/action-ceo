@@ -2,18 +2,28 @@
 import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import { SITE } from '../../site';
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
+import Video from '../../components/Video.astro';
+import { livePosts } from '../../lib/content';
 export async function getStaticPaths() { return (await getCollection('speaking')).map((e) => ({ params: { slug: e.id }, props: { e } })); }
 const { e } = Astro.props;
 const { Content } = await render(e);
+const video = e.data.video ? await getEntry(e.data.video) : null;
+const post = video ? (await livePosts()).find((p) => p.data.video.id === video.id) : null;
+// Stills shown under the copy, per page.
+const STILLS: Record<string, { src: string; alt: string }[]> = {
+  'karate-combat': [531, 1593, 13275, 6549, 5841, 3363].map((n) => ({ src: `kc-fight-${n}`, alt: 'Fight action from the Karate Combat 53 pit side stream' })),
+};
+const stills = STILLS[e.id] ?? [];
 const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
 const url = `${BASE}/speaking/${e.id}`;
 const F = "'Montserrat', Arial, sans-serif";
 // Search titles, descriptions and button wording, 1 per page. A page without an entry gets the plain fallback.
 const META: Record<string, { title: string; description: string; cta: string; project?: string }> = {
-  'depin-day-seattle-2024': { title: 'DePIN Day: Seattle 2024 | Action, Creator and Host', description: 'Year 1 of DePIN Day: Seattle, the event Action created, produced and hosted. See the project, then book Action for your own stage.', cta: 'Book me for your event', project: '/work/depin-day-seattle' },
-  'depin-day-seattle-2025': { title: 'DePIN Day: Seattle 2025 | Action, Creator and Host', description: 'DePIN Day: Seattle came back in 2025 with Action as creator, producer and host again. Send a booking request for your own event.', cta: 'Book me for your event', project: '/work/depin-day-seattle' },
-  'karate-combat': { title: 'Karate Combat | Action, Livestream Host', description: 'Action hosted livestreams for Karate Combat from 2024 to 2025. Book Action to host your stream or live broadcast.', cta: 'Book me to host your stream' },
+  'depin-day-seattle-2024': { title: 'DePIN Day: Seattle 2024 | Action, Co-Organizer', description: 'Year 1 of DePIN Day: Seattle, co-organized and hosted by Action. Watch the full livestream and read the write-up, then book Action for your stage.', cta: 'Book me for your event', project: '/work/depin-day-seattle' },
+  'depin-day-seattle-2025': { title: 'DePIN Day: Seattle 2025 | Action, Co-Organizer', description: 'DePIN Day: Seattle came back in 2025 with Action as co-organizer and host again. Watch the full livestream and read the write-up.', cta: 'Book me for your event', project: '/work/depin-day-seattle' },
+  'karate-combat': { title: 'Karate Combat | Action, Livestream Host', description: 'Action hosted the Karate Combat pit side livestreams from 2024 to 2025. See stills from the KC53 stream and book Action to host yours.', cta: 'Book me to host your stream' },
+  'derec-alliance': { title: 'DeRec Alliance Call | Action, Livestream Host', description: 'Action hosted the DeRec Alliance community call on Hedera\'s YouTube channel, the featured video on derec.org. Watch it here and book Action.', cta: 'Book me to host your stream' },
 };
 const m = META[e.id];
 const title = m?.title ?? `${e.data.event.slice(0, 30)} ${e.data.year} | Action Speaking`;
@@ -28,7 +38,10 @@ const graph = [{ '@type': 'WebPage', '@id': `${url}#webpage`, url, name: e.data.
   <h1 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(40px, 6vw, 88px); line-height: 1; letter-spacing: -0.035em`}>{e.data.event}</h1>
   <p style={`margin: 0; font-family: ${F}; font-weight: 700; font-size: 22px`}>{e.data.year}</p>
   <p style="margin: 0; font-size: 20px; color: #D5D8DB">{e.data.role}</p>
+  {e.data.image && <img src={`/img/${e.data.image}.jpg`} srcset={`/img/${e.data.image}-800.webp 800w, /img/${e.data.image}-1456.webp 1456w`} sizes="(max-width: 1100px) 100vw, 1100px" width="1456" height="813" alt={`Action at ${e.data.event}`} class="ci" style="display: block; width: 100%; max-width: 1100px; height: auto; aspect-ratio: 16 / 9; object-fit: cover; margin: 12px 0">}
   <div class="prose"><Content /></div>
+  {video && <div style="width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 12px"><Video id={video.data.youtubeId} title={video.data.title} />{post && <a href={`/blog/${post.id}`} style="align-self: flex-start; font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Read the write-up</a>}</div>}
+  {stills.length > 0 && <div class="strip rows" style="width: 100%">{stills.map((st) => <img src={`/img/${st.src}-800.webp`} srcset={`/img/${st.src}-800.webp 800w, /img/${st.src}-1440.webp 1440w`} sizes="(max-width: 600px) 100vw, 33vw" width="800" height="450" loading="lazy" decoding="async" alt={st.alt}>)}</div>}
   {m?.project && <a href={m.project} style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">See the full project</a>}
   <a href="/speaking#book" style="font-weight: 600; padding: 10px 0; border-bottom: 3px solid #69BE28">{m?.cta ?? 'Book me for your event'}</a>
 </section>

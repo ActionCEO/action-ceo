@@ -33,10 +33,12 @@ for (const f of pages) {
   if (ogImg) { const p = path.join(DIST, new URL(ogImg).pathname); if (!fs.existsSync(p)) errors.push(`${rel}: og:image file missing (${ogImg})`); else if (fs.statSync(p).size > 300 * 1024) errors.push(`${rel}: og:image over 300 KB`); else { const b = fs.readFileSync(p); if (b.readUInt32BE(16) !== 1200 || b.readUInt32BE(20) !== 630) errors.push(`${rel}: og:image is not 1200x630`); } }
   for (const t of ['og:title', 'og:description', 'og:site_name', 'og:image:alt']) if (!html.includes(`property="${t}"`)) errors.push(`${rel}: missing ${t}`);
   if (!/name="twitter:card" content="summary_large_image"/.test(html) || !/name="twitter:site" content="@LFGAction"/.test(html)) errors.push(`${rel}: twitter tags wrong`);
-  const text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ');
-  if (/[–—]/.test(html)) errors.push(`${rel}: contains an em dash or en dash`);
+  // The transcript block is what was said on air, word for word, so the copy rules below skip it.
+  const own = html.replace(/<details data-transcript[\s\S]*?<\/details>/g, '');
+  const text = own.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ');
+  if (/[–—]/.test(own)) errors.push(`${rel}: contains an em dash or en dash`);
   if (BANNED.test(text)) errors.push(`${rel}: banned word "${text.match(BANNED)[0]}"`);
-  if (/discord/i.test(html)) errors.push(`${rel}: mentions Discord`);
+  if (/discord/i.test(own)) errors.push(`${rel}: mentions Discord`);
   if (/Action Gazio|Victor .Action. Gazio|Action Enterprise/i.test(text)) errors.push(`${rel}: name rule broken`);
   if (/<img(?![^>]*\balt=)[^>]*>/.test(html)) errors.push(`${rel}: image without alt`);
   if (/youtube-nocookie\.com/.test(html)) errors.push(`${rel}: embeds must use www.youtube.com, not youtube-nocookie.com`);

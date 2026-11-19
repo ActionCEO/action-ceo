@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import { SITE } from '../../site';
+import Icon from '../../components/Icon.astro';
 
 ---
 <Base page="shows">
@@ -9,11 +10,12 @@ import { SITE } from '../../site';
 <header style="padding: clamp(48px, 7vw, 104px) clamp(20px, 4.5vw, 64px) 56px; display: flex; flex-direction: column; gap: 24px">
 <h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(44px, 7vw, 108px); line-height: 0.95; letter-spacing: -0.04em">On air.</h1>
 <p style="margin: 0; max-width: 620px; font-size: 20px; color: #D5D8DB">Here's when I'm on and where to watch.</p>
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 28px; padding: 18px 0; border-top: 1px solid #0A2C52; border-bottom: 1px solid #0A2C52; font-size: 17px">
-<span class="air-dot" aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: #69BE28; animation: airpulse 1.6s ease-in-out infinite"></span>
-<span style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; letter-spacing: 0.04em">NEXT LIVE SHOW</span>
-<span style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-variant-numeric: tabular-nums"><span data-countdown="Action Items in ">Action Items, Friday 9:30am Pacific</span></span>
-<a href="https://www.youtube.com/@ActionCrypto" rel="noopener" style="margin-left: auto; background: #69BE28; color: #06111F; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 16px; padding: 14px 22px; border-radius: 2px">Subscribe and catch it live</a>
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 40px; padding: 24px 28px; background: #002346; border-left: 3px solid #69BE28">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="display: flex; align-items: center; gap: 12px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.08em; color: #D5D8DB"><span class="air-dot" aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: #69BE28; animation: airpulse 1.6s ease-in-out infinite"></span>NEXT LIVE SHOW</span>
+<span style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(22px, 2.4vw, 30px); font-variant-numeric: tabular-nums"><span data-countdown="Action Items in ">Action Items, Fridays 9:30am Pacific</span></span>
+</div>
+<a href={`${SITE.youtube}?sub_confirmation=1`} rel="noopener" style="display: inline-flex; align-items: center; gap: 10px; background: #69BE28; color: #06111F; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 16px; padding: 14px 22px; border-radius: 2px"><Icon name="play" size={18} />Subscribe on YouTube</a>
 </div>
 </header>
 <section aria-label="Schedule" style="padding: 0 clamp(20px, 4.5vw, 64px) 96px">
@@ -24,8 +26,8 @@ import { SITE } from '../../site';
 </div>
 <div style="flex: 3 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 14px; align-items: flex-start">
 <h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(30px, 4vw, 56px); line-height: 1; letter-spacing: -0.035em"><a href="/shows/action-items">Action Items</a></h2>
-<p style="margin: 0; max-width: 560px; font-size: 19px; color: #D5D8DB">My weekly live show. No edits, no retakes. On YouTube, LinkedIn and X at the same time.</p>
-<div style="display: flex; flex-wrap: wrap; gap: 4px 24px"><a href="https://www.youtube.com/@ActionCrypto" rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">YouTube</a><a href="https://www.linkedin.com/in/vic-action-crypto" rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">LinkedIn</a><a href="https://x.com/ActionCEO" rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">X</a></div>
+<p style="margin: 0; max-width: 560px; font-size: 19px; color: #D5D8DB">My weekly live show. No edits, no retakes. On YouTube, LinkedIn and X (@LFGAction) at the same time.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 24px"><a href="/shows/action-items" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Past episodes</a><a href={`${SITE.youtube}/live`} rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF"><Icon name="youtube" size={20} />YouTube</a><a href={SITE.linkedin} rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF"><Icon name="linkedin" size={18} />LinkedIn</a><a href={SITE.xLfg} rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF"><Icon name="x" size={18} />X @LFGAction</a></div>
 </div>
 <picture style="display: contents"><source type="image/avif" srcset="/img/studio-live-800.avif 800w, /img/studio-live-1156.avif 1156w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/studio-live-800.webp 800w, /img/studio-live-1156.webp 1156w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/studio-live.jpg" width="1156" height="650" loading="eager" fetchpriority="high" decoding="async" alt="Action live at the mic in his studio" style="flex: 1 1 260px; min-width: 0; width: 100%; max-width: 420px; aspect-ratio: 16 / 9; object-fit: cover"></picture>
 </article>
@@ -37,7 +39,9 @@ import { SITE } from '../../site';
 <div style="flex: 3 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 14px; align-items: flex-start">
 <h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(30px, 4vw, 56px); line-height: 1; letter-spacing: -0.035em"><a href="/shows/genzio-roundtable">Genzio Roundtable</a></h2>
 <p style="margin: 0; max-width: 560px; font-size: 19px; color: #D5D8DB">No cameras, just voices. I host it, and I've led live programming at Genzio since 2022.</p>
+<a href="/shows/genzio-roundtable" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">See the show</a>
 </div>
+<div style="flex: 1 1 260px; max-width: 420px; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 40%, #326496 0%, #002346 60%, #06111F 100%)"><img src="/img/genzio-logo-white.png" width="500" height="159" alt="Genzio logo" loading="lazy" style="width: 58%; height: auto"></div>
 </article>
 <article class="rv" style="display: flex; flex-wrap: wrap; gap: 24px 48px; padding: 44px 0; border-top: 1px solid #0A2C52">
 <div style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 6px">
@@ -46,22 +50,22 @@ import { SITE } from '../../site';
 </div>
 <div style="flex: 3 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 14px; align-items: flex-start">
 <h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(30px, 4vw, 56px); line-height: 1; letter-spacing: -0.035em"><a href="/shows/interviews">Founder interviews</a></h2>
-<p style="margin: 0; max-width: 560px; font-size: 19px; color: #D5D8DB">I interview founders and builders about what they're building. My DeAI Summit interviews are here too.</p>
-<div style="display: flex; flex-wrap: wrap; gap: 4px 24px"><a href="https://www.youtube.com/@LFGAction" rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Watch the interviews</a></div>
+<p style="margin: 0; max-width: 560px; font-size: 19px; color: #D5D8DB">I interview founders, builders and researchers. The DeAI Podcast, my series on who controls AI, lives here too.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 24px"><a href="/shows/interviews" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">See the interviews</a></div>
 </div>
 <picture style="display: contents"><source type="image/avif" srcset="/img/studio-interview-800.avif 800w, /img/studio-interview-1156.avif 1156w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/studio-interview-800.webp 800w, /img/studio-interview-1156.webp 1156w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/studio-interview.jpg" width="1156" height="650" loading="lazy" decoding="async" alt="Action listening to a guest during an interview" style="flex: 1 1 260px; min-width: 0; width: 100%; max-width: 420px; aspect-ratio: 16 / 9; object-fit: cover"></picture>
 </article>
 </section>
 <section class="rv" aria-label="Channels" style="padding: 0 clamp(20px, 4.5vw, 64px) 110px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: 40px 64px">
 <div style="display: flex; flex-direction: column; gap: 12px; align-items: flex-start; border-top: 3px solid #FFFFFF; padding-top: 24px">
-<h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.02em">Action Crypto</h2>
+<h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.02em">{SITE.channel}</h2>
 <p style="margin: 0; color: #D5D8DB; font-size: 19px">My main channel. AI, DePIN and crypto, with opinions. 1.6M+ views, 20.7K subscribers.</p>
-<a href="https://www.youtube.com/@ActionCrypto" rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Subscribe to Action Crypto</a>
+<a href={`${SITE.youtube}?sub_confirmation=1`} rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF"><Icon name="youtube" size={20} />Subscribe to {SITE.channel}</a>
 </div>
 <div style="display: flex; flex-direction: column; gap: 12px; align-items: flex-start; border-top: 3px solid #326496; padding-top: 24px">
 <h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.02em">LFG Action</h2>
 <p style="margin: 0; color: #D5D8DB; font-size: 19px">The interview channel. LFG stands for <a href="/lfg" style="border-bottom: 1px solid #FFFFFF">Laissez-Faire Group</a>, where I'm a Partner.</p>
-<a href="https://www.youtube.com/@LFGAction" rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Subscribe to LFG Action</a>
+<a href={`${SITE.youtubeLfg}?sub_confirmation=1`} rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF"><Icon name="youtube" size={20} />Subscribe to LFG Action</a>
 </div>
 </section>
 <section class="rv" id="talk" style="background: #002346; padding: 110px clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column; gap: 28px">

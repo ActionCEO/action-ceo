@@ -5,3 +5,11 @@
 - { slug: deai, name: DeAI }
 - { slug: rwa, name: RWA }
 - { slug: markets, name: Markets }
+- { slug: stablecoins, name: Stablecoins }
+- { slug: security, name: Security }
+- { slug: tokenization, name: Tokenization }
+- { slug: events, name: Events }
+- { slug: openai, name: OpenAI }
+- { slug: regulation, name: Regulation }
+- { slug: quantum, name: Quantum }
+- { slug: real-estate, name: Real estate }

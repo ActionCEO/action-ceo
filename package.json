@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "astro dev",
     "gate": "node scripts/content-gate.mjs",
-    "build": "node -e \"for (const d of ['.astro','node_modules/.astro']) require('fs').rmSync(d,{recursive:true,force:true})\" && node scripts/content-gate.mjs && astro build && node scripts/compress-og.mjs && pagefind --site dist && node scripts/ci-checks.mjs",
+    "build": "node -e \"for (const d of ['.astro','node_modules/.astro']) require('fs').rmSync(d,{recursive:true,force:true})\" && node scripts/content-gate.mjs && astro build && node scripts/external-links.mjs && node scripts/compress-og.mjs && pagefind --site dist && node scripts/ci-checks.mjs",
     "build:preview": "SHOW_DRAFTS=1 npm run build",
     "check": "node scripts/ci-checks.mjs",
     "preview": "astro preview"

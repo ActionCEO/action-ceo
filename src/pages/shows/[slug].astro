@@ -3,6 +3,8 @@ import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import { SITE } from '../../site';
 import { getCollection } from 'astro:content';
+import VideoCard from '../../components/VideoCard.astro';
+import Icon from '../../components/Icon.astro';
 export async function getStaticPaths() { return (await getCollection('shows')).map((show) => ({ params: { slug: show.id }, props: { show } })); }
 const { show } = Astro.props;
 const eps = (await getCollection('episodes')).filter((e) => e.data.show.id === show.id).sort((a, b) => b.data.number - a.data.number);
@@ -13,12 +15,15 @@ const name = todo ? 'Founder interviews' : show.data.name;
 // Search titles and descriptions, 1 per show. A show without an entry gets the plain fallback.
 const META: Record<string, { title: string; description: string }> = {
   'action-items': { title: "Action Items | Action's Weekly Live Crypto and AI Show", description: 'Action Items is the weekly live show from crypto and AI YouTuber Action. Fridays at 9:30am Pacific on YouTube, LinkedIn and X.' },
-  'genzio-roundtable': { title: 'Genzio Roundtable on X Spaces | Hosted by Action', description: 'Action hosts the Genzio Roundtable, a voice-only show on X Spaces, and has led live programming at Genzio since 2022.' },
-  interviews: { title: 'Founder Interviews | Action, Host of LFG Action', description: 'Action interviews founders and builders about what they are building, including his DeAI Summit interviews. Watch on the LFG Action YouTube channel.' },
+  'genzio-roundtable': { title: 'Genzio Roundtable on X Spaces | Hosted by Action', description: 'Action hosts the Genzio Roundtable, a voice-only show on X Spaces, Tuesdays at 9am Pacific. Catch the recent rooms and recordings here.' },
+  interviews: { title: 'Founder Interviews and The DeAI Podcast | Action', description: 'Action interviews founders, builders and researchers on LFG Action, including The DeAI Podcast on who controls AI. Watch every episode here.' },
 };
 const title = META[show.id]?.title ?? `${name} | Hosted by Action`;
 const desc = META[show.id]?.description ?? `${name}, hosted by Action. ${show.data.summary}`.slice(0, 155);
 const where = show.data.where.filter((w) => w.url);
+const allVids = (await getCollection('videos')).filter((v) => !v.id.startsWith('SAMPLE'));
+// Each series block lists its videos, newest first. 'interviews' also picks up guest videos filed elsewhere.
+const blocks = show.data.series.map((sr) => ({ ...sr, vids: allVids.filter((v) => v.data.series === sr.id || (sr.id === 'interviews' && v.data.guest && v.data.series !== 'deai-podcast')).sort((a, b) => +b.data.publishedAt - +a.data.publishedAt) }));
 const F = "'Montserrat', Arial, sans-serif";
 const graph = [{ '@type': show.data.kind === 'podcast' ? 'PodcastSeries' : 'CreativeWorkSeries', '@id': `${url}#series`, name, url, description: show.data.summary, author: { '@id': `${BASE}/#person` }, ...(show.data.rss ? { webFeed: show.data.rss } : {}) },
   { '@type': 'WebPage', '@id': `${url}#webpage`, url, name, isPartOf: { '@id': `${BASE}/#website` } }];
@@ -31,10 +36,27 @@ const graph = [{ '@type': show.data.kind === 'podcast' ? 'PodcastSeries' : 'Crea
   <p style={`margin: 0; font-family: ${F}; font-weight: 700; font-size: 22px`}>{show.data.schedule}</p>
   <p style="margin: 0; max-width: 640px; font-size: 20px; color: #D5D8DB">{show.data.summary}</p>
   <div style="display: flex; flex-wrap: wrap; gap: 4px 24px">
-    {where.map((w) => <a href={w.url} rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">{w.label}</a>)}
+    {where.map((w) => <a href={w.url} rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">{/youtube/.test(w.url ?? '') && <Icon name="youtube" size={20} />}{/x\.com/.test(w.url ?? '') && <Icon name="x" size={16} />}{/linkedin/.test(w.url ?? '') && <Icon name="linkedin" size={16} />}{w.label}</a>)}
   </div>
+  {show.data.image === 'genzio' && <img src="/img/genzio-logo-white.png" width="500" height="159" alt="Genzio logo" style="width: 200px; height: auto; margin-top: 12px">}
   {show.data.kind === 'audio' && <p style="margin: 0; font-size: 19px; color: #D5D8DB">For video, Action Crypto is on YouTube. <a href={SITE.youtube} rel="noopener" style="border-bottom: 1px solid #FFFFFF">Watch Action Crypto</a></p>}
 </header>
+{show.data.rooms.length > 0 && (
+  <section class="rv pad" aria-label="Recent rooms" style="padding-bottom: 96px">
+    <h2 style={`margin: 0 0 8px; font-family: ${F}; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); letter-spacing: -0.035em`}>Recent rooms</h2>
+    <p style="margin: 0 0 24px; color: #D5D8DB; font-size: 18px">X keeps the recording of each Space. Tap a room to play it back on X.</p>
+    <div class="rows" style="display: flex; flex-direction: column">
+      {show.data.rooms.map((r) => <a href={r.url} rel="noopener" style={`display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 24px; padding: 20px 0; border-top: 1px solid #0A2C52`}><span style={`display: inline-flex; align-items: center; gap: 12px; font-family: ${F}; font-weight: 700; font-size: clamp(19px, 2vw, 24px)`}><Icon name="x" size={18} />{r.title}</span><span style="display: inline-flex; align-items: center; gap: 8px; color: #A5AAAF">{r.month} <Icon name="out" size={14} label="opens in a new tab" /></span></a>)}
+    </div>
+  </section>
+)}
+{blocks.filter((b) => b.vids.length).map((b) => (
+  <section class="rv pad" aria-label={b.heading} style="padding-bottom: 96px; display: flex; flex-direction: column; gap: 12px">
+    <h2 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); letter-spacing: -0.035em`}>{b.heading}</h2>
+    {b.blurb && <p style="margin: 0 0 16px; max-width: 640px; color: #D5D8DB; font-size: 18px">{b.blurb}</p>}
+    <div class="vgrid">{b.vids.map((v, i) => <VideoCard video={v} eager={i < 2} showGuest />)}</div>
+  </section>
+))}
 {eps.length > 0 && (
   <section class="pad" aria-label="Episodes" style="padding-bottom: 96px">
     <h2 style={`margin: 0 0 24px; font-family: ${F}; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); letter-spacing: -0.035em`}>Episodes</h2>
