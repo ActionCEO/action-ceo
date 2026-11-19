@@ -50,8 +50,8 @@ summary{cursor:pointer}
 @keyframes menuin{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 /* Home hero photo: keep the face in frame on narrow screens. */
 .hero-img{object-position:50% 30%}
-/* Phones: the photo sits in the top half so the headline never covers the face. */
-@media (max-width:760px){
+/* Phones and tablets (up to 1100px): the photo sits in the top half so the headline never covers the face. */
+@media (max-width:1100px){
   .hero-img{object-position:30% 22%;inset:0 0 auto 0 !important;height:62vh !important}
   .hero-shade{background:linear-gradient(to bottom, rgba(6,17,31,.55) 0, rgba(6,17,31,0) 16%, rgba(6,17,31,0) 38vh, #06111F 62vh) !important}
   .nav-room{height:46vh}
@@ -59,7 +59,7 @@ summary{cursor:pointer}
 /* Footer socials: logo plus account name on every screen; 2 to a line on phones. */
 .soc{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 14px;border:1px solid #0A2C52;border-radius:2px;color:#D5D8DB}
 .soc:hover{border-color:#326496;color:#FFFFFF}
-@media (max-width:600px){.socials{display:grid !important;grid-template-columns:1fr 1fr}.soc{display:flex;padding:10px 12px}.soc-t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+@media (max-width:600px){.socials{display:grid !important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.soc{display:flex;min-width:0;padding:10px 12px}.soc-t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
 /* Links that leave the site open in a new tab (added at build) and get a small arrow in running text. */
 .prose a[target="_blank"]::after,.ext::after{content:"";display:inline-block;width:.7em;height:.7em;margin-left:.3em;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' d='M14 4h6v6M20 4 10 14M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' d='M14 4h6v6M20 4 10 14M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5'/%3E%3C/svg%3E") center/contain no-repeat}
 .nw{white-space:nowrap}
@@ -120,7 +120,7 @@ a,button{transition:color .18s cubic-bezier(.4,0,.2,1),border-color .18s cubic-b
 @keyframes prog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 html .prog{display:block;animation:prog linear both;animation-timeline:scroll(root)}
 }}
-@media (prefers-reduced-motion:reduce){.stepin,.air-dot{animation:none !important}.pv,a,button,.ytplay span{transition:none}}
+@media (prefers-reduced-motion:reduce){.stepin,.air-dot{animation:none !important}.pv,a,button,.ytplay span,.go::after,.row-go,.row-name,.row>svg{transition:none}}
 .prose{max-width:720px;font-size:19px;line-height:1.7;color:#E3E6E9}
 .prose h2{font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(24px,2.8vw,34px);line-height:1.1;letter-spacing:-.03em;color:#FFFFFF;margin:48px 0 16px}
 .prose h3{font-family:'Montserrat',Arial,sans-serif;font-weight:700;font-size:22px;color:#FFFFFF;margin:36px 0 12px}
@@ -175,7 +175,7 @@ html .prog{display:block;animation:prog linear both;animation-timeline:scroll(ro
 .btn-line{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:10px 20px;border:1px solid #326496;border-radius:2px;font:700 16px 'Montserrat',Arial,sans-serif}
 .btn-line:hover{border-color:#FFFFFF;color:#FFFFFF}
 /* Home video row: scrolls sideways and snaps card by card. The next card always peeks in from the right edge. */
-.vrow{display:flex;gap:28px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:clamp(20px,4.5vw,64px);padding:4px clamp(20px,4.5vw,64px) 18px;scrollbar-width:thin;scrollbar-color:#326496 transparent;-webkit-overflow-scrolling:touch}
+.vrow{display:flex;gap:28px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 clamp(20px,4.5vw,64px);padding:6px clamp(20px,4.5vw,64px) 18px;scrollbar-width:thin;scrollbar-color:#326496 transparent;-webkit-overflow-scrolling:touch}
 .vrow>*{flex:0 0 min(78vw,400px);scroll-snap-align:start}
 .vmore{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:14px;aspect-ratio:16/9;align-self:flex-start;padding:24px;border:1px solid #12355E;border-radius:2px;font:800 clamp(22px,2.2vw,30px) 'Montserrat',Arial,sans-serif;letter-spacing:-.02em}
 .vmore:hover{border-color:#69BE28;color:#FFFFFF}
@@ -183,13 +183,14 @@ html .prog{display:block;animation:prog linear both;animation-timeline:scroll(ro
 .vnav[hidden]{display:none}
 .vbtn{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border:1px solid #326496;border-radius:2px;background:none;color:#FFFFFF;cursor:pointer}
 .vbtn:hover{border-color:#FFFFFF}
-.vbtn:disabled{opacity:.35;cursor:default;border-color:#12355E}
-@media (hover:none){.vnav{display:none}}
+.vbtn[aria-disabled="true"]{opacity:.35;cursor:default;border-color:#12355E}
+.vrow:focus-visible{outline:2px solid #69BE28;outline-offset:-2px}
+@media (hover:none),(max-width:600px){.vnav{display:none}}
 /* Home hero: the photo is mirrored so the face sits to the right of the headline, with a shade behind the words. */
-.hero-flip{scale:-1 1;object-position:30% 50%}
-@media (min-width:801px){.hero-flip{scale:-1.1 1.1;translate:5% 0}}
+.hero-img.hero-flip{scale:-1 1}
+@media (min-width:1101px){.hero-img.hero-flip{scale:-1.1 1.1;translate:4% 0;object-position:30% 50%}}
 .hero-side{position:absolute;inset:0;background:linear-gradient(to right,rgba(6,17,31,.72) 0%,rgba(6,17,31,.35) 38%,rgba(6,17,31,0) 62%)}
-@media (max-width:800px){.hero-side{display:none}}
+@media (max-width:1100px){.hero-side{display:none}}
 /* Phone menu open: the bar goes solid so the photo behind it is covered. */
 .site-nav:has(.nav-links.open){background:#06111F}
 
@@ -226,6 +227,6 @@ span.pv-genzio{position:static;aspect-ratio:16/9}
 .genzio-bg{background:radial-gradient(circle at 50% 38%,#7C4DFF 0%,#4A1FB8 48%,#1C0B4A 100%)}
 /* A short set of links: side by side on desktop, 2 to a line on phones. */
 .links2{display:flex;flex-wrap:wrap;gap:4px 24px}
-@media (max-width:600px){.links2{display:grid;grid-template-columns:auto auto;justify-content:start;gap:4px 28px}.links2>a{justify-self:start}}
+@media (min-width:360px) and (max-width:600px){.links2{display:grid;grid-template-columns:auto auto;justify-content:start;gap:4px 28px}.links2>a{justify-self:start}}
 .tags{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
 .tags li{padding:8px 14px;border:1px solid #326496;border-radius:2px;font:700 15px 'Montserrat',Arial,sans-serif;color:#D5D8DB}

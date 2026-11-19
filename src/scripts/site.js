@@ -119,11 +119,15 @@ $$('[data-share]').forEach((b) => {
 const vrow = document.querySelector('[data-vrow]'), vnav = document.querySelector('[data-vnav]');
 if (vrow && vnav) {
   const prev = vnav.querySelector('[data-vprev]'), next = vnav.querySelector('[data-vnext]');
-  const sync = () => { prev.disabled = vrow.scrollLeft < 8; next.disabled = vrow.scrollLeft + vrow.clientWidth > vrow.scrollWidth - 8; };
-  const move = (dir) => vrow.scrollBy({ left: dir * Math.max(320, vrow.clientWidth * 0.8), behavior: reduce ? 'auto' : 'smooth' });
-  prev.addEventListener('click', () => move(-1));
-  next.addEventListener('click', () => move(1));
+  // aria-disabled, not disabled: a disabled button would drop keyboard focus to the top of the page.
+  const off = (btn, v) => btn.setAttribute('aria-disabled', String(v));
+  const sync = () => { off(prev, vrow.scrollLeft < 8); off(next, vrow.scrollLeft + vrow.clientWidth > vrow.scrollWidth - 8); };
+  const move = (btn, dir) => { if (btn.getAttribute('aria-disabled') !== 'true') vrow.scrollBy({ left: dir * Math.max(320, vrow.clientWidth * 0.8), behavior: reduce ? 'auto' : 'smooth' }); };
+  prev.addEventListener('click', () => move(prev, -1));
+  next.addEventListener('click', () => move(next, 1));
   vrow.addEventListener('scroll', sync, { passive: true });
+  // Tabbing to a card brings the whole card into view.
+  vrow.addEventListener('focusin', (e) => { const c = e.target.closest('[data-vrow] > *'); if (c) c.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: reduce ? 'auto' : 'smooth' }); });
   addEventListener('resize', sync);
   vnav.hidden = false;
   sync();
@@ -275,7 +279,7 @@ if (GA) {
   // Outbound clicks to YouTube, only once analytics is allowed and loaded.
   document.addEventListener('click', (e) => {
     const a = on && e.target.closest && e.target.closest('a[href]');
-    if (a && /(^|\.)(youtube\.com|youtu\.be)$/.test(a.hostname)) gtag('event', 'youtube_click', { link_url: a.href, link_text: (a.textContent || '').trim().slice(0, 80), page_path: location.pathname, transport_type: 'beacon' });
+    if (a && /(^|\.)(youtube\.com|youtu\.be)$/.test(a.hostname)) gtag('event', 'youtube_click', { link_url: a.href, link_text: (a.textContent || '').replace(/,? ?opens in a new tab/i, '').trim().slice(0, 80), page_path: location.pathname, transport_type: 'beacon' });
   });
   geo().then((c) => start(mustAsk(c)));
 }
