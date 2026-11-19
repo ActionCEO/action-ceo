@@ -15,4 +15,14 @@ database_name = "action-ceo-preview"
 database_id = "ed542a52-3585-4772-9dc7-6405b1189af1"
 
 # Secrets are set per environment in the Pages project, never here:
-# TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, TURNSTILE_SECRET_KEY, IP_HASH_SALT_1
+# TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, TURNSTILE_SECRET_KEY, IP_HASH_SALT_1, GITHUB_CLIENT_SECRET
+
+# CMS sign-in (functions/cms-auth). The client ID is public. The matching secret GITHUB_CLIENT_SECRET is set in the
+# Pages project like the other secrets, never here. ALLOWED_DOMAINS lists the only sites the sign-in will hand a token to.
+[vars]
+GITHUB_CLIENT_ID = "Iv23lipHDpUgvyEd90th"
+ALLOWED_DOMAINS = "action-ceo.pages.dev, action.ceo"
+
+[env.preview.vars]
+GITHUB_CLIENT_ID = "Iv23lipHDpUgvyEd90th"
+ALLOWED_DOMAINS = "action-ceo.pages.dev, action.ceo"

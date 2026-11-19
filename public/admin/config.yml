@@ -3,7 +3,11 @@ backend:
   name: github
   repo: ActionCEO/action-ceo
   branch: main
-  base_url: https://TODO-sveltia-cms-auth.workers.dev   # TODO: the sveltia-cms-auth Worker URL
+  # Sign-in runs on this site (functions/cms-auth). At the domain cutover, do both at the same time: change base_url to
+  # https://action.ceo, and in the GitHub App (Action CEO CMS) move the action.ceo callback URL to first in the list.
+  # GitHub always returns to the first callback URL, so 1 without the other breaks sign-in.
+  base_url: https://action-ceo.pages.dev
+  auth_endpoint: cms-auth/auth
 publish_mode: editorial_workflow
 output:
   omit_empty_optional_fields: true

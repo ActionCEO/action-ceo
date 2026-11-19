@@ -12,14 +12,14 @@ Agents never create accounts, accept terms, touch DNS or cancel services. The st
 - Variables: `SITE_URL=https://action.ceo` (production), `SHOW_DRAFTS=1` (preview only).
 - `wrangler d1 create action-ceo` and `wrangler d1 create action-ceo-preview`. Put both IDs in `wrangler.toml`.
 - `wrangler d1 migrations apply action-ceo` (only `0001_site_core.sql` is in `migrations/`; preview database first).
-- Secrets, per environment (Settings, Variables and Secrets, type Secret): `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TURNSTILE_SECRET_KEY`, `IP_HASH_SALT_1`.
+- Secrets, per environment (Settings, Variables and Secrets, type Secret): `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TURNSTILE_SECRET_KEY`, `IP_HASH_SALT_1`, `GITHUB_CLIENT_SECRET`.
 - Create a Turnstile widget for action.ceo. Put the site key in `src/site.ts`.
 - AI Crawl Control: Search, Agents, Training all Allow. Bot Preference Sync off.
 
 ## 3. GitHub
 - 2 GitHub Apps, both owned by Action, installed on this repo only. Never reuse one for the other.
   - **Bot App**: Contents and Pull requests read/write, Metadata read. No Workflows, Administration or Actions. Used by the pipeline and the agent.
-  - **CMS App**: for Sveltia sign-in through `sveltia-cms-auth` on a free Worker. Worker variables `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `ALLOWED_DOMAINS=action.ceo`. Put the Worker URL and repo in `public/admin/config.yml`.
+  - **CMS App** ("Action CEO CMS", created 2026-11-19, installed on this repo only): Sveltia sign-in. It runs on the site itself at `/cms-auth` (`functions/cms-auth`), not on a separate Worker. `GITHUB_CLIENT_ID` and `ALLOWED_DOMAINS` are in `wrangler.toml`. `GITHUB_CLIENT_SECRET` is a Pages secret. At the domain cutover, change `base_url` in `public/admin/config.yml` to https://action.ceo and move the action.ceo callback URL to first in the App, both at once.
 - Rulesets on `main`:
   - **A, review**: require a pull request, 1 approval, review from Code Owners, dismiss stale approvals, require the `PR check` workflow, block force pushes and deletion. Leave "require approval of the most recent reviewable push" off. Bypass: Repository admin, "For pull requests only".
   - **B, who may merge**: Restrict updates. Bypass: Repository admin and Write role, both "For pull requests only".

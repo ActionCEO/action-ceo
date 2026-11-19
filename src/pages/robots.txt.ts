@@ -4,6 +4,7 @@ export const GET: APIRoute = ({ site }) => new Response(
 Allow: /
 Disallow: /admin/
 Disallow: /api/
+Disallow: /cms-auth/
 Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 Sitemap: ${new URL('sitemap-index.xml', site).href}
