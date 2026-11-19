@@ -309,13 +309,16 @@ if (hv && !reduce && innerWidth > 800 && !(navigator.connection && navigator.con
   const sel = document.getElementById('c-type');
   const picks = [...document.querySelectorAll('[data-pick]')];
   if (!sel || !picks.length) return;
-  const sync = () => picks.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.pick === sel.value)));
+  const sync = () => picks.forEach((b) => b.classList.toggle('is-on', b.dataset.pick === sel.value));
+  picks.forEach((b) => { b.disabled = false; });
   sel.addEventListener('change', sync);
+  sel.form.addEventListener('reset', () => setTimeout(sync));
   picks.forEach((b) => b.addEventListener('click', () => {
     sel.value = b.dataset.pick; sync();
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (sel.getBoundingClientRect().top < 0 || sel.getBoundingClientRect().bottom > innerHeight) sel.closest('form').scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' });
-    document.getElementById('c-name')?.focus({ preventScroll: true });
+    const r = sel.getBoundingClientRect();
+    if (r.top < 90 || r.bottom > innerHeight) sel.form.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' });
+    sel.focus({ preventScroll: true });
   }));
   sync();
 })();

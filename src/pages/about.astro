@@ -7,9 +7,9 @@ import PageHero from '../components/PageHero.astro';
 import CallOut from '../components/CallOut.astro';
 const story = [
   { label: 'Tech', year: '2005', title: 'I officially start in tech.', text: "I'd been editing video since I was 13. By 2005 I'm editing in Adobe Premiere, running Google Ads, reading Google Analytics and running my own eBay business. Crypto is still 7 years away." },
-  { label: 'GE Healthcare', year: 'Fortune 500', title: 'Marketing at GE Healthcare.', text: "I did marketing at GE Healthcare, presented to leadership and ran webinars for major buyers. I put a quote system on the website, so buyers could get a price without calling a salesperson. That cut the cost of selling and raised profit. I also trained support teams in India, the UK and Sweden on the software we shipped, and tested that license keys were checked so software worth thousands of dollars wasn't given away. That's where my people skills started." },
+  { label: 'GE Healthcare', year: 'Fortune 500', title: 'Marketing at GE Healthcare.', text: "I did marketing at GE Healthcare, presented to leadership and ran webinars for major buyers. I put a quote system on the website, so buyers could get a price without calling a salesperson. That cut the cost of selling. I also trained support teams in India, the UK and Sweden on the software we shipped, and tested the license key checks so paid software wasn't given away. That's where my people skills started." },
   { label: 'COO', year: '6 years', title: 'I ran a company.', text: "6 years as COO of a national education company that ran summer camps. I was the main speaker and the main negotiator. I negotiated our campus contracts with schools like UPenn, Yale, UCLA, the University of Washington, the University of San Diego and the Hun School in New Jersey. I hired up to 250 people a year and owned the budget. When COVID sent everyone home, the camps stopped, and that chapter closed." },
-  { label: 'Crypto', year: '2012', title: 'I get into crypto.', text: "I start mining Bitcoin in 2012. In 2013 I add Dogecoin and Litecoin. Back then there were no 12 or 24 word recovery phrases, and I lost a lot of crypto because of it. I was there when Mt. Gox went down. I learned the lessons the hard way so you don't have to. All of that is 9 years before Action Crypto exists." },
+  { label: 'Crypto', year: '2012', title: 'I get into crypto.', text: "I start mining Bitcoin in 2012. In 2013 I add Dogecoin and Litecoin. The wallets I used had no recovery phrase, and I lost a lot of crypto because of it. I was there when Mt. Gox went down. I learned the lessons the hard way so you don't have to. I started 9 years before Action Crypto existed." },
   { label: 'YouTube', year: '2021', title: 'I start Action Crypto.', text: "My takes on AI, DePIN and crypto. 1.6M+ views and 20.7K subscribers later, I'm still at it. In 2022 I join Genzio to host its live shows and founder interviews." },
   { label: 'DePIN Day', year: '2024, 2025', title: 'I build events.', text: 'DePIN Day: Seattle. I co-organized it and hosted it, 2 years running. T-Mobile, HP and Borderless Capital on stage across 2024 and 2025. 65,000+ viewers on the X livestream. Same stretch, I host livestreams for Karate Combat.' },
   { label: 'LFG', year: 'Now', title: 'Partner at Laissez-Faire Group.', text: "I'm a Partner and the Chief Communications Officer. Go-to-market strategy, marketing and communications sit with me, and I host the founder interviews on LFG Action. I'm also live every Friday on Action Items." },
@@ -29,15 +29,15 @@ const steps = story.map((s) => ({ label: s.label, rule: '#0A2C52', color: '#8A90
 
 <section class="rv" aria-label="My story" data-story style="padding: 0 clamp(20px, 4.5vw, 64px) 120px; scroll-margin-top: 16px">
 <div style="border-top: 1px solid #0A2C52; display: flex; flex-wrap: wrap; gap: 32px 64px; padding-top: 40px">
-<div role="group" aria-label="Pick a chapter" style="flex: 1 1 220px; display: flex; flex-direction: column; align-items: flex-start; gap: 2px">
+<div role="group" aria-label="Pick a chapter" class="story-steps" style="flex: 1 1 220px; display: flex; flex-direction: column; align-items: flex-start; gap: 2px">
 {steps.map((st, i) => (<Fragment>
 <button type="button" data-step={i} aria-pressed={i === 0 ? "true" : "false"} style={`background: none; border: 0; border-left: 3px solid ${st.rule}; padding: 12px 0 12px 16px; min-height: 44px; text-align: left; cursor: pointer; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 18px; color: ${st.color}`}>{st.label}</button>
 </Fragment>))}
 </div>
-<div style="flex: 3 1 480px; min-width: 0; min-height: 340px">
+<div class="story-panels">
 {story.map((c, i) => (<Fragment>
 <div class="stepin" data-panel={i} style="display: flex; flex-direction: column; gap: 18px">
-<div style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 900; font-size: clamp(56px, 9vw, 132px); line-height: 0.9; letter-spacing: -0.045em; font-variant-numeric: tabular-nums">{c.year}</div>
+<div class="story-year">{c.year}</div>
 <h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(24px, 2.6vw, 36px); letter-spacing: -0.02em">{c.title}</h2>
 <p style="margin: 0; max-width: 680px; font-size: 20px; color: #D5D8DB">{c.text}</p>
 </div>
@@ -47,7 +47,7 @@ const steps = story.map((s) => ({ label: s.label, rule: '#0A2C52', color: '#8A90
 </section>
 
 <div style="overflow: clip">
-<picture style="display: contents"><source type="image/avif" srcset="/img/depin-wide-800.avif 800w, /img/depin-wide-1456.avif 1456w" sizes="100vw"><source type="image/webp" srcset="/img/depin-wide-800.webp 800w, /img/depin-wide-1456.webp 1456w" sizes="100vw"><img src="/img/depin-wide.jpg" width="1456" height="813" loading="lazy" decoding="async" class="par"  alt="Action on stage at DePIN Day: Seattle, holding a microphone" style="display: block; width: 100%; height: clamp(260px, 34vw, 520px); object-fit: cover; object-position: 50% 35%"></picture>
+<picture style="display: contents"><source type="image/avif" srcset="/img/depin-wide-800.avif 800w, /img/depin-wide-1456.avif 1456w" sizes="100vw"><source type="image/webp" srcset="/img/depin-wide-800.webp 800w, /img/depin-wide-1456.webp 1456w" sizes="100vw"><img src="/img/depin-wide.jpg" width="1456" height="813" loading="lazy" decoding="async" class="par"  alt="Action on stage at DePIN Day: Seattle, holding a microphone" style="display: block; width: 100%; height: clamp(260px, 34vw, 520px); object-fit: cover; object-position: 50% 15%"></picture>
 </div>
 
 <section class="rv" aria-label="Today" style="padding: 110px clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column">

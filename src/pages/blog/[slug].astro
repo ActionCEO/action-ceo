@@ -14,10 +14,11 @@ const { Content } = await render(post);
 const video = await getEntry(post.data.video);
 const transcript = (await getCollection('transcripts')).find((t) => t.data.video.id === video.id);
 const T = transcript ? await render(transcript) : null;
-const related = (await livePosts()).filter((p) => p.id !== post.id).sort((a, b) => Number(b.data.category === post.data.category) - Number(a.data.category === post.data.category)).slice(0, 3);
 // Newer and older posts, by publish date, for the 2 buttons under the post.
 const all = await livePosts(), at = all.findIndex((p) => p.id === post.id);
 const newer = at > 0 ? all[at - 1] : null, older = at >= 0 && at < all.length - 1 ? all[at + 1] : null;
+// Related rows: same topic first, never the 2 posts already shown as Previous and Next.
+const related = all.filter((p) => p.id !== post.id && p.id !== newer?.id && p.id !== older?.id).sort((a, b) => Number(b.data.category === post.data.category) - Number(a.data.category === post.data.category)).slice(0, 3);
 const live = video.data.kind === 'live';
 const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
 const url = `${BASE}/blog/${post.id}`;
@@ -42,7 +43,7 @@ const graph = [
   <header class="pad" style="padding-top: clamp(32px, 5vw, 72px); padding-bottom: 40px; display: flex; flex-direction: column; gap: 20px">
     <nav aria-label="Breadcrumb" style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; color: #A5AAAF; font-size: 16px"><a href="/blog" style="color: #D5D8DB; padding: 10px 0">Blog</a><span style="padding: 10px 0">{catName(post.data.category)}</span><time datetime={published} style="padding: 10px 0">{post.data.publishedAt ? fmtDate(post.data.publishedAt) : 'Draft'}</time><span style="padding: 10px 0">By <a href="/about" style="border-bottom: 1px solid #A5AAAF">Action</a></span>{live && <span class="live-tag"><i class="live-dot" aria-hidden="true"></i>Live show</span>}</nav>
     <h1 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(34px, 5vw, 72px); line-height: 1.02; letter-spacing: -0.035em; text-wrap: balance`}>{post.data.title}</h1>
-    {live && <p style="margin: 0; font-size: 18px; color: #D5D8DB">This was a live show: recorded in 1 take with no edits{post.data.category === 'action-items' && <Fragment>, on <a href="/shows/action-items" style="border-bottom: 1px solid #A5AAAF">Action Items</a>, Fridays at 9:30am Pacific</Fragment>}.</p>}
+    {live && <p style="margin: 0; font-size: 18px; color: #D5D8DB">{post.data.category === 'action-items' ? 'This was a live show: recorded in 1 take with no edits' : 'This was a live stream'}{post.data.category === 'action-items' && <Fragment>, on <a href="/shows/action-items" style="border-bottom: 1px solid #A5AAAF">Action Items</a>, Fridays at 9:30am Pacific</Fragment>}.</p>}
   </header>
   <section class="pad post-top" aria-label="Video and chapters">
     <div class="post-video"><Video id={video.data.youtubeId} title={video.data.title} eager /></div>
@@ -92,8 +93,8 @@ const graph = [
 <section class="pad alt" data-pagefind-ignore aria-label="More videos" style="padding-top: clamp(56px, 7vw, 96px); padding-bottom: clamp(56px, 7vw, 96px)">
   <h2 class="sec-h">More videos</h2>
   {(newer || older) && <div class="post-nav">
-    {older ? <a href={`/blog/${older.id}`} class="post-nav-a"><span class="post-nav-k"><Icon name="left" size={18} />Previous</span><span class="post-nav-t">{older.data.title}</span></a> : <span></span>}
-    {newer ? <a href={`/blog/${newer.id}`} class="post-nav-a" style="text-align: right; align-items: flex-end"><span class="post-nav-k">Next<Icon name="right" size={18} /></span><span class="post-nav-t">{newer.data.title}</span></a> : <span></span>}
+    {older ? <a href={`/blog/${older.id}`} class="post-nav-a"><span class="post-nav-k"><Icon name="left" size={18} />Previous</span><span class="post-nav-t">{older.data.title}</span></a> : null}
+    {newer ? <a href={`/blog/${newer.id}`} class="post-nav-a post-nav-next"><span class="post-nav-k">Next<Icon name="right" size={18} /></span><span class="post-nav-t">{newer.data.title}</span></a> : null}
   </div>}
   {related.length > 0 && <div class="rows" style="display: flex; flex-direction: column; margin-top: 32px">
     {related.map((r) => <a href={`/blog/${r.id}`} class="row"><img src={ytThumb(r.data.youtubeVideoId, 'hqdefault')} alt="" width="480" height="360" loading="lazy" decoding="async" class="row-pic"><span class="row-main"><span class="row-name">{r.data.title}</span><span class="row-role">{catName(r.data.category)}</span></span><span class="row-go" aria-hidden="true"><Icon name="go" size={22} /></span></a>)}
