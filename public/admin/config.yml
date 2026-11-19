@@ -10,7 +10,8 @@ backend:
   auth_endpoint: cms-auth/auth
 publish_mode: editorial_workflow
 output:
-  omit_empty_optional_fields: true
+  omit_empty_optional_fields: true   # the optional fields rely on this: an empty one must be left out, not saved as ''
+  json: { indent_size: 1 }
 media_folder: public/img/uploads
 public_folder: /img/uploads
 site_url: https://action.ceo
@@ -18,30 +19,73 @@ slug: { encoding: ascii, clean_accents: true }
 collections:
   - name: posts
     label: Posts
+    label_singular: Post
+    description: "1 post per video. Search results, share cards and the extra details Google shows (article, video, key moments) are built from these fields at publish. Nothing extra to type in."
     folder: src/content/posts
     extension: md
     format: frontmatter
     create: true
     slug: "{{slug}}"
-    summary: "{{title}} ({{reviewState}})"
+    summary: "{{title}} ({{category}}, {{reviewState}})"
+    sortable_fields: { fields: [publishedAt, title, category], default: { field: publishedAt, direction: descending } }
+    view_filters:
+      - { label: Drafts, field: draft, pattern: true }
+      - { label: Needs review, field: reviewState, pattern: needs_review }
+      - { label: Live, field: draft, pattern: false }
+    view_groups:
+      - { label: Category, field: category }
+      - { label: Year, field: publishedAt, pattern: '\d{4}' }
     fields:
-      - { name: draft, label: "Draft (turn OFF to publish)", widget: boolean, default: true }
+      - { name: draft, label: "Draft (turn OFF to publish)", widget: boolean, default: true, hint: "A post goes live only with Draft off, Review state approved and a publish date." }
       - { name: reviewState, label: Review state, widget: select, options: [needs_review, approved], default: needs_review }
-      - { name: publishedAt, label: "Published at (required to publish)", widget: datetime, required: false }
-      - { name: title, label: Title, widget: string }
-      - { name: metaTitle, label: "SEO title (41 max)", widget: string, pattern: ['^.{1,41}$', '41 characters max'] }
-      - { name: metaDescription, label: "SEO description (70 to 155)", widget: text, pattern: ['^[\s\S]{70,155}$', '70 to 155 characters'] }
-      - { name: excerpt, label: "Excerpt (320 max)", widget: text, pattern: ['^[\s\S]{0,320}$', '320 characters max'] }
-      - { name: category, label: Category, widget: select, options: [ai, depin, crypto, interviews, action-items] }
-      - { name: tags, label: "Tags (10 max)", widget: select, multiple: true, max: 10, required: false, options: [bitcoin, ai-agents, depin, deai, rwa, markets] }
-      - { name: takeaways, label: "Takeaways (5 max)", widget: list, max: 5, required: false, field: { name: item, label: Takeaway, widget: string } }
-      - { name: youtubeVideoId, label: YouTube video ID, widget: string, pattern: ['^[A-Za-z0-9_-]{11}$', '11 characters'] }
-      - { name: video, label: Video, widget: relation, collection: videos, value_field: youtubeId, search_fields: [title, youtubeId], display_fields: [title] }
-      - { name: origin, label: Origin, widget: select, options: [pipeline, human, agent], default: human }
-      - { name: updatedAt, label: Updated at, widget: datetime, required: false }
-      - { name: body, label: Post, widget: markdown }
+      - { name: publishedAt, label: "Publish date (required to publish)", widget: datetime, time_format: false, required: false, hint: "The day the video went up, Pacific time. Shows on the post and in search results." }
+      - { name: updatedAt, label: Last updated, widget: datetime, time_format: false, required: false, hint: "Only when you make a real change to a live post. Tells search engines the page is fresh." }
+      - { name: title, label: Title, widget: string, hint: "The headline on the page and in the blog list." }
+      - { name: metaTitle, label: "Search title (41 max)", widget: string, pattern: ['^.{1,41}$', '41 characters max'], hint: "The blue link in Google. The site adds \" | Action, YouTuber\" after it. Lead with the words people search." }
+      - { name: metaDescription, label: "Search description (70 to 155)", widget: text, pattern: ['^[\s\S]{70,155}$', '70 to 155 characters'], hint: "The grey text under the link in Google, and the text on share cards." }
+      - { name: excerpt, label: "Excerpt (320 max)", widget: text, pattern: ['^[\s\S]{0,320}$', '320 characters max'], hint: "The 2 or 3 lines under the title in the blog list and at the top of the post." }
+      - name: category
+        label: Category
+        widget: select
+        hint: "1 per post. Drives the topic buttons on the blog."
+        options:
+          - { label: AI, value: ai }
+          - { label: DePIN, value: depin }
+          - { label: Crypto, value: crypto }
+          - { label: Interviews, value: interviews }
+          - { label: Action Items, value: action-items }
+      - name: tags
+        label: "Tags (10 max)"
+        widget: select
+        multiple: true
+        max: 10
+        required: false
+        # The list lives in src/data/tags.yaml. Add a tag there and here together.
+        hint: "Need a new tag? It has to be added to the site first."
+        options:
+          - { label: Bitcoin, value: bitcoin }
+          - { label: AI agents, value: ai-agents }
+          - { label: DePIN, value: depin }
+          - { label: DeAI, value: deai }
+          - { label: RWA, value: rwa }
+          - { label: Markets, value: markets }
+          - { label: Stablecoins, value: stablecoins }
+          - { label: Security, value: security }
+          - { label: Tokenization, value: tokenization }
+          - { label: Events, value: events }
+          - { label: OpenAI, value: openai }
+          - { label: Regulation, value: regulation }
+          - { label: Quantum, value: quantum }
+          - { label: Real estate, value: real-estate }
+      - { name: takeaways, label: "Takeaways (5 max)", widget: list, max: 5, required: false, hint: "The key points box at the top of the post. Short, 1 fact each.", field: { name: item, label: Takeaway, widget: string } }
+      - { name: video, label: Video, widget: relation, collection: videos, value_field: youtubeId, search_fields: [title, youtubeId], display_fields: [title], hint: "Add the video under Videos first. Its title, length, date and chapters become the video data and key moments in search." }
+      - { name: youtubeVideoId, label: YouTube video ID, widget: string, pattern: ['^[A-Za-z0-9_-]{11}$', '11 characters'], hint: "The same 11 characters as the video picked above (the part after v= in the YouTube link)." }
+      - { name: origin, label: Origin, widget: select, options: [pipeline, human, agent], default: human, hint: "Who wrote the draft. Leave as is." }
+      - { name: body, label: Post, widget: markdown, hint: "The written version of the video. Use ## headings for sections." }
   - name: videos
     label: Videos
+    label_singular: Video
+    description: "Every video the site shows. A post, a show page or a speaking page points at 1 of these."
     folder: src/content/videos
     extension: json
     format: json
@@ -49,20 +93,38 @@ collections:
     identifier_field: youtubeId
     slug: "{{youtubeId}}"
     summary: "{{title}}"
+    sortable_fields: { fields: [publishedAt, title], default: { field: publishedAt, direction: descending } }
+    view_groups:
+      - { label: Series, field: series }
+      - { label: Channel, field: channel }
     fields:
-      - { name: youtubeId, label: YouTube video ID, widget: string, pattern: ['^[A-Za-z0-9_-]{11}$', '11 characters'] }
-      - { name: title, label: Title, widget: string }
-      - { name: channel, label: Channel, widget: select, options: [ActionCrypto, LFGAction, External] }
-      - { name: kind, label: Kind, widget: select, options: [video, live] }
-      - { name: publishedAt, label: Published at, widget: datetime }
-      - { name: durationSeconds, label: Duration in seconds, widget: number, value_type: int, min: 1 }
+      - { name: youtubeId, label: YouTube video ID, widget: string, pattern: ['^[A-Za-z0-9_-]{11}$', '11 characters'], hint: "The part after v= in the YouTube link." }
+      - { name: title, label: Title, widget: string, hint: "The title as it is on YouTube." }
+      - { name: channel, label: Channel, widget: select, options: [{ label: Action Crypto, value: ActionCrypto }, { label: LFG Action, value: LFGAction }, { label: Another channel, value: External }] }
+      - { name: kind, label: Kind, widget: select, options: [{ label: Video, value: video }, { label: Live stream, value: live }], hint: "Live streams get a live badge in search results." }
+      - { name: publishedAt, label: Published at, widget: datetime, input_timezone: America/Los_Angeles, hint: "For a live show, the time it started (Action Items: Friday 9:30am Pacific). For a video, when it went public." }
+      - { name: durationSeconds, label: Duration in seconds, widget: number, value_type: int, min: 1, hint: "A 40 minute 14 second video is 2414." }
       - name: chapters
         label: Chapters
         widget: list
         required: false
+        hint: "The same chapters as the YouTube description. They become the \"Watch at\" links and key moments in search."
         fields:
           - { name: start, label: Start in seconds, widget: number, value_type: int, min: 0 }
           - { name: title, label: Title, widget: string }
+      - name: series
+        label: Series
+        widget: select
+        required: false
+        hint: "Which show page lists this video. Leave empty if it is not part of a show."
+        options:
+          - { label: Action Items, value: action-items }
+          - { label: Explainers, value: explainers }
+          - { label: "DePIN Day", value: depin-day }
+          - { label: The DeAI Podcast, value: deai-podcast }
+          - { label: Founder interviews, value: interviews }
+          - { label: Hosting, value: hosting }
+      - { name: guest, label: Guest, widget: string, required: false, hint: "The guest's name, for an interview." }
   - name: transcripts
     label: Transcripts
     folder: src/content/transcripts
@@ -93,9 +155,52 @@ collections:
         widget: list
         fields:
           - { name: label, label: Label, widget: string }
-          - { name: url, label: URL, widget: string, required: false }
-      - { name: rss, label: RSS feed, widget: string, required: false }
+          - { name: url, label: URL, widget: string, required: false, pattern: ['^https?://\S+$', 'Full link starting with https://'] }
+      - { name: rss, label: RSS feed, widget: string, required: false, pattern: ['^https?://\S+$', 'Full link starting with https://'] }
       - { name: image, label: Image name, widget: string, required: false }
+      - name: rooms
+        label: "Recent rooms (X Spaces)"
+        label_singular: Room
+        widget: list
+        required: false
+        summary: "{{fields.title}} ({{fields.month}})"
+        hint: "Newest first. For shows that live on X, not YouTube."
+        fields:
+          - { name: title, label: Title, widget: string }
+          - { name: month, label: Month, widget: string, hint: "For example Nov 2026." }
+          - { name: url, label: Link to the recording on X, widget: string, pattern: ['^https?://\S+$', 'Full link starting with https://'] }
+          - name: speakers
+            label: Speakers
+            label_singular: Speaker
+            widget: list
+            required: false
+            summary: "{{fields.name}}"
+            hint: "Who actually spoke, from the Space's stage list."
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: org, label: Company, widget: string, required: false }
+              - { name: x, label: "X handle, without the @", widget: string, pattern: ['^[A-Za-z0-9_]{1,15}$', 'Letters, numbers and underscores, 15 max'] }
+      - name: series
+        label: Video sections on the show page
+        label_singular: Section
+        widget: list
+        required: false
+        summary: "{{fields.heading}}"
+        hint: "Each section lists the videos filed under its series."
+        fields:
+          - name: id
+            label: Series
+            widget: select
+            hint: "The section lists every video filed under this series."
+            options:
+              - { label: Action Items, value: action-items }
+              - { label: Explainers, value: explainers }
+              - { label: "DePIN Day", value: depin-day }
+              - { label: The DeAI Podcast, value: deai-podcast }
+              - { label: Founder interviews, value: interviews }
+              - { label: Hosting, value: hosting }
+          - { name: heading, label: Heading, widget: string }
+          - { name: blurb, label: Blurb, widget: text, required: false }
   - name: episodes
     label: Episodes
     folder: src/content/episodes
@@ -106,7 +211,7 @@ collections:
       - { name: show, label: Show, widget: relation, collection: shows, value_field: "{{slug}}", search_fields: [name], display_fields: [name] }
       - { name: number, label: Episode number, widget: number, value_type: int, min: 1 }
       - { name: title, label: Title, widget: string }
-      - { name: publishedAt, label: Published at, widget: datetime }
+      - { name: publishedAt, label: Published at, widget: datetime, input_timezone: America/Los_Angeles }
       - { name: video, label: Video, widget: relation, collection: videos, value_field: youtubeId, search_fields: [title], display_fields: [title], required: false }
       - { name: guests, label: Guests, widget: relation, collection: guests, value_field: "{{slug}}", search_fields: [name], display_fields: [name], multiple: true, required: false }
       - { name: body, label: Notes, widget: markdown, required: false }
@@ -120,7 +225,7 @@ collections:
     fields:
       - { name: name, label: Name, widget: string }
       - { name: role, label: Role, widget: string, required: false }
-      - { name: url, label: Website, widget: string, required: false }
+      - { name: url, label: Website, widget: string, required: false, pattern: ['^https?://\S+$', 'Full link starting with https://'] }
       - { name: body, label: Bio, widget: markdown, required: false }
   - name: speaking
     label: Speaking
@@ -135,7 +240,7 @@ collections:
       - { name: year, label: Year, widget: string }
       - { name: location, label: Location, widget: string, required: false }
       - { name: publicInPerson, label: Public in-person event, widget: boolean, default: false }
-      - { name: startDate, label: Start date, widget: datetime, required: false }
+      - { name: startDate, label: Start date, widget: datetime, input_timezone: America/Los_Angeles, required: false }
       - { name: image, label: Image name, widget: string, required: false }
       - { name: video, label: Video, widget: relation, collection: videos, value_field: youtubeId, search_fields: [title], display_fields: [title], required: false }
       - { name: body, label: Notes, widget: markdown, required: false }
