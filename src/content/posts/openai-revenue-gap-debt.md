@@ -11,7 +11,7 @@ video: u_DT9_jaMaU
 origin: agent
 draft: false
 reviewState: approved
-publishedAt: 2026-10-10
+publishedAt: 2026-10-09
 ---
 The number the whole AI trade was running on turned out to be soft. OpenAI's annualized revenue looks closer to $50 billion than $70 billion, and while that spooked Wall Street, the debt sitting under the AI boom is the part that actually worries me.
 
