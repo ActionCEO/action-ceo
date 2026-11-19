@@ -243,6 +243,8 @@ collections:
       - { name: startDate, label: Start date, widget: datetime, input_timezone: America/Los_Angeles, required: false }
       - { name: image, label: Image name, widget: string, required: false }
       - { name: video, label: Video, widget: relation, collection: videos, value_field: youtubeId, search_fields: [title], display_fields: [title], required: false }
+      - { name: highlights, label: Highlights, label_singular: highlight, widget: list, required: false, hint: "Up to 4 cards under the story. Each has a short title and 1 or 2 sentences.", fields: [{ name: title, label: Title, widget: string }, { name: text, label: Text, widget: text }] }
+      - { name: closing, label: Closing line, widget: string, required: false, hint: "The big line in the box at the bottom of the page." }
       - { name: body, label: Notes, widget: markdown, required: false }
   - name: site
     label: Forwarding

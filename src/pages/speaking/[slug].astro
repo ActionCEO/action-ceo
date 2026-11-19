@@ -4,23 +4,25 @@ import Header from '../../components/Header.astro';
 import { SITE } from '../../site';
 import { getCollection, getEntry, render } from 'astro:content';
 import Video from '../../components/Video.astro';
+import PageHero from '../../components/PageHero.astro';
+import CallOut from '../../components/CallOut.astro';
 import { livePosts } from '../../lib/content';
 export async function getStaticPaths() { return (await getCollection('speaking')).map((e) => ({ params: { slug: e.id }, props: { e } })); }
 const { e } = Astro.props;
 const { Content } = await render(e);
 const video = e.data.video ? await getEntry(e.data.video) : null;
 const post = video ? (await livePosts()).find((p) => p.data.video.id === video.id) : null;
-// Stills shown under the copy, per page.
-const STILLS: Record<string, { src: string; alt: string }[]> = {
-  'karate-combat': [531, 1593, 13275, 6549, 5841, 3363].map((n) => ({ src: `kc-fight-${n}`, alt: 'Fight action from the Karate Combat 53 pit side stream' })),
+// Header photo per page. Rule from Action: no AI-made image on a page that shows real footage of the same event.
+// kc-pitside is AI-made, so the Karate Combat page carries no real stills until sharp ones are pulled from the streams.
+const HERO: Record<string, { img: string; big: number; w: number; h: number; alt: string; pos: string; posPhone?: string }> = {
+  'karate-combat': { img: 'kc-pitside', big: 1456, w: 1456, h: 813, alt: 'Action commentating pit side at Karate Combat', pos: '74% 35%', posPhone: '74% 25%' },
 };
-const stills = STILLS[e.id] ?? [];
+const hero = HERO[e.id] ?? { img: 'studio-interview', big: 1156, w: 1156, h: 650, alt: 'Action in his studio during an interview', pos: '50% 25%', posPhone: '50% 20%' };
 const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
 const url = `${BASE}/speaking/${e.id}`;
-const F = "'Montserrat', Arial, sans-serif";
 // Search titles, descriptions and button wording, 1 per page. A page without an entry gets the plain fallback.
 const META: Record<string, { title: string; description: string; cta: string; project?: string }> = {
-  'karate-combat': { title: 'Karate Combat | Action, Livestream Host', description: 'Action hosted the Karate Combat pit side livestreams from 2024 to 2025. See stills from the KC53 stream and book Action to host yours.', cta: 'Book me to host your stream' },
+  'karate-combat': { title: 'Karate Combat | Action, Livestream Host', description: 'Action hosted the Karate Combat pit side livestreams from 2024 to 2025 and turned an open-license stream into a show crypto sponsors paid for.', cta: 'Book me to host your stream' },
   'derec-alliance': { title: 'DeRec Alliance Call | Action, Livestream Host', description: 'Action hosted the DeRec Alliance community call on Hedera\'s YouTube channel, the featured video on derec.org. Watch it here and book Action.', cta: 'Book me to host your stream' },
 };
 const m = META[e.id];
@@ -31,16 +33,19 @@ const graph = [{ '@type': 'WebPage', '@id': `${url}#webpage`, url, name: e.data.
 ---
 <Base title={title} description={desc} path={`/speaking/${e.id}`} ogImage="/og/speaking.png" graph={graph}>
 <Header current="Speaking" />
-<section class="pad" style="padding-top: clamp(40px, 6vw, 88px); padding-bottom: 96px; display: flex; flex-direction: column; gap: 20px; align-items: flex-start">
-  <a href="/speaking" style="padding: 10px 0; color: #D5D8DB">All speaking</a>
-  <h1 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(40px, 6vw, 88px); line-height: 1; letter-spacing: -0.035em`}>{e.data.event}</h1>
-  <p style={`margin: 0; font-family: ${F}; font-weight: 700; font-size: 22px`}>{e.data.year}</p>
-  <p style="margin: 0; font-size: 20px; color: #D5D8DB">{e.data.role}</p>
-  {e.data.image && <img src={`/img/${e.data.image}.jpg`} srcset={`/img/${e.data.image}-800.webp 800w, /img/${e.data.image}-1456.webp 1456w`} sizes="(max-width: 1100px) 100vw, 1100px" width="1456" height="813" alt={`Action at ${e.data.event}`} class="ci" style="display: block; width: 100%; max-width: 1100px; height: auto; aspect-ratio: 16 / 9; object-fit: cover; margin: 12px 0">}
-  <div class="prose"><Content /></div>
-  {video && <div style="width: 100%; max-width: 1100px; display: flex; flex-direction: column; gap: 12px"><Video id={video.data.youtubeId} title={video.data.title} />{post && <a href={`/blog/${post.id}`} style="align-self: flex-start; font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Read the write-up</a>}</div>}
-  {stills.length > 0 && <div class="strip rows" style="width: 100%">{stills.map((st) => <img src={`/img/${st.src}-800.webp`} srcset={`/img/${st.src}-800.webp 800w, /img/${st.src}-1440.webp 1440w`} sizes="(max-width: 600px) 100vw, 33vw" width="800" height="450" loading="lazy" decoding="async" alt={st.alt}>)}</div>}
-  {m?.project && <a href={m.project} style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">See the full project</a>}
-  <a href="/speaking#book" style="font-weight: 600; padding: 10px 0; border-bottom: 3px solid #69BE28">{m?.cta ?? 'Book me for your event'}</a>
+<PageHero img={hero.img} big={hero.big} w={hero.w} h={hero.h} alt={hero.alt} pos={hero.pos} posPhone={hero.posPhone}>
+<a href="/speaking" class="hero-back">« All speaking</a>
+<h1 class="hero-h1">{e.data.event}</h1>
+<p class="hero-year">{e.data.year}</p>
+<p class="hero-p">{e.data.role}</p>
+</PageHero>
+<section class="rv pad sec sp-body">
+  <div class="prose sp-prose"><Content /></div>
+  {video && <div class="sp-video"><Video id={video.data.youtubeId} title={video.data.title} />{post && <a href={`/blog/${post.id}`} class="btn-line go">Read the write-up</a>}</div>}
 </section>
+{e.data.highlights.length > 0 && <section class="rv pad sec alt" aria-labelledby="hl-h">
+  <h2 class="sec-h" id="hl-h">What made it work</h2>
+  <ul role="list" class="cards4">{e.data.highlights.map((h) => <li class="card"><h3 class="item-h">{h.title}</h3><p>{h.text}</p></li>)}</ul>
+</section>}
+<CallOut heading={e.data.closing ?? 'I can host your event or stream the same way.'} links={[{ label: m?.cta ?? 'Book me for your event', href: '/speaking#book', icon: 'mail' }, ...(m?.project ? [{ label: 'See the full project', href: m.project }] : []), { label: 'All speaking', href: '/speaking' }]} />
 </Base>
