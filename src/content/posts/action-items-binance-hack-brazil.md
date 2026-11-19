@@ -65,6 +65,6 @@ Stop asking which AI model wins. Ask who gets paid no matter which model wins. G
 
 The picks and shovels are chips, power, data centers, networking, cooling, copper and compute. That is why Quai, copper on chain and DePIN as a whole make more sense now. They are all pieces of the same infrastructure story.
 
-Disclosure: Coral App is a client of LFG, where I'm a partner. I help Quai, DigiByte, metals.io and Pure Wallet with feedback, unpaid.
+Disclosure: Coral App is a client of LFG, where I'm a partner.
 
 The full breakdown, with my reactions, is in the video above.
