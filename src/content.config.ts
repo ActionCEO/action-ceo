@@ -59,7 +59,7 @@ const shows = defineCollection({
     schedule: z.string(), summary: z.string(), where: z.array(z.object({ label: z.string(), url: blank(z.string().url().optional()) }).strict()),
     rss: blank(z.string().url().optional()), image: blank(z.string().optional()),
     // Recent episodes that live off YouTube (X Spaces), newest first.
-    rooms: z.array(z.object({ title: z.string(), month: z.string(), url: z.string().url() }).strict()).default([]),
+    rooms: z.array(z.object({ title: z.string(), month: z.string(), url: z.string().url(), speakers: z.array(z.object({ name: z.string(), org: z.string().optional(), x: z.string().regex(/^[A-Za-z0-9_]{1,15}$/) }).strict()).default([]) }).strict()).default([]),
     series: z.array(z.object({ id: z.string(), heading: z.string(), blurb: blank(z.string().optional()) }).strict()).default([]),
   }).strict(),
 });
