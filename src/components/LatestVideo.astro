@@ -1,21 +1,26 @@
 ---
-// Home: the newest videos as cards. Each card opens the video's post (video, key points, transcript).
+// Home: the newest videos in a row you can scroll sideways. Each card opens the video's post (video, key points, transcript).
+// 8 cards at most, then a last card that leads to the full list. Arrow buttons show where there is a mouse; phones swipe.
 import { getCollection } from 'astro:content';
 import VideoCard from './VideoCard.astro';
 import Icon from './Icon.astro';
 import { SITE } from '../site';
-const vids = (await getCollection('videos')).filter((v) => v.data.channel === 'ActionCrypto' && v.data.series !== 'depin-day' && !v.id.startsWith('SAMPLE')).sort((a, b) => +b.data.publishedAt - +a.data.publishedAt).slice(0, 3);
-const F = "'Montserrat', Arial, sans-serif";
+const vids = (await getCollection('videos')).filter((v) => v.data.channel === 'ActionCrypto' && v.data.series !== 'depin-day' && !v.id.startsWith('SAMPLE')).sort((a, b) => +b.data.publishedAt - +a.data.publishedAt).slice(0, 8);
 ---
-<section class="rv pad" aria-label="Latest videos" style="padding-bottom: 120px; display: flex; flex-direction: column; gap: 32px">
-  <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 32px">
-    <h2 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); letter-spacing: -0.025em`}>Latest breakdowns</h2>
-    <div style="display: flex; flex-wrap: wrap; gap: 4px 28px">
-      <a href="/blog" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">All videos, written out</a>
-      <a href={`${SITE.youtube}?sub_confirmation=1`} rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF"><Icon name="youtube" size={20} />Subscribe to {SITE.channel}</a>
+<section class="rv" aria-label="Latest videos" style="padding: clamp(72px, 9vw, 120px) 0; display: flex; flex-direction: column; gap: 32px">
+  <div class="pad" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px 32px">
+    <h2 class="sec-h" style="margin-bottom: 0">Latest breakdowns</h2>
+    <div class="vnav" data-vnav hidden>
+      <button type="button" class="vbtn" data-vprev aria-label="Earlier videos"><Icon name="left" size={22} /></button>
+      <button type="button" class="vbtn" data-vnext aria-label="More videos"><Icon name="right" size={22} /></button>
     </div>
   </div>
-  <div class="vgrid">
+  <div class="vrow" data-vrow tabindex="0" role="group" aria-label="Latest videos, scroll sideways for more">
     {vids.map((v) => <VideoCard video={v} />)}
+    <a href="/blog" class="vmore"><span>See all videos</span><Icon name="go" size={28} /></a>
+  </div>
+  <div class="pad" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px">
+    <a href={`${SITE.youtube}?sub_confirmation=1`} rel="noopener" class="btn-line ext"><Icon name="youtube" size={22} />Subscribe to {SITE.channel}<span class="sr">, opens in a new tab</span></a>
+    <a href="/blog" class="go" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">See all videos</a>
   </div>
 </section>

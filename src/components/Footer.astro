@@ -1,15 +1,16 @@
 ---
 import { SITE } from '../site';
 import Icon from './Icon.astro';
-// Each social link shows its logo and a short handle. On a phone the handles drop away and only the logos stay.
+// Each social link shows its logo and which account it is, on every screen. Hovering shows the full name.
+// On a phone they sit 2 to a line: the 2 YouTube channels, the 2 X accounts, then LinkedIn and Instagram.
 const L = [
-  { icon: 'youtube', label: `YouTube: ${SITE.channel}`, short: '@ActionCrypto', href: SITE.youtube },
-  { icon: 'youtube', label: 'YouTube: LFG Action', short: '@LFGAction', href: SITE.youtubeLfg },
-  { icon: 'x', label: 'X: @ActionCEO', short: '@ActionCEO', href: SITE.x },
-  { icon: 'x', label: 'X: @LFGAction', short: '@LFGAction', href: SITE.xLfg },
-  { icon: 'linkedin', label: 'LinkedIn', short: 'LinkedIn', href: SITE.linkedin },
-  { icon: 'instagram', label: 'Instagram', short: 'Instagram', href: SITE.instagram },
-  ...(SITE.telegram ? [{ icon: 'telegram', label: 'Telegram', short: 'Telegram', href: SITE.telegram }] : []),
+  { icon: 'youtube', label: `${SITE.channel} on YouTube`, short: SITE.channel, href: SITE.youtube },
+  { icon: 'youtube', label: 'LFG Action on YouTube', short: 'LFG Action', href: SITE.youtubeLfg },
+  { icon: 'x', label: '@ActionCEO on X', short: '@ActionCEO', href: SITE.x },
+  { icon: 'x', label: '@LFGAction on X', short: '@LFGAction', href: SITE.xLfg },
+  { icon: 'linkedin', label: 'Action on LinkedIn', short: 'LinkedIn', href: SITE.linkedin },
+  { icon: 'instagram', label: 'Action on Instagram', short: 'Instagram', href: SITE.instagram },
+  ...(SITE.telegram ? [{ icon: 'telegram', label: 'Action on Telegram', short: 'Telegram', href: SITE.telegram }] : []),
 ];
 ---
 <footer class="pad site-foot" style="border-top: 1px solid #0A2C52; padding-top: 48px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 28px; font-size: 16px; color: #A5AAAF">
@@ -19,12 +20,12 @@ const L = [
   </div>
   <ul class="socials" aria-label="Follow Action" style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px">
     {L.map((l) => (
-      <li><a href={l.href} target="_blank" rel="noopener" aria-label={l.label} class="soc"><Icon name={l.icon} size={22} /><span class="soc-t">{l.short}</span></a></li>
+      <li><a href={l.href} target="_blank" rel="noopener" aria-label={`${l.label}, opens in a new tab`} title={l.label} class="soc"><Icon name={l.icon} size={22} /><span class="soc-t">{l.short}</span></a></li>
     ))}
   </ul>
   <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 28px; border-top: 1px solid #0A2C52; padding-top: 20px">
     <a href={`mailto:${SITE.email}`} style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 0"><Icon name="mail" size={18} />{SITE.email}</a>
-    <a href="/lfg" style="padding: 10px 0">Laissez-Faire Group</a>
+    <a href="/lfg" title="Laissez-Faire Group" style="display: inline-flex; padding: 10px 0"><img src="/img/lfg-wordmark-white.png" alt="Laissez-Faire Group" width="400" height="150" loading="lazy" decoding="async" style="display: block; height: 34px; width: auto"></a>
     <a href="/privacy" style="padding: 10px 0">Privacy</a>
     <span style="padding: 10px 0; margin-left: auto">© {new Date().getFullYear()} {SITE.formalName}</span>
   </div>

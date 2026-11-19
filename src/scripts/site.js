@@ -115,6 +115,20 @@ $$('[data-share]').forEach((b) => {
   });
 });
 
+// Home: arrow buttons for the video row. They move 1 screen of cards and grey out at either end.
+const vrow = document.querySelector('[data-vrow]'), vnav = document.querySelector('[data-vnav]');
+if (vrow && vnav) {
+  const prev = vnav.querySelector('[data-vprev]'), next = vnav.querySelector('[data-vnext]');
+  const sync = () => { prev.disabled = vrow.scrollLeft < 8; next.disabled = vrow.scrollLeft + vrow.clientWidth > vrow.scrollWidth - 8; };
+  const move = (dir) => vrow.scrollBy({ left: dir * Math.max(320, vrow.clientWidth * 0.8), behavior: reduce ? 'auto' : 'smooth' });
+  prev.addEventListener('click', () => move(-1));
+  next.addEventListener('click', () => move(1));
+  vrow.addEventListener('scroll', sync, { passive: true });
+  addEventListener('resize', sync);
+  vnav.hidden = false;
+  sync();
+}
+
 // About: story chapters. A tap brings the chapter list to the top of the screen so the text below is in view.
 const steps = $$('[data-step]'), panels = $$('[data-panel]');
 if (steps.length) panels.forEach((p, i) => { p.hidden = i !== 0; });

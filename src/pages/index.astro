@@ -5,13 +5,14 @@ import { SITE } from '../site';
 import LatestVideo from '../components/LatestVideo.astro';
 import TelegramNote from '../components/TelegramNote.astro';
 import Icon from '../components/Icon.astro';
+// Each row gets a small mark: a logo file from public/img, the YouTube icon, or 2 letters until a logo file arrives.
 const work = [
   { name: SITE.channel, role: 'My main channel. My takes on AI, DePIN and crypto since 2021', href: SITE.youtube, yt: true },
-  { name: 'DePIN Day: Seattle', role: 'Co-organizer and host. 2024 and 2025', href: '/work/depin-day-seattle' },
-  { name: 'Action Items', role: 'My weekly live show, on YouTube, LinkedIn and X', href: '/shows/action-items' },
-  { name: 'Laissez-Faire Group', role: 'My day job. Partner and CCO: go-to-market, marketing and PR', href: '/lfg' },
-  { name: 'Karate Combat', role: 'Livestream host, 2024 to 2025', href: '/speaking/karate-combat' },
-  { name: 'Genzio', role: 'Host of the Genzio Roundtable. Live programming lead since 2022', href: '/shows/genzio-roundtable' },
+  { name: 'DePIN Day: Seattle', role: 'Co-organizer and host. 2024 and 2025', href: '/work/depin-day-seattle', mono: 'DD' },
+  { name: 'Action Items', role: 'My weekly live show, on YouTube, LinkedIn and X', href: '/shows/action-items', logo: '/img/icon-512.png', live: true },
+  { name: 'Laissez-Faire Group', role: 'My day job. Partner and CCO: go-to-market, marketing and PR', href: '/lfg', logo: '/img/lfg-mark.png', wide: true },
+  { name: 'Karate Combat', role: 'Livestream host, 2024 to 2025', href: '/speaking/karate-combat', mono: 'KC' },
+  { name: 'Genzio', role: 'Host of the Genzio Roundtable. Live programming lead since 2022', href: '/shows/genzio-roundtable', logo: '/img/genzio-mark.png' },
 ];
 import fs from 'node:fs';
 import { getCollection } from 'astro:content';
@@ -26,14 +27,15 @@ const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 ---
 <Base page="home" overlay>
 <header style="position: relative; min-height: 900px; display: flex; flex-direction: column; overflow: hidden">
-<picture style="display: contents"><source type="image/avif" srcset="/img/studio-hero-800.avif 800w, /img/studio-hero-1920.avif 1920w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/studio-hero-800.webp 800w, /img/studio-hero-1920.webp 1920w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/studio-hero.jpg" width="1920" height="1080" loading="eager" fetchpriority="high" decoding="async" class="hero-img" alt="Action smiling at the camera in his studio, guitars on the wall behind him" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"></picture>
+<picture style="display: contents"><source type="image/avif" srcset="/img/studio-hero-800.avif 800w, /img/studio-hero-1920.avif 1920w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/studio-hero-800.webp 800w, /img/studio-hero-1920.webp 1920w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/studio-hero.jpg" width="1920" height="1080" loading="eager" fetchpriority="high" decoding="async" class="hero-img hero-flip" alt="Action smiling at the camera in his studio, guitars on the wall behind him" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"></picture>
 {heroVideo && <video data-hero-video data-src="/video/hero-stage.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 30%; opacity: 0; transition: opacity 600ms cubic-bezier(.4,0,.2,1)"></video>}
 <div aria-hidden="true" class="hero-shade" style="position: absolute; inset: 0; background: linear-gradient(to top, #06111F 0%, rgba(6,17,31,0.78) 30%, rgba(6,17,31,0.2) 58%, rgba(6,17,31,0.82) 100%)"></div>
+<div aria-hidden="true" class="hero-side"></div>
 
 <Header current="" />
 
 <div class="px" style="position: relative; margin-top: auto; padding: 0 clamp(20px, 4.5vw, 64px) 40px; display: flex; flex-direction: column; gap: 32px">
-<h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(40px, 6.2vw, 92px); line-height: 0.98; letter-spacing: -0.035em; text-wrap: balance">I ran the company.<br>Now I break it down.</h1>
+<h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(40px, 5.4vw, 84px); line-height: 0.98; letter-spacing: -0.035em; text-wrap: balance">I ran the company.<br>Now I break it down.</h1>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px 40px">
 <p style="margin: 0; max-width: 520px; font-size: 19px; color: #FFFFFF">I'm Action. I spent 6 years as a COO, doing the talking and the negotiating. Now I explain AI, DePIN and crypto in plain English on my channel, {SITE.channel}.</p>
 <a href={watchHref} style="background: #69BE28; color: #06111F; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 2px">Watch the latest breakdown</a>
@@ -41,14 +43,14 @@ const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 </div>
 </div>
 
-<div style="position: relative; border-top: 1px solid rgba(165,170,175,0.35); padding: 18px clamp(20px, 4.5vw, 64px); display: flex; flex-wrap: wrap; align-items: center; gap: 10px 36px; font-size: 16px">
+<div class="ticker" style="position: relative; border-top: 1px solid rgba(165,170,175,0.35); padding: 18px clamp(20px, 4.5vw, 64px); display: flex; flex-wrap: wrap; align-items: center; gap: 10px 36px; font-size: 16px">
 <div style="display: flex; align-items: center; gap: 12px">
 <span class="air-dot" aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: #69BE28; animation: airpulse 1.6s ease-in-out infinite"></span>
 <span style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; letter-spacing: 0.06em">ACTION ITEMS</span>
 </div>
 <span style="color: #D5D8DB">Live Fridays, 9:30am Pacific</span>
 <span style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-variant-numeric: tabular-nums"><span data-countdown>Next show: Friday</span></span>
-<a href={`${SITE.youtube}/live`} rel="noopener" style="margin-left: auto; font-weight: 600; padding: 4px 0; border-bottom: 1px solid #FFFFFF">Watch live on YouTube</a>
+<a href={`${SITE.youtube}/live`} rel="noopener" class="ticker-cta ext" style="margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 4px 0; border-bottom: 1px solid #FFFFFF"><Icon name="youtube" size={20} />Watch live on YouTube<span class="sr">, opens in a new tab</span></a>
 </div>
 </header>
 
@@ -73,26 +75,27 @@ const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 
 <section class="rv" aria-label="DePIN Day: Seattle">
 <div style="overflow: clip">
-<picture style="display: contents"><source type="image/avif" srcset="/img/depin-stage-800.avif 800w, /img/depin-stage-1456.avif 1456w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/depin-stage-800.webp 800w, /img/depin-stage-1456.webp 1456w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/depin-stage.jpg" width="1456" height="721" loading="lazy" decoding="async" class="zi"  alt="The DePIN Day: Seattle stage seen from the back of the room, Action on stage" style="display: block; width: 100%; height: clamp(320px, 43vw, 620px); object-fit: cover"></picture>
+<picture style="display: contents"><source type="image/avif" srcset="/img/depin-stage-800.avif 800w, /img/depin-stage-1456.avif 1456w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/depin-stage-800.webp 800w, /img/depin-stage-1456.webp 1456w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/depin-stage.jpg" width="1456" height="721" loading="lazy" decoding="async" class="zi"  alt="The DePIN Day: Seattle stage seen from the back of the room, Action on stage" style="display: block; width: 100%; height: clamp(240px, 31vw, 480px); object-fit: cover; object-position: 50% 6%"></picture>
 </div>
 <div style="padding: 48px clamp(20px, 4.5vw, 64px) 0; display: flex; flex-wrap: wrap; gap: 16px 64px">
 <h2 style="margin: 0; flex: 1 1 320px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); line-height: 1.05; letter-spacing: -0.025em">DePIN Day: Seattle</h2>
-<p style="margin: 0; flex: 2 1 420px; max-width: 640px; font-size: 19px; color: #D5D8DB">I co-organized it and hosted it, 2 years running. T-Mobile, HP and Borderless Capital on stage across 2024 and 2025. <a href="/work/depin-day-seattle" style="border-bottom: 1px solid #FFFFFF">See the event</a></p>
+<p style="margin: 0; flex: 2 1 420px; max-width: 640px; font-size: 19px; color: #D5D8DB">I co-organized it and hosted it, 2 years running. T-Mobile, HP and Borderless Capital on stage across 2024 and 2025. <a href="/work/depin-day-seattle" class="go" style="border-bottom: 1px solid #FFFFFF">See the event</a></p>
 </div>
 </section>
 
 <div aria-hidden="true" style="overflow: clip; padding: clamp(40px, 6vw, 80px) 0 0">
-<div class="band" style="white-space: nowrap; font-family: 'Montserrat', Arial, sans-serif; font-weight: 900; font-size: clamp(72px, 15vw, 230px); line-height: 0.9; letter-spacing: -0.05em; text-transform: uppercase; color: #0A2C52">AI. DePIN. Crypto. In plain English. AI. DePIN. Crypto. In plain English.</div>
+<div class="band" style="white-space: nowrap; width: max-content; font-family: 'Montserrat', Arial, sans-serif; font-weight: 900; font-size: clamp(72px, 15vw, 230px); line-height: 0.9; letter-spacing: -0.05em; text-transform: uppercase; color: #0A2C52">AI. DePIN. Crypto. In plain English. AI. DePIN. Crypto. In plain English.</div>
 </div>
-<section class="rv" id="work" style="padding: 120px clamp(20px, 4.5vw, 64px)">
-<h2 style="margin: 0 0 40px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); letter-spacing: -0.025em">The work</h2>
+<section class="rv alt" id="work" style="padding: clamp(72px, 9vw, 120px) clamp(20px, 4.5vw, 64px)">
+<h2 class="sec-h">The work</h2>
 <div class="rows" style="display: flex; flex-direction: column">
-{work.map((item, i) => (<Fragment>
-<a href={item.href} style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 32px; padding: 26px 0; border-top: 1px solid #0A2C52">
-<span style="display: inline-flex; align-items: center; gap: 14px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(24px, 3vw, 40px); letter-spacing: -0.02em">{item.yt && <Icon name="youtube" size={34} />}{item.name}{item.href.startsWith('http') && <Icon name="out" size={22} label="opens in a new tab" />}</span>
-<span style="color: #A5AAAF; font-size: 17px">{item.role}</span>
+{work.map((item) => (
+<a href={item.href} class="row">
+<span class:list={['mark', { 'mark-wide': item.wide }]} aria-hidden="true">{item.yt ? <Icon name="youtube" size={30} /> : item.logo ? <img src={item.logo} alt="" width="40" height="40" loading="lazy" decoding="async"> : item.mono}{item.live && <i class="mark-live"></i>}</span>
+<span class="row-main"><span class="row-name">{item.name}</span><span class="row-role">{item.role}</span></span>
+{item.href.startsWith('http') ? <Icon name="out" size={22} label="opens in a new tab" /> : <span class="row-go" aria-hidden="true"><Icon name="go" size={22} /></span>}
 </a>
-</Fragment>))}
+))}
 </div>
 </section>
 
@@ -101,9 +104,9 @@ const heroVideo = fs.existsSync('public/video/hero-stage.mp4');
 <TelegramNote />
 
 <section class="rv" id="talk" style="background: #002346; padding: 120px clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column; gap: 28px">
-<h2 style="margin: 0; max-width: 1000px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(36px, 5.2vw, 76px); line-height: 1; letter-spacing: -0.035em">Start with a video. If you want me on your stage after that, get in touch.</h2>
-<a href={SITE.youtube} rel="noopener" style="align-self: flex-start; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(22px, 2.4vw, 32px); padding: 8px 0; border-bottom: 3px solid #69BE28">Watch {SITE.channel}</a>
+<h2 style="margin: 0; max-width: 1000px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(36px, 5.2vw, 76px); line-height: 1; letter-spacing: -0.035em">Start with a video, an interview or a Space. If you want me on your stage after that, get in touch.</h2>
+<a href={SITE.youtube} rel="noopener" class="ext" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 12px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(22px, 2.4vw, 32px); padding: 8px 0; border-bottom: 3px solid #69BE28"><Icon name="youtube" size={30} />Watch {SITE.channel}<span class="sr">, opens in a new tab</span></a>
 <a href="/contact" style="align-self: flex-start; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Get in touch</a>
-<a href="mailto:me@action.ceo" style="align-self: flex-start; padding: 10px 0; border-bottom: 1px solid #FFFFFF">me@action.ceo</a>
+<a href={`mailto:${SITE.email}`} style="align-self: flex-start; padding: 10px 0; border-bottom: 1px solid #FFFFFF">{SITE.email}</a>
 </section>
 </Base>

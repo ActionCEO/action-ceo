@@ -56,10 +56,10 @@ summary{cursor:pointer}
   .hero-shade{background:linear-gradient(to bottom, rgba(6,17,31,.55) 0, rgba(6,17,31,0) 16%, rgba(6,17,31,0) 38vh, #06111F 62vh) !important}
   .nav-room{height:46vh}
 }
-/* Footer socials: logo plus handle; on phones the logos only. */
+/* Footer socials: logo plus account name on every screen; 2 to a line on phones. */
 .soc{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 14px;border:1px solid #0A2C52;border-radius:2px;color:#D5D8DB}
 .soc:hover{border-color:#326496;color:#FFFFFF}
-@media (max-width:600px){.soc-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.soc{padding:10px}}
+@media (max-width:600px){.socials{display:grid !important;grid-template-columns:1fr 1fr}.soc{display:flex;padding:10px 12px}.soc-t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
 /* Links that leave the site open in a new tab (added at build) and get a small arrow in running text. */
 .prose a[target="_blank"]::after,.ext::after{content:"";display:inline-block;width:.7em;height:.7em;margin-left:.3em;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' d='M14 4h6v6M20 4 10 14M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' d='M14 4h6v6M20 4 10 14M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5'/%3E%3C/svg%3E") center/contain no-repeat}
 .nw{white-space:nowrap}
@@ -107,8 +107,10 @@ a,button{transition:color .18s cubic-bezier(.4,0,.2,1),border-color .18s cubic-b
 @supports (animation-timeline:view()){
 @keyframes heroout{to{opacity:.35}}
 .px{animation:heroout linear both;animation-timeline:scroll(root);animation-range:120px 620px}
-@keyframes slideL{from{transform:translateX(8%)}to{transform:translateX(-38%)}}
+@keyframes slideL{from{transform:translateX(8vw)}to{transform:translateX(-38vw)}}
 .band{animation:slideL linear both;animation-timeline:view()}
+@keyframes slideM{from{transform:translateX(6vw)}to{transform:translateX(-58%)}}
+@media (max-width:800px){.band{animation-name:slideM}}
 @keyframes imgin{from{transform:scale(1.14)}to{transform:scale(1)}}
 .zi{animation:imgin cubic-bezier(.4,0,.2,1) both;animation-timeline:view();animation-range:entry 0% cover 50%}
 @keyframes drift{from{transform:translateY(-6%) scale(1.12)}to{transform:translateY(6%) scale(1.12)}}
@@ -140,3 +142,53 @@ html .prog{display:block;animation:prog linear both;animation-timeline:scroll(ro
 .share{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
 .share .chip{display:inline-flex;align-items:center;gap:8px}
 @media print{.js .site-nav,.js .nav-over{position:absolute !important;transform:none}.prog{display:none !important}}
+
+/* Screen-reader-only text. */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* Section headings: a green bar and a bigger, heavier line, so a heading never reads like 1 of the links under it. */
+.sec-h{margin:0 0 40px;font:800 clamp(34px,4.6vw,64px)/1 'Montserrat',Arial,sans-serif;letter-spacing:-.035em}
+.sec-h::before{content:"";display:block;width:56px;height:5px;margin-bottom:22px;background:#69BE28}
+/* A section on the lighter navy, edge to edge, so 1 block reads apart from the next. */
+.alt{background:#0A1B30;border-top:1px solid #0A2C52;border-bottom:1px solid #0A2C52}
+/* Link rows (Home, The work): mark, name and role, then an arrow. The whole row is the link. */
+.row{display:flex;align-items:center;gap:16px 22px;padding:22px 0;border-top:1px solid #12355E}
+.row:last-child{border-bottom:1px solid #12355E}
+.row-main{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:2px 32px}
+.row-name{font:700 clamp(20px,2.1vw,28px)/1.2 'Montserrat',Arial,sans-serif;letter-spacing:-.015em;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:6px;text-decoration-thickness:2px;transition:text-decoration-color .18s}
+.row-role{color:#A5AAAF;font-size:17px}
+.row>svg,.row-go{flex:none;color:#A5AAAF;transition:transform .2s cubic-bezier(.2,.7,.2,1),color .18s}
+.row-go{display:flex}
+.row:hover{color:#FFFFFF}
+.row:hover .row-name,.row:focus-visible .row-name{text-decoration-color:#69BE28}
+.row:hover>svg,.row:hover .row-go{color:#69BE28}
+.row:hover .row-go{transform:translateX(6px)}
+.mark{position:relative;flex:none;display:flex;align-items:center;justify-content:center;width:56px;height:56px;border:1px solid #12355E;border-radius:2px;background:#06111F;font:800 18px 'Montserrat',Arial,sans-serif;letter-spacing:.02em;color:#D5D8DB}
+.mark img{display:block;width:34px;height:34px;object-fit:contain}
+.mark-wide img{width:42px}
+.mark-live{position:absolute;top:6px;right:6px;width:9px;height:9px;border-radius:50%;background:#69BE28}
+@media (max-width:600px){.mark{width:46px;height:46px;font-size:15px}.mark img{width:28px;height:28px}.mark-wide img{width:34px}.row{gap:14px}}
+/* In-page link with an arrow that stays on the same line as its last word. */
+.go{white-space:nowrap}
+.go::after{content:"";display:inline-block;width:.85em;height:.85em;margin-left:.35em;vertical-align:-.08em;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' d='M4 12h15M13 6l6 6-6 6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round' d='M4 12h15M13 6l6 6-6 6'/%3E%3C/svg%3E") center/contain no-repeat;transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+.go:hover::after{transform:translateX(4px)}
+/* Outline button. */
+.btn-line{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:10px 20px;border:1px solid #326496;border-radius:2px;font:700 16px 'Montserrat',Arial,sans-serif}
+.btn-line:hover{border-color:#FFFFFF;color:#FFFFFF}
+/* Home video row: scrolls sideways and snaps card by card. The next card always peeks in from the right edge. */
+.vrow{display:flex;gap:28px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:clamp(20px,4.5vw,64px);padding:4px clamp(20px,4.5vw,64px) 18px;scrollbar-width:thin;scrollbar-color:#326496 transparent;-webkit-overflow-scrolling:touch}
+.vrow>*{flex:0 0 min(78vw,400px);scroll-snap-align:start}
+.vmore{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:14px;aspect-ratio:16/9;align-self:flex-start;padding:24px;border:1px solid #12355E;border-radius:2px;font:800 clamp(22px,2.2vw,30px) 'Montserrat',Arial,sans-serif;letter-spacing:-.02em}
+.vmore:hover{border-color:#69BE28;color:#FFFFFF}
+.vnav{display:flex;gap:10px}
+.vnav[hidden]{display:none}
+.vbtn{display:flex;align-items:center;justify-content:center;width:48px;height:48px;border:1px solid #326496;border-radius:2px;background:none;color:#FFFFFF;cursor:pointer}
+.vbtn:hover{border-color:#FFFFFF}
+.vbtn:disabled{opacity:.35;cursor:default;border-color:#12355E}
+@media (hover:none){.vnav{display:none}}
+/* Home hero: the photo is mirrored so the face sits to the right of the headline, with a shade behind the words. */
+.hero-flip{scale:-1 1;object-position:30% 50%}
+@media (min-width:801px){.hero-flip{scale:-1.1 1.1;translate:5% 0}}
+.hero-side{position:absolute;inset:0;background:linear-gradient(to right,rgba(6,17,31,.72) 0%,rgba(6,17,31,.35) 38%,rgba(6,17,31,0) 62%)}
+@media (max-width:800px){.hero-side{display:none}.ticker{justify-content:center;text-align:center}.ticker .ticker-cta{margin-left:0 !important;flex-basis:100%;justify-content:center;border-bottom:0 !important;text-decoration:underline;text-underline-offset:6px}}
+/* Phone menu open: the bar goes solid so the photo behind it is covered. */
+.site-nav:has(.nav-links.open){background:#06111F}
