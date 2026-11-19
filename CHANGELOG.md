@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0, 2026-11-19
+Look and feel, SEO and CMS sign-in.
+- Scroll: blocks fade up 1 time and stay; the hero text no longer slides onto the Action Items bar; play tiles show on hover only.
+- New: nav that hides on the way down and returns on the way up, reading progress and share row on posts, topic filter on the blog.
+- SEO: posts showed 1 day early (fixed everywhere), blog list has headings, dates and Blog data, founder interviews back in the sitemap.
+- Action Items lives start at Friday 9:30am Pacific.
+- CMS sign-in runs on the site at `/cms-auth` (stock `sveltia-cms-auth` in `vendor/`), through the GitHub App "Action CEO CMS" installed on this repo only.
+
 ## 1.0.2, 2026-11-18
 First deploy, without GitHub.
 - Cloudflare: D1 `action-ceo` (44c8d572-99ac-484a-91fa-708acc38debd) and `action-ceo-preview` (ed542a52-3585-4772-9dc7-6405b1189af1), both with `migrations/0001_site_core.sql` applied and bound as `DB` to production and preview. IDs are in `wrangler.toml`.
