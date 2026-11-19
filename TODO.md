@@ -19,7 +19,7 @@ Done on 2026-11-18: Cloudflare account (me@action.ceo), both D1 databases with t
 9. **GitHub username** for `.github/CODEOWNERS` (line 2), plus any editor usernames.
 10. **CMS sign-in.** Repo name and the `sveltia-cms-auth` Worker URL in `public/admin/config.yml` (lines 4 and 6). `/admin` cannot sign in until both are real.
 11. **2 GitHub Apps** (the CMS App and the bot App that opens draft PRs). `SETUP.md` section 3.
-12. **LFG Action channel ID.** The Action Crypto ID is already set. Both go in 2 files that must match: `scripts/pipeline/config.json` and `migrations/0001_site_core.sql` (line 29). Put them in the migration before it is applied.
+12. **LFG Action channel ID.** The Action Crypto ID is already set. Both go in 2 files that must match: `scripts/pipeline/config.json` and `migrations/0001_site_core.sql` (line 29). The migration is already applied with a placeholder row, so also run in both D1 consoles: `UPDATE site_pipeline_channels SET id = '<real ID>' WHERE id = 'TODO_CHANNEL_ID_LFGACTION';` (update the 3 matching `site_pipeline_ingest_rules` rows the same way first, or delete and re-insert them).
 13. **Claude model ID to pin** in `scripts/pipeline/config.json` (`model`).
 
 ## Needs Action (content)
