@@ -81,7 +81,7 @@ summary{cursor:pointer}
 .pv{transition:opacity .35s ease}
 .row-thumb{display:none}
 @media (max-width:800px){[data-pv]{color:#FFFFFF !important}}
-@media (max-width:800px){.pvpanel{display:none}.row-thumb{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;margin-top:12px}}
+@media (max-width:800px){.pvpanel{display:none !important}.row-thumb{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;margin-top:12px}span.row-thumb{display:flex}}
 [data-step][aria-pressed="true"],[data-ch][aria-pressed="true"]{color:#FFFFFF !important;border-left-color:#69BE28 !important}
 [data-pv].on{color:#FFFFFF !important}
 .ytplay{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;background:rgba(6,17,31,.25);color:#06111F;cursor:pointer;display:flex;align-items:center;justify-content:center}
@@ -192,3 +192,31 @@ html .prog{display:block;animation:prog linear both;animation-timeline:scroll(ro
 @media (max-width:800px){.hero-side{display:none}.ticker{justify-content:center;text-align:center}.ticker .ticker-cta{margin-left:0 !important;flex-basis:100%;justify-content:center;border-bottom:0 !important;text-decoration:underline;text-underline-offset:6px}}
 /* Phone menu open: the bar goes solid so the photo behind it is covered. */
 .site-nav:has(.nav-links.open){background:#06111F}
+
+/* Work: project rows with a preview panel. On desktop the panel sticks under the nav while the list scrolls, so the
+   picture for the last rows is still on screen on a short display. The highlighted row cycles on its own (site.js). */
+.pvrow{display:flex;gap:24px;align-items:baseline;padding:24px 0;border-top:1px solid #0A2C52;color:#8A9099}
+.pvrow:last-child{border-bottom:1px solid #0A2C52}
+.pvpanel{flex:2 1 320px;position:sticky;top:96px;aspect-ratio:4/5;max-height:calc(100vh - 128px);background:#002346;overflow:hidden}
+.pv-genzio{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 38%,#7C4DFF 0%,#4A1FB8 48%,#1C0B4A 100%)}
+span.pv-genzio{position:static;aspect-ratio:16/9}
+@media (min-width:801px){.row-thumb.pv-genzio{display:none}}
+.pv-show{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:20px;padding:24px;background:linear-gradient(160deg,#0A2C52,#06111F)}
+.pv-show img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border:1px solid #12355E}
+.pv-live{display:inline-flex;align-items:center;gap:10px;font:800 16px 'Montserrat',Arial,sans-serif;letter-spacing:.04em;text-transform:uppercase}
+.pv-live i{width:10px;height:10px;border-radius:50%;background:#69BE28}
+/* Page header with a photo: words on the left, photo fading in from the right. */
+.page-hero{position:relative;overflow:hidden;display:flex;align-items:flex-end;min-height:clamp(300px,34vw,460px)}
+.page-hero-img{position:absolute;top:0;right:0;width:min(100%,1100px);height:100%;object-fit:cover;object-position:60% 40%}
+.page-hero-shade{position:absolute;inset:0;background:linear-gradient(to right,#06111F 0%,#06111F 22%,rgba(6,17,31,.55) 55%,rgba(6,17,31,.25) 100%),linear-gradient(to top,#06111F 0%,rgba(6,17,31,0) 45%)}
+.page-hero-text{position:relative;display:flex;flex-direction:column;gap:20px;padding:clamp(40px,6vw,88px) clamp(20px,4.5vw,64px) clamp(28px,3vw,44px)}
+@media (min-width:1000px){.one-line{white-space:nowrap}}
+@media (max-width:800px){.page-hero-img{object-position:100% 40%}.page-hero-shade{background:linear-gradient(to top,#06111F 8%,rgba(6,17,31,.6) 55%,rgba(6,17,31,.35) 100%)}}
+/* Closing call-out box. */
+.callout{background:#002346;border-top:5px solid #69BE28;padding:clamp(64px,8vw,110px) clamp(20px,4.5vw,64px);display:flex;flex-direction:column;gap:28px;align-items:flex-start}
+.callout .sec-h::before{display:none}
+.callout .sec-h{font-size:clamp(30px,4vw,56px);line-height:1.05}
+.tags{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.tags li{padding:8px 14px;border:1px solid #326496;border-radius:2px;font:700 15px 'Montserrat',Arial,sans-serif;color:#D5D8DB}
+.btn-solid{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:14px 26px;border-radius:2px;background:#69BE28;color:#06111F;font:800 16px 'Montserrat',Arial,sans-serif}
+.btn-solid:hover{background:#FFFFFF;color:#06111F}

@@ -140,13 +140,24 @@ steps.forEach((b) => b.addEventListener('click', () => {
   else { const panel = panels.find((p) => !p.hidden); if (panel && panel.getBoundingClientRect().top > innerHeight * 0.6) panel.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); }
 }));
 
-// Work: preview image follows hover and keyboard focus.
+// Work: the preview panel shows the highlighted row. The highlight moves down the list on its own every 4 seconds,
+// 2 times round, then rests on the first row. Hover, keyboard focus or a tap takes over and stops it for good.
 const rows = $$('[data-pv]'), pvs = $$('[data-pv-img]');
 const show = (row) => {
   rows.forEach((r) => r.classList.toggle('on', r === row));
   pvs.forEach((i) => { i.style.opacity = i.dataset.pvImg === row.dataset.pv ? 1 : 0; });
 };
-rows.forEach((r) => { r.addEventListener('mouseenter', () => show(r)); r.addEventListener('focus', () => show(r)); });
+if (rows.length) {
+  let at = 0, steps = 0, timer = 0, seen = false;
+  const stop = () => { clearInterval(timer); timer = 0; steps = Infinity; };
+  const tick = () => { if (document.hidden || !seen) return; at = (at + 1) % rows.length; show(rows[at]); if (++steps >= rows.length * 2) stop(); };
+  rows.forEach((r) => ['mouseenter', 'focus', 'touchstart'].forEach((ev) => r.addEventListener(ev, () => { stop(); show(r); }, { passive: true })));
+  const panel = document.querySelector('.pvpanel');
+  if (panel && !reduce && matchMedia('(min-width: 801px)').matches && 'IntersectionObserver' in window) {
+    new IntersectionObserver((es) => { seen = es[0].isIntersecting; }, { threshold: 0.3 }).observe(panel);
+    timer = setInterval(tick, 4000);
+  }
+}
 
 // Country lookup: 1 request per page view, shared by the player and analytics. 'XX' means unknown.
 // Visitors in the EU, EEA, UK and Switzerland, and anyone whose country is unknown, are asked first.
