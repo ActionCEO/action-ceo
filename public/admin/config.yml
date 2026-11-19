@@ -244,3 +244,23 @@ collections:
       - { name: image, label: Image name, widget: string, required: false }
       - { name: video, label: Video, widget: relation, collection: videos, value_field: youtubeId, search_fields: [title], display_fields: [title], required: false }
       - { name: body, label: Notes, widget: markdown, required: false }
+  - name: site
+    label: Forwarding
+    description: "Send an old address to a new page. Use this when you rename or remove a page, so old links and Google results still land somewhere."
+    files:
+      - name: redirects
+        label: Forwarding rules
+        file: src/data/redirects.json
+        format: json
+        fields:
+          - name: redirects
+            label: Rules
+            label_singular: rule
+            widget: list
+            summary: "{{from}} → {{to}}"
+            hint: "The site checks every rule when it builds. A rule that points at a page that does not exist, or that would hide a live page, stops the update and nothing changes."
+            fields:
+              - { name: from, label: Old address, widget: string, hint: "The part after action.ceo, starting with /. Example: /speaking/old-page", pattern: ['^/\S*$', 'Start with / and use no spaces'] }
+              - { name: to, label: Send to, widget: string, hint: "A page on this site starting with /, or a full link starting with https://. Example: /blog/new-page", pattern: ['^(/|https://)\S*$', 'Start with / or https:// and use no spaces'] }
+              - { name: type, label: Type, widget: select, default: permanent, options: [{ label: "Permanent (the page moved for good)", value: permanent }, { label: "Temporary (it will come back)", value: temporary }] }
+              - { name: note, label: Note to self, widget: string, required: false }

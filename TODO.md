@@ -33,7 +33,7 @@ Done on 2026-11-18: Cloudflare account (me@action.ceo), both D1 databases with t
 6. **DePIN Day: Seattle page.** Why it started, the replay link, a crowd or sponsor photo.
 7. **About page.** 1 line each on GE and on getting into crypto, in Action's words.
 8. **Privacy page.** Lawyer review, the last-updated date, and how access, deletion and retention requests are handled.
-9. **Old URLs.** Crawl the Duda site and fill `public/_redirects`. The 9 rules there now are guesses.
+9. **Old URLs.** Crawl the Duda site and fill `src/data/redirects.json` (the Forwarding list in the CMS). The 9 rules there now are guesses.
 10. **Categories and tags.** Confirm the lists in `src/data/`. The same options are repeated in `public/admin/config.yml`.
 
 ## Decisions

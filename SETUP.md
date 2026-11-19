@@ -35,7 +35,7 @@ Agents never create accounts, accept terms, touch DNS or cancel services. The st
 - Day 1 test and report: do auto captions download for Action's own videos, how long they take to appear, does the 180-second Shorts rule misclassify anything.
 
 ## 5. Cutover (ask Action before every step here)
-1. Crawl the Duda site and actionenterprisesolutions.com. Fill `public/_redirects`.
+1. Crawl the Duda site and actionenterprisesolutions.com. Fill `src/data/redirects.json` (the Forwarding list in the CMS).
 2. Action approves the site on the pages.dev address.
 3. Export every DNS record at Namecheap for **both** domains. Copy MX, SPF, DKIM, DMARC and Google verification records exactly. Mail records stay DNS-only. Lower TTLs to 300 a day ahead. Turn off DNSSEC at Namecheap.
 4. Move action.ceo nameservers to Cloudflare. Compare records line by line. Attach action.ceo to the Pages project. Add the redirect rule: `www` and `http` to `https://action.ceo/` in 1 hop, plus Always Use HTTPS.

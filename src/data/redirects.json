@@ -1,0 +1,14 @@
+{
+ "redirects": [
+  { "from": "/speaking/depin-day-seattle-2024", "to": "/blog/depin-day-seattle-2024", "type": "permanent", "note": "Speaking page folded into the blog post" },
+  { "from": "/speaking/depin-day-seattle-2025", "to": "/blog/depin-day-seattle-2025", "type": "permanent", "note": "Speaking page folded into the blog post" },
+  { "from": "/home", "to": "/", "type": "permanent", "note": "Old site (guess, check against the old site crawl)" },
+  { "from": "/about-me", "to": "/about", "type": "permanent", "note": "Old site (guess)" },
+  { "from": "/about-us", "to": "/about", "type": "permanent", "note": "Old site (guess)" },
+  { "from": "/contact-us", "to": "/contact", "type": "permanent", "note": "Old site (guess)" },
+  { "from": "/speaker", "to": "/speaking", "type": "permanent", "note": "Old site (guess)" },
+  { "from": "/writing", "to": "/blog", "type": "permanent", "note": "Old site (guess)" },
+  { "from": "/writing/*", "to": "/blog/:splat", "type": "permanent", "note": "Old site (guess). * and :splat carry the rest of the address over" },
+  { "from": "/watch", "to": "/shows", "type": "permanent", "note": "Old site (guess)" }
+ ]
+}
