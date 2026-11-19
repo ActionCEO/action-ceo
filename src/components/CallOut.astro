@@ -4,11 +4,12 @@
 // links: the first is the main one (big, green underline). icon: 'mail', 'youtube' or none. External links get the new-tab mark.
 // A link carries 1 mark only: the envelope for anything that leads to a form, otherwise the chevron.
 import Icon from './Icon.astro';
-const { heading, links = [], id = 'talk' } = Astro.props;
+// heading: 1 string. Or lines: a list of short sentences that each get their own line (and stay on 1 line where they fit).
+const { heading, lines, links = [], id = 'talk' } = Astro.props;
 const ext = (h: string) => /^https?:/.test(h);
 ---
 <section class="rv callout" id={id} data-pagefind-ignore>
-  <h2 class="callout-h">{heading}</h2>
+  <h2 class="callout-h">{lines ? lines.map((l: string) => <span class="callout-line">{l} </span>) : heading}</h2>
   <slot />
   <div class="callout-links">
     {links.map((l: { label: string; href: string; icon?: string; title?: string }, i: number) => (
