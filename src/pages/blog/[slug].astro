@@ -32,6 +32,7 @@ const graph = [
 <Base title={`${post.data.metaTitle} | Action, YouTuber`} description={post.data.metaDescription} path={`/blog/${post.id}`} ogImage={og} type="article" graph={graph} noindex={post.data.draft} article={{ published, modified, tags: post.data.tags.map(tagName) }}>
 <Header current="Blog" />
 <div class="prog" aria-hidden="true"></div>
+<span hidden data-pagefind-meta="image[data-img]" data-img={ytThumb(video.data.youtubeId, 'hqdefault')}></span>
 <article>
   <header class="pad" style="padding-top: clamp(32px, 5vw, 72px); padding-bottom: 40px; display: flex; flex-direction: column; gap: 20px; max-width: 1100px">
     <nav aria-label="Breadcrumb" style="display: flex; flex-wrap: wrap; gap: 4px 20px; color: #A5AAAF; font-size: 16px"><a href="/blog" style="color: #D5D8DB; padding: 10px 0">Blog</a><span style="padding: 10px 0">{catName(post.data.category)}</span><time datetime={published} style="padding: 10px 0">{post.data.publishedAt ? fmtDate(post.data.publishedAt) : 'Draft'}</time><span style="padding: 10px 0">By <a href="/about" style="border-bottom: 1px solid #A5AAAF">Action</a></span></nav>
@@ -62,7 +63,7 @@ const graph = [
     )}
     <div class="prose"><Content /></div>
     {T && (
-      <details data-transcript style="max-width: 720px; border-top: 1px solid #0A2C52; border-bottom: 1px solid #0A2C52; padding: 20px 0; margin-top: 32px">
+      <details data-transcript data-pagefind-ignore style="max-width: 720px; border-top: 1px solid #0A2C52; border-bottom: 1px solid #0A2C52; padding: 20px 0; margin-top: 32px">
         <summary style={`font-family: ${F}; font-weight: 700; font-size: 20px; min-height: 44px`}>Read the full transcript</summary>
         <div class="prose" style="font-size: 17px; color: #D5D8DB; margin-top: 16px"><T.Content /></div>
       </details>

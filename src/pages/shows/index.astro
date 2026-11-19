@@ -5,15 +5,16 @@ import { SITE } from '../../site';
 import Icon from '../../components/Icon.astro';
 import LiveBar from '../../components/LiveBar.astro';
 import CallOut from '../../components/CallOut.astro';
+import PageHero from '../../components/PageHero.astro';
 
 ---
 <Base page="shows">
 <Header current="Shows" />
-<header style="padding: clamp(48px, 7vw, 104px) clamp(20px, 4.5vw, 64px) 56px; display: flex; flex-direction: column; gap: 24px">
-<h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(44px, 7vw, 108px); line-height: 0.95; letter-spacing: -0.04em">Shows.</h1>
-<p style="margin: 0; max-width: 620px; font-size: 20px; color: #D5D8DB">Here's when I'm on and where to watch.</p>
-<LiveBar cta="subscribe" />
-</header>
+<PageHero img="studio-live" big={1156} w={1156} h={650} alt="Action live at the mic in his studio" pos="50% 30%">
+<h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(44px, 7vw, 108px); line-height: 1.02; letter-spacing: -0.035em">Shows.</h1>
+<p style="margin: 0; max-width: 620px; font-size: 20px; color: #FFFFFF">Here's when I'm on and where to watch.</p>
+</PageHero>
+<div class="pad" style="padding-top: 8px; padding-bottom: 40px"><LiveBar cta="subscribe" /></div>
 <section aria-label="Schedule" style="padding: 0 clamp(20px, 4.5vw, 64px) 96px">
 <article class="rv" style="display: flex; flex-wrap: wrap; gap: 24px 48px; padding: 44px 0; border-top: 1px solid #0A2C52">
 <div style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 6px">

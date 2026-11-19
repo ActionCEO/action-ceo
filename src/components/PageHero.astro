@@ -1,0 +1,11 @@
+---
+// The top of an inner page: the words on the left over a photo that fades in from the right.
+// Every inner page uses this so the tops match. img: file name in public/img without the size or type.
+// big: the width of the larger file. pos / posPhone: which part of the photo to keep (CSS object-position).
+const { img, big, w = 1456, h = 813, alt, pos = '60% 40%', posPhone } = Astro.props;
+---
+<header class="page-hero" style={`--pos: ${pos}; --pos-phone: ${posPhone ?? pos}`}>
+<picture style="display: contents"><source type="image/avif" srcset={`/img/${img}-800.avif 800w, /img/${img}-${big}.avif ${big}w`} sizes="(max-width: 800px) 100vw, 60vw"><source type="image/webp" srcset={`/img/${img}-800.webp 800w, /img/${img}-${big}.webp ${big}w`} sizes="(max-width: 800px) 100vw, 60vw"><img src={`/img/${img}.jpg`} width={w} height={h} loading="eager" fetchpriority="high" decoding="async" class="page-hero-img" alt={alt}></picture>
+<div class="page-hero-shade" aria-hidden="true"></div>
+<div class="page-hero-text"><slot /></div>
+</header>

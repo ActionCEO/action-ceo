@@ -122,7 +122,7 @@ a,button{transition:color .18s cubic-bezier(.4,0,.2,1),border-color .18s cubic-b
 @keyframes prog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 html .prog{display:block;animation:prog linear both;animation-timeline:scroll(root)}
 }}
-@media (prefers-reduced-motion:reduce){.stepin,.air-dot{animation:none !important}.pv,a,button,.ytplay span,.go::after,.row-go,.row-name,.row>svg{transition:none}}
+@media (prefers-reduced-motion:reduce){.stepin,.air-dot{animation:none !important}.pv,a,button,.ytplay span,.go::after,.row-go,.row-name,.row>svg,.sp-media img,.post-row,.post-row>img{transition:none}}
 .prose{max-width:720px;font-size:19px;line-height:1.7;color:#E3E6E9}
 .prose h2{font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(24px,2.8vw,34px);line-height:1.1;letter-spacing:-.03em;color:#FFFFFF;margin:48px 0 16px}
 .prose h3{font-family:'Montserrat',Arial,sans-serif;font-weight:700;font-size:22px;color:#FFFFFF;margin:36px 0 12px}
@@ -210,11 +210,11 @@ span.pv-genzio{position:static;aspect-ratio:16/9}
 .pv-live i{width:10px;height:10px;border-radius:50%;background:#69BE28}
 /* Page header with a photo: words on the left, photo fading in from the right. */
 .page-hero{position:relative;overflow:hidden;display:flex;align-items:flex-end;min-height:clamp(300px,34vw,460px)}
-.page-hero-img{position:absolute;top:0;right:0;width:min(100%,1100px);height:100%;object-fit:cover;object-position:60% 40%}
+.page-hero-img{position:absolute;top:0;right:0;width:min(100%,1100px);height:100%;object-fit:cover;object-position:var(--pos,60% 40%)}
 .page-hero-shade{position:absolute;inset:0;background:linear-gradient(to right,#06111F 0%,#06111F 22%,rgba(6,17,31,.55) 55%,rgba(6,17,31,.25) 100%),linear-gradient(to top,#06111F 0%,rgba(6,17,31,0) 45%)}
 .page-hero-text{position:relative;display:flex;flex-direction:column;gap:20px;padding:clamp(40px,6vw,88px) clamp(20px,4.5vw,64px) clamp(28px,3vw,44px)}
 @media (min-width:1000px){.one-line{white-space:nowrap}}
-@media (max-width:800px){.page-hero-img{object-position:100% 40%}.page-hero-shade{background:linear-gradient(to top,#06111F 8%,rgba(6,17,31,.6) 55%,rgba(6,17,31,.35) 100%)}}
+@media (max-width:800px){.page-hero-img{object-position:var(--pos-phone,60% 40%)}.page-hero-shade{background:linear-gradient(to top,#06111F 8%,rgba(6,17,31,.6) 55%,rgba(6,17,31,.35) 100%)}}
 /* Closing call-out box (src/components/CallOut.astro), the same on every page. */
 .callout{background:#002346;padding:clamp(64px,8vw,110px) clamp(20px,4.5vw,64px);display:flex;flex-direction:column;gap:28px;align-items:flex-start}
 .callout-h{margin:0;max-width:1100px;font:800 clamp(32px,4.6vw,64px)/1.03 'Montserrat',Arial,sans-serif;letter-spacing:-.035em}
@@ -233,18 +233,22 @@ span.pv-genzio{position:static;aspect-ratio:16/9}
 .tags{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
 .tags li{padding:8px 14px;border:1px solid #326496;border-radius:2px;font:700 15px 'Montserrat',Arial,sans-serif;color:#D5D8DB}
 /* Speaking: featured events (words left, picture right, both open the event page) and plain conference rows. */
-.sp-hero{object-position:27% 30%}
-.sp-item{display:flex;flex-wrap:wrap;gap:20px 48px;padding:36px 0;border-top:1px solid #0A2C52;align-items:center}
+.sp-hero{object-position:27% 14%}
+.sp-item{display:flex;flex-wrap:wrap;gap:20px 48px;padding:36px 0;border-top:1px solid #0A2C52;align-items:flex-start}
 .sp-text{flex:3 1 340px;min-width:0;display:flex;flex-direction:column;gap:8px}
 .sp-media{flex:0 0 auto;display:block;width:min(420px,100%);overflow:hidden}
 .sp-media img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
 .sp-media:hover img{transform:scale(1.04)}
-@media (max-width:800px){.sp-media{width:100%}}
+@media (max-width:900px){.sp-media{width:100%}}
+.sp-item:has(.sp-media:hover) .item-h a{text-decoration-color:#69BE28}
 /* Item heading: 1 step below a section heading, so the 2 never look alike. */
 .item-h{margin:0;font:800 clamp(22px,2.4vw,32px)/1.1 'Montserrat',Arial,sans-serif;letter-spacing:-.02em}
 .item-h a{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:6px;text-decoration-thickness:2px}
 .item-h a:hover{color:#FFFFFF;text-decoration-color:#69BE28}
-.row-flat .row-name{font-size:clamp(19px,1.9vw,24px)}
+.row-flat .row-name{font-size:clamp(19px,1.9vw,24px);text-decoration:none}
+@media (max-width:600px){.row-flat .row-main{flex-direction:column;align-items:flex-start}}
+/* A small label above a plain list, so it is not mistaken for 1 more item. */
+.label-h{margin:56px 0 10px;font:800 15px 'Montserrat',Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#A5AAAF}
 .tags-lg li{padding:10px 18px;font-size:clamp(16px,1.6vw,20px);color:#FFFFFF}
 /* <source> inside a display:contents <picture> must not become a flex item (it added stray gaps beside photos). */
 picture>source{display:none}
@@ -257,3 +261,23 @@ picture>source{display:none}
 .pv-pause{position:absolute;right:12px;bottom:12px;z-index:2;min-height:36px;padding:6px 12px;border:1px solid rgba(255,255,255,.5);border-radius:2px;background:rgba(6,17,31,.72);color:#FFFFFF;font:700 13px 'Montserrat',Arial,sans-serif;cursor:pointer}
 .pv-pause[hidden]{display:none}
 @media (max-width:1100px){.page-hero-shade{background:linear-gradient(to right,#06111F 0%,rgba(6,17,31,.88) 45%,rgba(6,17,31,.45) 100%),linear-gradient(to top,#06111F 0%,rgba(6,17,31,0) 45%) !important}}
+/* Blog list rows: the whole row is the link. On hover the row lifts onto the lighter navy and the picture gets a green frame. */
+.post-row{display:flex;flex-direction:row;flex-wrap:wrap;gap:20px 40px;align-items:center;margin:0 -16px;padding:32px 16px;border-top:1px solid #0A2C52;transition:background-color .2s}
+.post-row>img{flex:1 1 260px;max-width:380px;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;outline:3px solid transparent;outline-offset:0;transition:outline-color .2s}
+.post-row>div{flex:3 1 380px;min-width:0;display:flex;flex-direction:column;gap:10px}
+.post-row:hover,.post-row:focus-visible{background:#0A1B30;color:#FFFFFF}
+.post-row:hover>img,.post-row:focus-visible>img{outline-color:#69BE28}
+.post-row:hover h2{text-decoration:underline;text-decoration-color:#69BE28;text-underline-offset:6px;text-decoration-thickness:2px}
+@media (max-width:600px){.post-row>img{max-width:none}}
+/* Live show label and dot. */
+.live-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#69BE28;margin-right:8px;vertical-align:1px}
+.live-tag{display:inline-flex;align-items:center;padding:3px 10px;border:1px solid #69BE28;border-radius:2px;font:800 12px 'Montserrat',Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#FFFFFF}
+.live-tag .live-dot{margin-right:6px}
+.chip-tag{border-style:dashed}
+/* Blog search: the box stays a comfortable width, results use the whole row with a picture each. */
+#search .pagefind-ui__form{max-width:1100px}
+@media (min-width:1000px){#search .pagefind-ui__results{display:grid;grid-template-columns:1fr 1fr;column-gap:48px}}
+#search .pagefind-ui__result{gap:24px;padding:20px 0}
+#search .pagefind-ui__result-thumb{width:200px;max-width:34%;aspect-ratio:16/9}
+#search .pagefind-ui__result-image{width:100%;height:100%;object-fit:cover}
+#search .pagefind-ui__result-link{font:800 clamp(18px,1.8vw,24px)/1.2 'Montserrat',Arial,sans-serif}

@@ -99,7 +99,8 @@ const chipBox = document.querySelector('[data-chips]'), chips = $$('[data-filter
 if (chipBox) chipBox.hidden = false;
 chips.forEach((c) => c.addEventListener('click', () => {
   chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
-  $$('[data-cat]').forEach((r) => { r.hidden = c.dataset.filter !== 'all' && r.dataset.cat !== c.dataset.filter; });
+  const f = c.dataset.filter, tag = f.startsWith('tag:') ? f.slice(4) : '';
+  $$('[data-cat]').forEach((r) => { r.hidden = f !== 'all' && (tag ? !(r.dataset.tags || '').split(' ').includes(tag) : r.dataset.cat !== f); });
 }));
 
 // Posts: share. Phones get the system share sheet; everyone gets copy link.

@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import { SITE } from '../../site';
 import Icon from '../../components/Icon.astro';
 import CallOut from '../../components/CallOut.astro';
+import PageHero from '../../components/PageHero.astro';
 import { getCollection } from 'astro:content';
 // Each row has 1 preview: it fills the panel on the right on desktop and sits under the row on phones.
 // pos keeps Action in frame when a wide photo is cropped to the tall panel (object-position).
@@ -22,14 +23,10 @@ const DO = ['Hosting', 'Speaking', 'Video', 'Live shows', 'Marketing', 'PR', 'Go
 ---
 <Base page="work">
 <Header current="Work" />
-<header class="page-hero">
-<picture style="display: contents"><source type="image/avif" srcset="/img/depin-panel-800.avif 800w, /img/depin-panel-1446.avif 1446w" sizes="(max-width: 800px) 100vw, 60vw"><source type="image/webp" srcset="/img/depin-panel-800.webp 800w, /img/depin-panel-1446.webp 1446w" sizes="(max-width: 800px) 100vw, 60vw"><img src="/img/depin-panel.jpg" width="1446" height="819" loading="eager" fetchpriority="high" decoding="async" class="page-hero-img" alt="Action hosting a panel on the DePIN Day: Seattle stage"></picture>
-<div class="page-hero-shade" aria-hidden="true"></div>
-<div class="page-hero-text">
+<PageHero img="depin-panel" big={1446} w={1446} h={819} alt="Action hosting a panel on the DePIN Day: Seattle stage" pos="60% 40%" posPhone="100% 40%">
 <h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(44px, 7vw, 108px); line-height: 1.02; letter-spacing: -0.035em">Work.</h1>
 <p class="one-line" style="margin: 0; font-size: 20px; color: #FFFFFF">Channels I run, shows I host, events I co-organized, and the firm where I'm a Partner.</p>
-</div>
-</header>
+</PageHero>
 <section class="rv" aria-label="Projects" style="padding: clamp(40px, 5vw, 72px) clamp(20px, 4.5vw, 64px) 120px; display: flex; flex-wrap: wrap; gap: 40px 64px; align-items: flex-start">
 <div class="rows" data-pv-rows style="flex: 3 1 480px; min-width: 0; display: flex; flex-direction: column">
 {work.map((item, i) => (
