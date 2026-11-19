@@ -7,7 +7,7 @@ import Icon from './Icon.astro';
 import { SITE } from '../site';
 const vids = (await getCollection('videos')).filter((v) => v.data.channel === 'ActionCrypto' && v.data.series !== 'depin-day' && !v.id.startsWith('SAMPLE')).sort((a, b) => +b.data.publishedAt - +a.data.publishedAt).slice(0, 8);
 ---
-<section class="rv" aria-label="Latest videos" style="padding: clamp(72px, 9vw, 120px) 0; display: flex; flex-direction: column; gap: 32px">
+<section class="rv" data-pagefind-ignore aria-label="Latest videos" style="padding: clamp(72px, 9vw, 120px) 0; display: flex; flex-direction: column; gap: 32px">
   <div class="pad" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px 32px">
     <h2 class="sec-h" style="margin-bottom: 0">Latest breakdowns</h2>
     <div class="vnav" data-vnav hidden>

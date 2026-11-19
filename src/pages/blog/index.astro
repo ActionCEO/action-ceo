@@ -11,7 +11,7 @@ const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
 const url = `${BASE}/blog`;
 // Topic buttons: only topics that have a post, in the order of src/data/categories.yaml.
 // Tag buttons: every tag that at least 2 posts use, most used first. They sit after the topic buttons.
-const tags = TAGS.map((t) => ({ ...t, n: posts.filter((p) => p.data.tags.includes(t.slug)).length })).filter((t) => t.n > 1).sort((a, b) => b.n - a.n);
+const tags = TAGS.filter((t) => !CATEGORIES.some((c) => c.slug === t.slug || c.name === t.name)).map((t) => ({ ...t, n: posts.filter((p) => p.data.tags.includes(t.slug)).length })).filter((t) => t.n > 1).sort((a, b) => b.n - a.n);
 const cats = CATEGORIES.map((c) => ({ ...c, n: posts.filter((p) => p.data.category === c.slug).length })).filter((c) => c.n > 0);
 // Search engines get the list as data too: the blog, every post in order, and the breadcrumb.
 const graph = [
@@ -23,19 +23,25 @@ const graph = [
 ---
 <Base page="blog" graph={graph}>
 <Header current="Blog" />
-<PageHero img="studio-interview" big={1156} w={1156} h={650} alt="Action in his studio during an interview" pos="50% 30%">
+<PageHero img="studio-interview" big={1156} w={1156} h={650} alt="Action in his studio during an interview" pos="50% 25%" posPhone="50% 20%">
   <h1 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(44px, 7vw, 108px); line-height: 1.02; letter-spacing: -0.035em`}><span class="nw">Every video,</span> <span class="nw">written out.</span></h1>
   <p style="margin: 0; max-width: 1100px; font-size: 20px; color: #FFFFFF">Each video gets its own page: watch it, skim the key points, or read it start to finish with the full transcript.</p>
 </PageHero>
 <div class="pad" style="padding-top: 8px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 20px">
   <div id="search"></div>
-  {cats.length > 1 && <div class="chips" data-chips hidden role="group" aria-label="Filter by topic">
-    <button type="button" class="chip" data-filter="all" aria-pressed="true" aria-label={`All topics, ${posts.length} posts`}>All<small>{posts.length}</small></button>
-    {cats.map((c) => <button type="button" class="chip" data-filter={c.slug} aria-pressed="false" aria-label={`${c.name}${c.slug === 'action-items' ? ', live show' : ''}, ${c.n} ${c.n === 1 ? 'post' : 'posts'}`}>{c.slug === 'action-items' && <i class="live-dot" aria-hidden="true"></i>}{c.name}{c.slug === 'action-items' && ' (live)'}<small>{c.n}</small></button>)}
-    {tags.map((t) => <button type="button" class="chip chip-tag" data-filter={`tag:${t.slug}`} aria-pressed="false" aria-label={`${t.name}, ${t.n} ${t.n === 1 ? 'post' : 'posts'}`}>{t.name}<small>{t.n}</small></button>)}
+  {cats.length > 1 && <div data-chips data-pagefind-ignore hidden style="display: flex; flex-direction: column; gap: 12px">
+    <div class="chip-group" role="group" aria-label="Filter by show or topic">
+      <span class="chip-k" aria-hidden="true">Topics</span>
+      <button type="button" class="chip" data-filter="all" aria-pressed="true" aria-label={`All topics, ${posts.length} posts`}>All<small>{posts.length}</small></button>
+      {cats.map((c) => <button type="button" class="chip" data-filter={c.slug} aria-pressed="false" aria-label={`${c.name}${c.slug === 'action-items' ? ', live show' : ''}, ${c.n} ${c.n === 1 ? 'post' : 'posts'}`}>{c.slug === 'action-items' && <i class="live-dot" aria-hidden="true"></i>}{c.name}{c.slug === 'action-items' && ' (live)'}<small>{c.n}</small></button>)}
+    </div>
+    {tags.length > 0 && <div class="chip-group" role="group" aria-label="Filter by tag">
+      <span class="chip-k" aria-hidden="true">Tags</span>
+      {tags.map((t) => <button type="button" class="chip" data-filter={`tag:${t.slug}`} aria-pressed="false" aria-label={`Tag ${t.name}, ${t.n} ${t.n === 1 ? 'post' : 'posts'}`}>{t.name}<small>{t.n}</small></button>)}
+    </div>}
   </div>}
 </div>
-<section class="pad rows" aria-label="Posts" style="padding-bottom: 96px">
+<section class="pad rows" data-pagefind-ignore aria-label="Posts" style="padding-bottom: 96px">
   {posts.length === 0 && <p style="margin: 0; padding: 32px 0; border-top: 1px solid #0A2C52; font-size: 20px; color: #D5D8DB">Nothing to read yet. Plenty to watch. <a href={SITE.youtube} rel="noopener" style="border-bottom: 1px solid #FFFFFF">Watch on YouTube</a></p>}
   {posts.map((p, i) => (
     <a href={`/blog/${p.id}`} class="vcard post-row" data-cat={p.data.category} data-tags={p.data.tags.join(' ')}>
@@ -58,7 +64,7 @@ const graph = [
   // Search loads only when the box scrolls into view or gets focus, so it never costs the first paint.
   (function () {
     var el = document.getElementById('search'), done = false;
-    function go() { if (done) return; done = true; var s = document.createElement('script'); s.src = '/pagefind/pagefind-ui.js'; s.onload = function () { new PagefindUI({ element: '#search', showSubResults: false, showImages: true, excerptLength: 24 }); }; document.head.appendChild(s); }
+    function go() { if (done) return; done = true; var s = document.createElement('script'); s.src = '/pagefind/pagefind-ui.js'; s.onload = function () { new PagefindUI({ element: '#search', showSubResults: false, showImages: true, excerptLength: 30, processResult: function (r) { r.url = r.url.replace(/\.html$/, ''); return r; } }); var i = document.querySelector('#search input'); if (i) i.setAttribute('aria-label', 'Search the blog'); }; document.head.appendChild(s); }
     if ('requestIdleCallback' in window) requestIdleCallback(go); else setTimeout(go, 1200);
   })();
 </script>

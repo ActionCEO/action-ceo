@@ -208,13 +208,19 @@ span.pv-genzio{position:static;aspect-ratio:16/9}
 .pv-show img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border:1px solid #12355E}
 .pv-live{display:inline-flex;align-items:center;gap:10px;font:800 16px 'Montserrat',Arial,sans-serif;letter-spacing:.04em;text-transform:uppercase}
 .pv-live i{width:10px;height:10px;border-radius:50%;background:#69BE28}
-/* Page header with a photo: words on the left, photo fading in from the right. */
-.page-hero{position:relative;overflow:hidden;display:flex;align-items:flex-end;min-height:clamp(300px,34vw,460px)}
-.page-hero-img{position:absolute;top:0;right:0;width:min(100%,1100px);height:100%;object-fit:cover;object-position:var(--pos,60% 40%)}
-.page-hero-shade{position:absolute;inset:0;background:linear-gradient(to right,#06111F 0%,#06111F 22%,rgba(6,17,31,.55) 55%,rgba(6,17,31,.25) 100%),linear-gradient(to top,#06111F 0%,rgba(6,17,31,0) 45%)}
-.page-hero-text{position:relative;display:flex;flex-direction:column;gap:20px;padding:clamp(40px,6vw,88px) clamp(20px,4.5vw,64px) clamp(28px,3vw,44px)}
+/* Page header with a photo (src/components/PageHero.astro). Desktop: words on the left half, the photo on the right
+   half with its left edge faded out, so words never sit on a face. Phones: the photo is a band on top, words under it. */
+.page-hero{position:relative;overflow:hidden;display:flex;align-items:flex-end;min-height:clamp(320px,34vw,460px)}
+.page-hero-img{position:absolute;top:0;right:0;width:min(58%,980px);height:100%;object-fit:cover;object-position:var(--pos,60% 40%);-webkit-mask-image:linear-gradient(to right,transparent 0,#000 40%);mask-image:linear-gradient(to right,transparent 0,#000 40%)}
+.page-hero-shade{position:absolute;inset:0;background:linear-gradient(to top,#06111F 0%,rgba(6,17,31,.25) 40%,rgba(6,17,31,.15) 100%)}
+.page-hero-text{position:relative;display:flex;flex-direction:column;gap:20px;max-width:min(60%,820px);padding:clamp(40px,6vw,88px) 0 clamp(28px,3vw,44px) clamp(20px,4.5vw,64px)}
 @media (min-width:1000px){.one-line{white-space:nowrap}}
-@media (max-width:800px){.page-hero-img{object-position:var(--pos-phone,60% 40%)}.page-hero-shade{background:linear-gradient(to top,#06111F 8%,rgba(6,17,31,.6) 55%,rgba(6,17,31,.35) 100%)}}
+@media (max-width:800px){
+  .page-hero{flex-direction:column;align-items:stretch;min-height:0}
+  .page-hero-img{position:static;width:100%;height:clamp(180px,52vw,300px);object-position:var(--pos-phone,60% 40%);-webkit-mask-image:linear-gradient(to bottom,#000 55%,transparent 100%);mask-image:linear-gradient(to bottom,#000 55%,transparent 100%)}
+  .page-hero-shade{display:none}
+  .page-hero-text{max-width:none;padding:8px clamp(20px,4.5vw,64px) 28px}
+}
 /* Closing call-out box (src/components/CallOut.astro), the same on every page. */
 .callout{background:#002346;padding:clamp(64px,8vw,110px) clamp(20px,4.5vw,64px);display:flex;flex-direction:column;gap:28px;align-items:flex-start}
 .callout-h{margin:0;max-width:1100px;font:800 clamp(32px,4.6vw,64px)/1.03 'Montserrat',Arial,sans-serif;letter-spacing:-.035em}
@@ -260,25 +266,27 @@ picture>source{display:none}
 /* Work: pause button for the cycling preview. */
 .pv-pause{position:absolute;right:12px;bottom:12px;z-index:2;min-height:36px;padding:6px 12px;border:1px solid rgba(255,255,255,.5);border-radius:2px;background:rgba(6,17,31,.72);color:#FFFFFF;font:700 13px 'Montserrat',Arial,sans-serif;cursor:pointer}
 .pv-pause[hidden]{display:none}
-@media (max-width:1100px){.page-hero-shade{background:linear-gradient(to right,#06111F 0%,rgba(6,17,31,.88) 45%,rgba(6,17,31,.45) 100%),linear-gradient(to top,#06111F 0%,rgba(6,17,31,0) 45%) !important}}
 /* Blog list rows: the whole row is the link. On hover the row lifts onto the lighter navy and the picture gets a green frame. */
 .post-row{display:flex;flex-direction:row;flex-wrap:wrap;gap:20px 40px;align-items:center;margin:0 -16px;padding:32px 16px;border-top:1px solid #0A2C52;transition:background-color .2s}
 .post-row>img{flex:1 1 260px;max-width:380px;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;outline:3px solid transparent;outline-offset:0;transition:outline-color .2s}
 .post-row>div{flex:3 1 380px;min-width:0;display:flex;flex-direction:column;gap:10px}
-.post-row:hover,.post-row:focus-visible{background:#0A1B30;color:#FFFFFF}
-.post-row:hover>img,.post-row:focus-visible>img{outline-color:#69BE28}
-.post-row:hover h2{text-decoration:underline;text-decoration-color:#69BE28;text-underline-offset:6px;text-decoration-thickness:2px}
+@media (hover:hover){.post-row:hover{background:#0A1B30;color:#FFFFFF}.post-row:hover>img{outline-color:#69BE28}.post-row:hover h2{text-decoration:underline;text-decoration-color:#69BE28;text-underline-offset:6px;text-decoration-thickness:2px}}
+.post-row:focus-visible{background:#0A1B30;color:#FFFFFF}
+.post-row:focus-visible>img{outline-color:#69BE28}
 @media (max-width:600px){.post-row>img{max-width:none}}
 /* Live show label and dot. */
 .live-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#69BE28;margin-right:8px;vertical-align:1px}
 .live-tag{display:inline-flex;align-items:center;padding:3px 10px;border:1px solid #69BE28;border-radius:2px;font:800 12px 'Montserrat',Arial,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#FFFFFF}
 .live-tag .live-dot{margin-right:6px}
-.chip-tag{border-style:dashed}
+.chip-group{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.chip-k{font:800 13px 'Montserrat',Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#A5AAAF;margin-right:4px}
+@media (max-width:600px){.chip-group{flex-wrap:nowrap;overflow-x:auto;margin:0 calc(-1 * clamp(20px,4.5vw,64px));padding:2px clamp(20px,4.5vw,64px) 8px;scrollbar-width:none}.chip-group::-webkit-scrollbar{display:none}.chip-group>*{flex:none}}
 /* Blog search: the box stays a comfortable width, results use the whole row with a picture each. */
 #search .pagefind-ui__form{max-width:1100px}
 @media (min-width:1000px){#search .pagefind-ui__results{display:grid;grid-template-columns:1fr 1fr;column-gap:48px}}
 #search .pagefind-ui__result{gap:24px;padding:20px 0}
-#search .pagefind-ui__result-thumb{width:200px;max-width:34%;aspect-ratio:16/9}
+#search .pagefind-ui__result-thumb{flex:0 0 auto;width:clamp(96px,30%,200px);max-width:none;aspect-ratio:16/9}
+#search mark{background:#69BE28;color:#06111F}
 #search .pagefind-ui__result-image{width:100%;height:100%;object-fit:cover}
 #search .pagefind-ui__result-link{font:800 clamp(18px,1.8vw,24px)/1.2 'Montserrat',Arial,sans-serif}
 /* Post page. Top: the video stays in view while a long chapter list scrolls beside it. Body: the written post on the

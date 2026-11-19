@@ -100,7 +100,8 @@ if (chipBox) chipBox.hidden = false;
 chips.forEach((c) => c.addEventListener('click', () => {
   chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
   const f = c.dataset.filter, tag = f.startsWith('tag:') ? f.slice(4) : '';
-  $$('[data-cat]').forEach((r) => { r.hidden = f !== 'all' && (tag ? !(r.dataset.tags || '').split(' ').includes(tag) : r.dataset.cat !== f); });
+  // Rows a filter brings back show at once: they must not wait for a scroll to fade in.
+  $$('[data-cat]').forEach((r) => { r.hidden = f !== 'all' && (tag ? !(r.dataset.tags || '').split(' ').includes(tag) : r.dataset.cat !== f); if (!r.hidden) r.classList.add('in'); });
 }));
 
 // Posts: share. Phones get the system share sheet; everyone gets copy link.

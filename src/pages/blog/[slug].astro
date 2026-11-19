@@ -61,7 +61,7 @@ const graph = [
     )}
   </section>
   <section class="pad post-body" aria-label="Post">
-    <aside class="post-side">
+    <aside class="post-side" data-pagefind-ignore>
       {post.data.takeaways.length > 0 && (
         <div style="border-left: 3px solid #69BE28; padding: 4px 0 4px 20px">
           <h2 style={`margin: 0 0 8px; font-family: ${F}; font-weight: 700; font-size: 22px`}>The short version</h2>
@@ -89,7 +89,7 @@ const graph = [
     </div>
   </section>
 </article>
-<section class="pad alt" aria-label="More videos" style="padding-top: clamp(56px, 7vw, 96px); padding-bottom: clamp(56px, 7vw, 96px)">
+<section class="pad alt" data-pagefind-ignore aria-label="More videos" style="padding-top: clamp(56px, 7vw, 96px); padding-bottom: clamp(56px, 7vw, 96px)">
   <h2 class="sec-h">More videos</h2>
   {(newer || older) && <div class="post-nav">
     {older ? <a href={`/blog/${older.id}`} class="post-nav-a"><span class="post-nav-k"><Icon name="left" size={18} />Previous</span><span class="post-nav-t">{older.data.title}</span></a> : <span></span>}
