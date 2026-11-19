@@ -6,8 +6,8 @@ import CallOut from '../../components/CallOut.astro';
 import { getCollection } from 'astro:content';
 import VideoCard from '../../components/VideoCard.astro';
 const streams = (await getCollection('videos')).filter((v) => v.data.series === 'depin-day').sort((a, b) => +a.data.publishedAt - +b.data.publishedAt);
-// Rule from Action: no AI-made picture sits next to footage of the real event. The only event pictures
-// below the header are the livestream thumbnails.
+// Rule from Action: no AI-made picture sits next to footage of the real event. This page uses only real
+// frames: depin-panel and depin-stage are from the livestream; depin-wide and depin-chestup are AI-made.
 const facts = [
   ['Role', 'Co-organizer and host'],
   ['Years', '2024 and 2025'],
@@ -17,7 +17,7 @@ const facts = [
 ---
 <Base page="project">
 <Header current="Work" />
-<PageHero img="depin-wide" big={1456} w={1456} h={813} alt="Action on stage at DePIN Day: Seattle in front of the big screen" pos="31% 30%" posPhone="31% 20%">
+<PageHero img="depin-panel" big={1446} w={1446} h={819} alt="Action hosting a panel on the DePIN Day: Seattle stage" pos="60% 40%" posPhone="100% 40%">
 <a href="/work" class="hero-back">« All work</a>
 <h1 class="hero-h1">DePIN Day: Seattle</h1>
 <p class="hero-p">2 years, 2 full days of DePIN on 1 stage. I co-organized it with the team behind it and hosted it both years.</p>

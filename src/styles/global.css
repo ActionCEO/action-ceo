@@ -377,13 +377,17 @@ picture>source{display:none}
 .sec{padding-top:clamp(64px,7vw,104px);padding-bottom:clamp(64px,7vw,104px)}
 .sec-lead{margin:-16px 0 40px;max-width:760px;font-size:20px;color:#D5D8DB}
 .sec-more{margin:40px 0 0}
-.cards4{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:16px}
+.cards4{margin:0;padding:0;list-style:none;display:grid;gap:16px}
+@media (min-width:600px){.cards4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1200px){.cards4{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .card{display:flex;flex-direction:column;gap:12px;padding:28px 24px;background:#0A1B30;border:1px solid #0A2C52;border-top:4px solid #69BE28;border-radius:2px}
 .card p{margin:0;font-size:18px;color:#D5D8DB}
-.facts{margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:28px 40px;padding:32px 0;border-top:1px solid #0A2C52;border-bottom:1px solid #0A2C52}
+.facts{margin:0;display:grid;gap:28px 40px;padding:32px 0;border-top:1px solid #0A2C52;border-bottom:1px solid #0A2C52}
 .facts div{display:flex;flex-direction:column;gap:6px}
 .facts dt{font:800 13px 'Montserrat',Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#A5AAAF}
 .facts dd{margin:0;font:700 clamp(19px,1.7vw,24px)/1.25 'Montserrat',Arial,sans-serif}
-.big-line{margin:0 0 40px;max-width:1200px;font:700 clamp(24px,3vw,44px)/1.15 'Montserrat',Arial,sans-serif;letter-spacing:-.025em;text-wrap:balance}
-@media (min-width:900px){.callout-1{white-space:nowrap}}
 @media (min-width:700px){.vgrid-2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:600px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1100px){.facts{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.foot-btn{padding:10px 0;background:none;border:0;color:inherit;font:inherit;cursor:pointer}
+.foot-btn:hover{color:#FFFFFF;text-decoration:underline}

@@ -282,12 +282,19 @@ if (GA) {
     gtag('consent', 'default', state('denied'));
     if (choice === 'no' || !banner) return;
     banner.hidden = false;
-    $$('[data-consent]', banner).forEach((b) => b.addEventListener('click', () => {
-      try { localStorage.setItem('consent', b.dataset.consent); } catch {}
-      banner.hidden = true;
-      if (b.dataset.consent === 'yes') { gtag('consent', 'update', state('granted')); load(); }
-    }));
   };
+  // The banner's 2 buttons. They also work when the banner is reopened from "Cookie settings" in the footer.
+  if (banner) $$('[data-consent]', banner).forEach((b) => b.addEventListener('click', () => {
+    try { localStorage.setItem('consent', b.dataset.consent); } catch {}
+    banner.hidden = true;
+    gtag('consent', 'update', state(b.dataset.consent === 'yes' ? 'granted' : 'denied'));
+    if (b.dataset.consent === 'yes' && !on) load();
+  }));
+  // Footer "Cookie settings": forget the saved answer and ask again, wherever the visitor is.
+  $$('[data-consent-reset]').forEach((b) => { b.hidden = !banner; b.addEventListener('click', () => {
+    try { localStorage.removeItem('consent'); } catch {}
+    banner.hidden = false; banner.querySelector('button')?.focus();
+  }); });
   // Outbound clicks to YouTube, only once analytics is allowed and loaded.
   document.addEventListener('click', (e) => {
     const a = on && e.target.closest && e.target.closest('a[href]');

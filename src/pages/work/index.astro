@@ -13,7 +13,7 @@ const latestShow = (await getCollection('videos')).filter((v) => v.data.series =
 const showThumb = latestShow ? `https://i.ytimg.com/vi/${latestShow.data.youtubeId}/hq720.jpg` : '/img/studio-live-800.webp';
 const work = [
   { name: SITE.channel, role: 'My main channel. My takes on AI, DePIN and crypto since 2021', cta: 'Watch on YouTube', href: SITE.youtube, yt: true, img: 'portrait', w: 1324, h: 1580, big: 1324, pos: '50% 30%', thumbPos: '50% 12%', alt: `Action at the mic on ${SITE.channel}` },
-  { name: 'DePIN Day: Seattle', role: 'Co-organizer and host. 2024 and 2025', cta: 'See the event', href: '/work/depin-day-seattle', img: 'depin-wide', w: 1456, h: 813, big: 1456, pos: '31% 50%', alt: 'Action speaking on the DePIN Day: Seattle stage' },
+  { name: 'DePIN Day: Seattle', role: 'Co-organizer and host. 2024 and 2025', cta: 'See the event', href: '/work/depin-day-seattle', img: 'depin-stage', w: 1456, h: 721, big: 1456, pos: '50% 10%', alt: 'Action speaking on the DePIN Day: Seattle stage' },
   { name: 'Action Items', role: 'My weekly live show. Fridays, 9:30am Pacific', cta: 'See the show', href: '/shows/action-items', yt: true, kind: 'show' },
   { name: 'Laissez-Faire Group', role: 'Partner and CCO: go-to-market, marketing and communications', cta: 'Work with LFG', href: '/lfg', img: 'stage-keynote', w: 1456, h: 813, big: 1456, pos: '27% 50%', alt: 'Action on a conference stage holding a microphone' },
   { name: 'Karate Combat', role: 'Livestream host, 2024 to 2025', cta: 'See the role', href: '/speaking/karate-combat', img: 'kc-pitside', w: 1456, h: 813, big: 1456, pos: '74% 50%', alt: 'Action commentating pitside at a Karate Combat event' },
