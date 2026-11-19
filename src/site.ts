@@ -3,6 +3,10 @@ export const SITE = {
   url: 'https://action.ceo',
   name: 'Action',
   formalName: 'Victor Gazio',
+  // The company that owns the site. Used only for the copyright line and the legal page.
+  company: 'Action Enterprise Solutions',
+  // Share images (og:image) are served from here until action.ceo points at this site. At DNS cutover set this to ''.
+  shareImageBase: 'https://action-ceo.pages.dev',
   email: 'me@action.ceo',
   // Channel name lives here so a rename touches 1 line.
   channel: 'Action Crypto',
@@ -32,6 +36,6 @@ export const PAGES: Record<string, { title: string; description: string; path: s
   lfg: { path: '/lfg', title: 'Laissez-Faire Group: Web3 GTM | Action, Crypto Host', description: 'Laissez-Faire Group runs go-to-market, marketing, PR and partnerships for Web3, DePIN, fintech and AI teams. Action is a Partner and its CCO.', og: 'LFG gets Web3 and AI teams to market.', ogSub: 'Go-to-market, marketing, PR and partnerships' },
   blog: { path: '/blog', title: 'AI, DePIN and Crypto Video Blog | Action, YouTuber', description: 'Every Action video gets its own page here: the video, chapters, the key points and the full transcript. Search by topic or browse the latest.', og: 'Every video, written out.', ogSub: 'The video blog' },
   contact: { path: '/contact', title: 'Contact Action | Crypto and AI Host, Speaker, Partner', description: 'Book Action to speak or host, pitch a sponsorship, or ask about go-to-market work with Laissez-Faire Group. Use the form or email me@action.ceo.', og: "Don't be shy, say\u00a0hi.", ogSub: 'Speaking, press and partnerships' },
-  privacy: { path: '/privacy', title: 'Privacy | action.ceo, Site of Crypto YouTuber Action', description: 'What action.ceo collects and why: contact form messages, Google Analytics 4, YouTube videos and cookie consent. Questions go to me@action.ceo.', og: 'Privacy.', ogSub: 'Forms, analytics and consent' },
+  privacy: { path: '/privacy', title: 'Terms and Privacy | action.ceo, Crypto YouTuber Action', description: 'Terms of use, privacy and cookies for action.ceo: what the site collects, what you can do with the content, and why nothing here is financial advice.', og: 'Terms and privacy.', ogSub: 'Terms, privacy and cookies' },
   notfound: { path: '/404', title: 'Page Not Found | Action, Crypto and AI YouTuber', description: 'No action here. That page moved or never existed. Watch the latest breakdown on YouTube or see when Action is live next.', og: 'No action here.', ogSub: 'Page not found' },
 };

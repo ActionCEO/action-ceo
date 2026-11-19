@@ -11,7 +11,7 @@ const path = p0 ?? meta?.path ?? '/';
 const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
 // canonical can point at another page (an episode whose video already has a post).
 const canonical = BASE + (c0 ?? (path === '/' ? '/' : path));
-const ogImage = BASE + (og0 ?? `/og/${page === 'home' ? 'home' : (path.replace(/^\//, '').replace(/\//g, '-') || 'home')}.png`);
+const ogImage = (SITE.shareImageBase || BASE) + (og0 ?? `/og/${page === 'home' ? 'home' : (path.replace(/^\//, '').replace(/\//g, '-') || 'home')}.png`);
 // The nav sits outside <main>. Which item is marked current comes from the page's path.
 const current = ([['/work', 'Work'], ['/shows', 'Shows'], ['/episodes', 'Shows'], ['/guests', 'Shows'], ['/speaking', 'Speaking'], ['/blog', 'Blog'], ['/about', 'About'], ['/contact', 'Contact']].find(([p]) => path === p || path.startsWith(p + '/')) ?? [])[1] ?? '';
 const sameAs = [SITE.youtube, SITE.youtubeLfg, SITE.x, SITE.xLfg, SITE.linkedin, SITE.instagram, SITE.telegram].filter(Boolean);

@@ -21,6 +21,3 @@ https://:project.pages.dev/*
 /admin/*
   X-Robots-Tag: noindex
   ! Content-Security-Policy
-
-/figures/*
-  X-Robots-Tag: noindex
