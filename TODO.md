@@ -11,7 +11,8 @@ Done on 2026-11-18: Cloudflare account (me@action.ceo), both D1 databases with t
 1. **GitHub account and the public repo.** GitHub's sign-up blocked the browser. Until a repo exists, deploys are Direct Uploads: `npm run build && node scripts/direct-upload.mjs`, then upload `action-ceo-deploy.zip` under Pages > action-ceo > Create deployment. The project can be connected to a repo later (Settings > Build > Git repository > Connect).
 2. **2 Function secrets in Cloudflare Pages, production and preview:** `TURNSTILE_SECRET_KEY` (Turnstile > "action.ceo contact form" > secret key) and `IP_HASH_SALT_1` (any long random string, for example from `openssl rand -hex 32`). Then deploy again; secrets and bindings only apply to new deployments. Until then the form answers "The form is not set up yet."
 3. **Telegram alerts:** `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` as secrets too. Optional: the form saves to D1 without them, it just does not ping.
-4. **Custom domain and DNS.** Add action.ceo under Pages > Custom domains only when Action says so. Email runs on this domain, so check the MX records first (`SETUP.md` section 5).
+4. **Apply `migrations/0002_guest_inquiry_type.sql` to both D1 databases** (Cloudflare > D1 > Console). Until then the "Be a guest on my show" form option fails to save.
+5. **Custom domain and DNS.** Add action.ceo under Pages > Custom domains only when Action says so. Email runs on this domain, so check the MX records first (`SETUP.md` section 5).
 5. **14 GitHub Actions secrets** for the pipeline and daily checks. Full list in `SETUP.md` section 3. The hourly run stays green and skips until all are set.
 6. **Telegram group link.** `src/site.ts`, `telegram`. 1 line switches on the footer, Home, the Writing page and every post. Empty means Telegram shows nowhere.
 7. **GA4 measurement ID.** `src/site.ts`, `ga4Id`. Empty means analytics is off and no banner shows.
@@ -49,6 +50,13 @@ Done on 2026-11-18: Cloudflare account (me@action.ceo), both D1 databases with t
 6. **actionenterprisesolutions.com.** Pick how it redirects (`SETUP.md` section 5, step 8).
 7. **Sample content.** `src/content/posts/sample-post.md`, `src/content/videos/SAMPLE00001.json` and `src/content/transcripts/SAMPLE00001.en.md` only preview the post layout. They never reach production. Delete them once a real post exists.
 8. **No-JavaScript form result.** A form sent with JavaScript off now lands on `/contact?sent=1` or `/contact?error=1`. The Contact page does not show a message for either yet. Decide if it should.
+
+## Genzio Roundtable write-ups (proposed process)
+
+1. After each Space, download the recording from X (host menu > Download) into the Drive folder for Genzio.
+2. Claude transcribes it and drafts a post in `src/content/posts/` with the topic, who spoke and the main points, plus a link to the Space recording.
+3. Action reads the draft and approves it. On publish, the Space moves from "Recent rooms" to a post link on the Genzio page.
+X does not offer an embed for Spaces, so the page links to the recording on X.
 
 ## Later
 

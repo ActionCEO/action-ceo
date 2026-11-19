@@ -14,7 +14,7 @@ const F = "'Montserrat', Arial, sans-serif";
 ---
 <a href={href} class="vcard" rel={post ? undefined : 'noopener'}>
   <span class="vthumb">
-    <img src={`https://i.ytimg.com/vi/${v.youtubeId}/hq720.jpg`} onerror={`this.onerror=null;this.src='https://i.ytimg.com/vi/${v.youtubeId}/mqdefault.jpg'`} alt="" width="1280" height="720" loading={eager ? 'eager' : 'lazy'} decoding="async">
+    <img src={`https://i.ytimg.com/vi/${v.youtubeId}/hq720.jpg`} onload={`if(this.naturalWidth<300&&!this.dataset.f){this.dataset.f=1;this.src='https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg'}`} onerror={`this.onerror=null;this.src='https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg'`} alt="" width="1280" height="720" loading={eager ? 'eager' : 'lazy'} decoding="async">
     <span class="vplay" aria-hidden="true"><Icon name="play" size={26} /></span>
   </span>
   <span style="display: flex; flex-direction: column; gap: 6px">

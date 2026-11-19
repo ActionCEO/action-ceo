@@ -65,4 +65,6 @@ Stop asking which AI model wins. Ask who gets paid no matter which model wins. G
 
 The picks and shovels are chips, power, data centers, networking, cooling, copper and compute. That is why Quai, copper on chain and DePIN as a whole make more sense now. They are all pieces of the same infrastructure story.
 
+Disclosure: as I say on the show, I work with Quai, DigiByte, metals.io, Pure Wallet and Coral App.
+
 The full breakdown, with my reactions, is in the video above.

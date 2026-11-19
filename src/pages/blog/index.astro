@@ -17,7 +17,7 @@ const F = "'Montserrat', Arial, sans-serif";
   {posts.length === 0 && <p style="margin: 0; padding: 32px 0; border-top: 1px solid #0A2C52; font-size: 20px; color: #D5D8DB">Nothing to read yet. Plenty to watch. <a href={SITE.youtube} rel="noopener" style="border-bottom: 1px solid #FFFFFF">Watch on YouTube</a></p>}
   {posts.map((p) => (
     <a href={`/blog/${p.id}`} class="vcard" style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 20px 40px; padding: 32px 0; border-top: 1px solid #0A2C52; align-items: center">
-      <img src={`https://i.ytimg.com/vi/${p.data.youtubeVideoId}/hq720.jpg`} onerror={`this.onerror=null;this.src='https://i.ytimg.com/vi/${p.data.youtubeVideoId}/mqdefault.jpg'`} alt="" width="1280" height="720" loading="lazy" decoding="async" style="flex: 1 1 260px; max-width: 380px; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover">
+      <img src={`https://i.ytimg.com/vi/${p.data.youtubeVideoId}/hq720.jpg`} onload={`if(this.naturalWidth<300&&!this.dataset.f){this.dataset.f=1;this.src='https://i.ytimg.com/vi/${p.data.youtubeVideoId}/hqdefault.jpg'}`} onerror={`this.onerror=null;this.src='https://i.ytimg.com/vi/${p.data.youtubeVideoId}/hqdefault.jpg'`} alt="" width="1280" height="720" loading="lazy" decoding="async" style="flex: 1 1 260px; max-width: 380px; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover">
       <span style="flex: 3 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
         <span style="font-size: 16px; color: #A5AAAF">{catName(p.data.category)} · {p.data.publishedAt ? fmtDate(p.data.publishedAt) : 'Draft'}</span>
         <span style={`font-family: ${F}; font-weight: 800; font-size: clamp(22px, 2.8vw, 38px); line-height: 1.08; letter-spacing: -0.03em`}>{p.data.title}</span>
@@ -29,7 +29,7 @@ const F = "'Montserrat', Arial, sans-serif";
 <section class="rv pad" aria-label="Subscribe" style="background: #002346; padding-top: 96px; padding-bottom: 96px; display: flex; flex-wrap: wrap; gap: 24px 64px; align-items: center; justify-content: space-between">
   <h2 style={`margin: 0; flex: 2 1 420px; max-width: 760px; font-family: ${F}; font-weight: 800; font-size: clamp(28px, 3.6vw, 52px); line-height: 1.02; letter-spacing: -0.035em`}>New video, new page. Subscribe so you catch the next one.</h2>
   <div style="display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center">
-    <a href={SITE.youtube} rel="noopener" style={`background: #69BE28; color: #06111F; font-family: ${F}; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 2px`}>Subscribe to Action Crypto</a>
+    <a href={SITE.youtube} rel="noopener" style={`background: #69BE28; color: #06111F; font-family: ${F}; font-weight: 800; font-size: 16px; padding: 16px 28px; border-radius: 2px`}>Subscribe to {SITE.channel}</a>
     {SITE.telegram && <a href={SITE.telegram} rel="noopener" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Join the Telegram</a>}
   </div>
 </section>

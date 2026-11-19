@@ -62,7 +62,8 @@ summary{cursor:pointer}
 .vcard:hover .vplay{background:#69BE28}
 .vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:40px 32px}
 /* Photo strips (Karate Combat, Work). */
-.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:12px}
+.strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:600px){.strip{grid-template-columns:1fr 1fr}}
 .strip img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
 .pv{transition:opacity .35s ease}
 .row-thumb{display:none}
