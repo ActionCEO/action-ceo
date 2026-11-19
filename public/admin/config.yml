@@ -1,7 +1,7 @@
 # Sveltia CMS. Fields and limits mirror src/content.config.ts: change both together.
 backend:
   name: github
-  repo: TODO-OWNER/action-ceo   # TODO: GitHub owner/repo
+  repo: ActionCEO/action-ceo
   branch: main
   base_url: https://TODO-sveltia-cms-auth.workers.dev   # TODO: the sveltia-cms-auth Worker URL
 publish_mode: editorial_workflow
