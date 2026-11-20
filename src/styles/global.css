@@ -420,3 +420,7 @@ picture>source{display:none}
 /* Speaking page booking form: same layout as the Contact page. */
 .ct-lead{margin:0 0 28px;max-width:520px;font-size:19px;color:#D5D8DB}
 .ct-book{scroll-margin-top:90px;border-top:1px solid #0A2C52}
+/* About story text, with links in the sentences. */
+.story-text{margin:0;max-width:680px;font-size:20px;color:#D5D8DB}
+.story-text a{color:#FFFFFF;border-bottom:1px solid #69BE28}
+.story-text a:hover{border-bottom-color:#FFFFFF}
