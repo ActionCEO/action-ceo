@@ -44,9 +44,9 @@ const graph = [{ '@type': show.data.kind === 'podcast' ? 'PodcastSeries' : 'Crea
   <h1 class="hero-h1">{name}</h1>
   <p class="hero-year">{show.data.schedule}</p>
   <p class="hero-p">{show.data.summary}</p>
-  <div class="hero-links">
+  {where.length > 0 && <div class="hero-links">
     {where.map((w) => <a href={w.url} rel="noopener" class="hero-where">{/youtube/.test(w.url ?? '') && <Icon name="youtube" size={20} />}{/x\.com/.test(w.url ?? '') && <Icon name="x" size={16} />}{/linkedin/.test(w.url ?? '') && <Icon name="linkedin" size={16} />}{w.label}</a>)}
-  </div>
+  </div>}
 </PageHero>
 {show.data.rooms.length > 0 && (
   <section class="rv pad" aria-label="Recent rooms" style="padding-bottom: 96px">

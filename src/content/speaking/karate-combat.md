@@ -12,7 +12,7 @@ highlights:
   - title: "Sponsors who paid us directly"
     text: "We booked crypto projects as sponsors of the stream. They wanted our audience more than a generic fight audience, and that became a revenue stream."
   - title: "Money from an open license"
-    text: "The fights were open for anyone to stream, and most people passed. Turning that into a paid show was the best call we made."
+    text: "The fights were free for anyone to stream. Turning that into a paid show was the best call we made."
 ---
 Karate Combat is a full-contact league that fights in a pit, not a ring. I hosted the pit side stream: live commentary from right next to the pit, with guests joining me through the night.
 

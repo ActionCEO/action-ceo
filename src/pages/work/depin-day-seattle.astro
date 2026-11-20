@@ -11,21 +11,46 @@ const streams = (await getCollection('videos')).filter((v) => v.data.series === 
 const facts = [
   ['Role', 'Co-organizer and host'],
   ['Years', '2024 and 2025'],
-  ['On stage', 'T-Mobile, HP, Borderless Capital (across 2024 and 2025)'],
+  ['On stage', 'Solana, HP, T-Mobile, Borderless Capital, IoTeX and more'],
   ['Livestream', '65,000+ viewers on X'],
+];
+// Speaker lineup as published on the event's own site, depinday.io (read Nov 19, 2026). Name, role as listed there, company.
+const speakers = [
+  ['Matt Sorg', 'VP of Technology', 'Solana'],
+  ['Sean Carey', 'GP. Formerly Helium co-founder and CTO', 'Borderless Capital'],
+  ['Elizabeth Scallon', 'Director of Incubation', 'HP'],
+  ['Aaron Basi', 'Head of Product', 'IoTeX'],
+  ['Mike A. Horton', 'Project Creator', 'GEODNET'],
+  ['Davy Wittock', 'Chief Business Officer', 'Flux'],
+  ['Maria Lema', 'Co-founder', 'Weaver Labs'],
+  ['Luis Oscar Ramirez', 'CEO', 'Mawari'],
+  ['Ken Anderson', 'CTO', 'Tashi Protocol'],
+  ['Jesse Adams', 'Co-founder', 'UpRock'],
+  ['Jonathan Blanco', 'CEO', 'Niftmint'],
+  ['Michael Hiles', 'CEO', '10XTS'],
+  ['Brandon Baker', 'CEO', 'Conduit Network'],
+  ['Ian Clausen', 'CTO', 'Conduit Network'],
+  ['Sonny Vleisides', 'Hardware and Networking CTO', 'Conduit Network'],
+  ['Tyler Boscolo', 'Host', 'Unleashing DePIN'],
 ];
 ---
 <Base page="project">
 <Header current="Work" />
 <PageHero img="depin-panel" big={1446} w={1446} h={819} alt="Action hosting a panel on the DePIN Day: Seattle stage" pos="60% 40%" posPhone="100% 40%">
 <a href="/work" class="hero-back">« All work</a>
+<img src="/img/depin-day-logo.png" width="750" height="248" alt="DePIN Day: Seattle logo" class="hero-logo hero-logo-lg">
 <h1 class="hero-h1">DePIN Day: Seattle</h1>
 <p class="hero-p">2 years, 2 full days of DePIN on 1 stage. I co-organized it with the team behind it and hosted it both years.</p>
 </PageHero>
 <section class="rv pad sec" aria-label="Overview">
 <dl class="facts">{facts.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
 </section>
-<section class="rv pad" aria-labelledby="streams-h" style="padding-bottom: 96px">
+<section class="rv pad sec alt" aria-labelledby="who-h">
+<h2 class="sec-h" id="who-h">Who was on stage</h2>
+<p class="sec-lead">The speaker lineup from the event site, <a href="https://depinday.io" rel="noopener">depinday.io</a>.</p>
+<ul role="list" class="people">{speakers.map(([n, r, c]) => <li><span class="people-co">{c}</span><span class="people-n">{n}</span><span class="people-r">{r}</span></li>)}</ul>
+</section>
+<section class="rv pad sec" aria-labelledby="streams-h">
 <h2 class="sec-h" id="streams-h">Watch the full livestreams</h2>
 <div class="vgrid vgrid-2">{streams.map((v) => <VideoCard video={v} />)}</div>
 </section>

@@ -212,7 +212,7 @@ span.pv-genzio{position:static;aspect-ratio:16/9}
    half with its left edge faded out, so words never sit on a face. Phones: the photo is a band on top, words under it. */
 .page-hero{position:relative;overflow:hidden;display:flex;align-items:flex-end;min-height:clamp(320px,34vw,460px)}
 .page-hero-img{position:absolute;top:0;right:0;width:min(58%,980px);height:100%;object-fit:cover;object-position:var(--pos,60% 40%);-webkit-mask-image:linear-gradient(to right,transparent 0,#000 40%);mask-image:linear-gradient(to right,transparent 0,#000 40%)}
-.page-hero-shade{position:absolute;inset:0;background:linear-gradient(to top,#06111F 0%,rgba(6,17,31,.25) 40%,rgba(6,17,31,.15) 100%)}
+.page-hero-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,#06111F 0%,rgba(6,17,31,.25) 40%,rgba(6,17,31,.15) 100%)}
 .page-hero-text{position:relative;display:flex;flex-direction:column;gap:20px;max-width:min(60%,820px);padding:clamp(40px,6vw,88px) 0 clamp(28px,3vw,44px) clamp(20px,4.5vw,64px)}
 @media (min-width:1000px){.one-line{white-space:nowrap}}
 @media (max-width:800px){
@@ -406,3 +406,13 @@ picture>source{display:none}
 .hero-art-fill img{display:block;width:min(52%,340px);height:auto;margin-left:18%}
 @media (max-width:800px){.hero-art-fill img{margin-left:0;width:min(60%,260px)}}
 .pv-mark{align-self:flex-start;margin-top:clamp(0px,.6vw,8px)}
+/* A list of people: company on top, then name and role. Used for the DePIN Day speaker lineup. */
+.people{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));gap:0 32px}
+.people li{display:flex;flex-direction:column;gap:4px;padding:20px 0;border-top:1px solid #12355E}
+.people-co{font:800 13px 'Montserrat',Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#69BE28}
+.people-n{font:700 20px/1.2 'Montserrat',Arial,sans-serif}
+.people-r{font-size:16px;color:#D5D8DB}
+.hero-logo-lg{width:clamp(170px,17vw,250px)}
+.sec-lead a{border-bottom:1px solid #FFFFFF}
+.page-hero:has(.page-hero-art) .page-hero-shade{background:linear-gradient(to top,#06111F 0,transparent 35%)}
+.page-hero+section{padding-top:clamp(40px,5vw,72px)}

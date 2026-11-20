@@ -76,7 +76,7 @@ const episodes = defineCollection({
 
 const speaking = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/speaking' }),
-  schema: z.object({ event: z.string(), role: z.string(), year: z.string(), location: blank(z.string().optional()), publicInPerson: z.boolean().default(false), startDate: blank(z.coerce.date().optional()), image: blank(z.string().optional()), video: reference('videos').optional(), highlights: z.array(z.object({ title: z.string(), text: z.string() }).strict()).default([]), closing: blank(z.string().optional()) }).strict(),
+  schema: z.object({ event: z.string(), role: z.string(), year: z.string(), location: blank(z.string().optional()), publicInPerson: z.boolean().default(false), startDate: blank(z.coerce.date().optional()), image: blank(z.string().optional()), video: reference('videos').optional(), highlights: z.array(z.object({ title: z.string(), text: z.string() }).strict()).max(4).default([]), closing: blank(z.string().optional()) }).strict(),
 });
 
 export const collections = { videos, transcripts, posts, shows, guests, episodes, speaking };

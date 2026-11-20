@@ -37,7 +37,7 @@ A bot can never publish: the PR check fails if a post has `draft: false` and its
 | Contact form and country lookup | `functions/api/` |
 | Database tables | `migrations/` |
 | YouTube to blog pipeline | `scripts/pipeline/` and `.github/workflows/pipeline.yml` |
-| Security headers, redirects | `public/_headers`, `public/_redirects` |
+| Security headers, redirects | `public/_headers`, `src/data/redirects.json (the Forwarding list in the CMS)` |
 | Motion | `src/styles/global.css` (scroll effects) and `src/scripts/site.js` |
 
 ## Share images
