@@ -33,6 +33,16 @@ const speakers = [
   ['Sonny Vleisides', 'Hardware and Networking CTO', 'Conduit Network'],
   ['Tyler Boscolo', 'Host', 'Unleashing DePIN'],
 ];
+// 2024 speakers, taken from the Oct 4, 2024 livestream and checked against public sources (research report, Nov 19, 2026).
+const speakers2024 = [
+  ['Brandon Baker', 'Co-founder', 'Conduit Network'],
+  ['Ken Anderson', 'CTO', 'Tashi Protocol'],
+  ['Davy Wittock', 'Business development', 'Flux'],
+  ['Aaron Basi', 'Head of Product', 'IoTeX'],
+  ['David Chen', 'Co-founder', 'GEODNET'],
+  ['Jonathan G. Blanco', 'Founder and CEO', 'Niftmint'],
+  ['Jonathan Vossler', 'CEO', 'Vossler Media Group'],
+];
 ---
 <Base page="project">
 <Header current="Work" />
@@ -49,6 +59,9 @@ const speakers = [
 <h2 class="sec-h" id="who-h">Who was on stage in 2025</h2>
 <p class="sec-lead">The 2025 speaker lineup from the event site, <a href="https://depinday.io" rel="noopener">depinday.io</a>.</p>
 <ul role="list" class="people">{speakers.map(([n, r, c]) => <li><span class="people-co">{c}</span><span class="people-n">{n}</span><span class="people-r">{r}</span></li>)}</ul>
+<h2 class="sec-h people-next" id="who24-h">Who was on stage in 2024</h2>
+<p class="sec-lead">From the 2024 livestream.</p>
+<ul role="list" class="people" aria-labelledby="who24-h">{speakers2024.map(([n, r, c]) => <li><span class="people-co">{c}</span><span class="people-n">{n}</span><span class="people-r">{r}</span></li>)}</ul>
 </section>
 <section class="rv pad sec" aria-labelledby="streams-h">
 <h2 class="sec-h" id="streams-h">Watch the full livestreams</h2>

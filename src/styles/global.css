@@ -416,3 +416,4 @@ picture>source{display:none}
 .sec-lead a{border-bottom:1px solid #FFFFFF}
 .page-hero:has(.page-hero-art) .page-hero-shade{background:linear-gradient(to top,#06111F 0,transparent 35%)}
 .page-hero+section{padding-top:clamp(40px,5vw,72px)}
+.people-next{margin-top:72px}

@@ -8,7 +8,7 @@ highlights:
   - title: "A stream you could take part in"
     text: "We made the stream more interactive than a standard fight broadcast, so viewers had a reason to stay and join in."
   - title: "A crypto audience"
-    text: "Karate Combat was sponsored by Hedera, so the people watching us were crypto people, not a general fight crowd. We leaned into that."
+    text: "The league's blockchain sponsor was the HBAR Foundation, from the Hedera world, so the people watching us were crypto people, not a general fight crowd. We leaned into that."
   - title: "Sponsors who paid us directly"
     text: "We booked crypto projects as sponsors of the stream. They wanted our audience more than a generic fight audience, and that became a revenue stream."
   - title: "Money from an open license"
