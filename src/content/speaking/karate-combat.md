@@ -16,4 +16,4 @@ highlights:
 ---
 Karate Combat is a full-contact league that fights in a pit, not a ring. I hosted the pit side stream: live commentary from right next to the pit, with guests joining me through the night.
 
-The league let creators stream its fights under an open license. Most people passed on it. We built a show on top of it, pointed it at a crypto audience and sold our own sponsorships.
+The league let creators stream its fights under an open license. Most people passed on it. We created a show on top of it, pointed it at a crypto audience and sold our own sponsorships.
