@@ -26,7 +26,6 @@ const where = show.data.where.filter((w) => w.url && !(show.data.image === 'genz
 const allVids = (await getCollection('videos')).filter((v) => !v.id.startsWith('SAMPLE'));
 // Each series block lists its videos, newest first. 'interviews' also picks up guest videos filed elsewhere.
 const blocks = show.data.series.map((sr) => ({ ...sr, vids: allVids.filter((v) => v.data.series === sr.id || (sr.id === 'interviews' && v.data.guest && v.data.series !== 'deai-podcast')).sort((a, b) => +b.data.publishedAt - +a.data.publishedAt) }));
-const F = "'Montserrat', Arial, sans-serif";
 // Header photo per show. A show with no photo (Genzio, voice only) gets its brand panel instead.
 const PHOTOS: Record<string, { img: string; big: number; w: number; h: number; alt: string; pos: string; posPhone?: string }> = {
   'studio-live': { img: 'studio-live', big: 1156, w: 1156, h: 650, alt: 'Action live at the mic in his studio', pos: '50% 25%', posPhone: '50% 20%' },
@@ -49,25 +48,25 @@ const graph = [{ '@type': show.data.kind === 'podcast' ? 'PodcastSeries' : 'Crea
   </div>}
 </PageHero>
 {show.data.rooms.length > 0 && (
-  <section class="rv pad" aria-label="Recent rooms" style="padding-bottom: 96px">
-    <h2 style={`margin: 0 0 8px; font-family: ${F}; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); letter-spacing: -0.035em`}>Recent rooms</h2>
-    <p style="margin: 0 0 24px; color: #D5D8DB; font-size: 18px">X keeps the recording of each Space. Tap a room to play it back on X.</p>
-    <div class="rows" style="display: flex; flex-direction: column">
-      {show.data.rooms.map((r) => <div style="padding: 20px 0; border-top: 1px solid #0A2C52"><a href={r.url} rel="noopener" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 24px"><span style={`display: inline-flex; align-items: center; gap: 12px; font-family: ${F}; font-weight: 700; font-size: clamp(19px, 2vw, 24px)`}><Icon name="x" size={18} />{r.title}</span><span style="display: inline-flex; align-items: center; gap: 8px; color: #A5AAAF">{r.month} <Icon name="out" size={14} label="opens in a new tab" /></span></a>{r.speakers.length > 0 && <p class="room-speakers" style="margin: 10px 0 0 30px; color: #A5AAAF; font-size: 15px; line-height: 1.7">With {r.speakers.map((sp, i) => <>{i > 0 && (i === r.speakers.length - 1 ? ' and ' : ', ')}<a href={`https://x.com/${sp.x}`} rel="noopener" style="color: #E7ECF1; text-decoration: underline; text-underline-offset: 3px">{sp.name}{sp.org ? <span style="color: #A5AAAF">{` (${sp.org})`}</span> : null}</a></>)}</p>}</div>)}
+  <section class="rv pad show-sec" aria-label="Recent rooms">
+    <h2 class="show-sec-h rooms-h">Recent rooms</h2>
+    <p class="rooms-p">X keeps the recording of each Space. Tap a room to play it back on X.</p>
+    <div class="rows col">
+      {show.data.rooms.map((r) => <div class="room"><a class="room-a" href={r.url} rel="noopener"><span class="room-t"><Icon name="x" size={18} />{r.title}</span><span class="room-m">{r.month} <Icon name="out" size={14} label="opens in a new tab" /></span></a>{r.speakers.length > 0 && <p class="room-speakers">With {r.speakers.map((sp, i) => <>{i > 0 && (i === r.speakers.length - 1 ? ' and ' : ', ')}<a class="room-sp" href={`https://x.com/${sp.x}`} rel="noopener">{sp.name}{sp.org ? <span class="dim">{` (${sp.org})`}</span> : null}</a></>)}</p>}</div>)}
     </div>
   </section>
 )}
 {blocks.filter((b) => b.vids.length).map((b) => (
-  <section class="rv pad" aria-label={b.heading} style="padding-bottom: 96px; display: flex; flex-direction: column; gap: 12px">
-    <h2 style={`margin: 0; font-family: ${F}; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); letter-spacing: -0.035em`}>{b.heading}</h2>
-    {b.blurb && <p style="margin: 0 0 16px; max-width: 640px; color: #D5D8DB; font-size: 18px">{b.blurb}</p>}
+  <section class="rv pad show-sec show-block" aria-label={b.heading}>
+    <h2 class="show-sec-h">{b.heading}</h2>
+    {b.blurb && <p class="block-p">{b.blurb}</p>}
     <div class="vgrid">{b.vids.map((v, i) => <VideoCard video={v} eager={i < 2} showGuest />)}</div>
   </section>
 ))}
 {eps.length > 0 && (
-  <section class="pad" aria-label="Episodes" style="padding-bottom: 96px">
-    <h2 style={`margin: 0 0 24px; font-family: ${F}; font-weight: 800; font-size: clamp(28px, 3.2vw, 44px); letter-spacing: -0.035em`}>Episodes</h2>
-    {eps.map((e) => <a href={`/episodes/${e.id}`} style={`display: flex; gap: 24px; padding: 22px 0; border-top: 1px solid #0A2C52; font-family: ${F}; font-weight: 700; font-size: 22px`}><span style="color: #A5AAAF">{e.data.number}</span><span>{e.data.title}</span></a>)}
+  <section class="pad show-sec" aria-label="Episodes">
+    <h2 class="show-sec-h eps-h">Episodes</h2>
+    {eps.map((e) => <a href={`/episodes/${e.id}`} class="ep-row"><span class="dim">{e.data.number}</span><span>{e.data.title}</span></a>)}
   </section>
 )}
 <CallOut heading="I host other people's shows and livestreams too." links={[{ label: 'Book me to host', href: '/speaking#book', icon: 'mail' }, { label: 'All shows', href: '/shows' }]} />

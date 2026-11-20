@@ -589,3 +589,26 @@ section.why-sec{padding:clamp(72px,9vw,140px) clamp(20px,4.5vw,64px)}
 .pv-name{font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(28px,4.2vw,60px);line-height:1.02;letter-spacing:-0.035em}
 .pv-role{font-size:17px;color:#A5AAAF}
 .pv-cta{display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:600;color:#D5D8DB}
+
+/* Contact page */
+.ct-h1{margin:0;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(40px,5.4vw,80px);line-height:0.98;letter-spacing:-0.035em}
+.ct-mail-p{margin:0}
+.ct-h2{margin-bottom:28px}
+
+/* Show pages (Action Items, Genzio Roundtable, Interviews) */
+.show-sec{padding-bottom:96px}
+.show-block{display:flex;flex-direction:column;gap:12px}
+.show-sec-h{margin:0;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(28px,3.2vw,44px);letter-spacing:-0.035em}
+.rooms-h{margin-bottom:8px}
+.eps-h{margin-bottom:24px}
+.rooms-p{margin:0 0 24px;color:#D5D8DB;font-size:18px}
+.block-p{margin:0 0 16px;max-width:640px;color:#D5D8DB;font-size:18px}
+/* Recent X Spaces: title and month on 1 line, the speakers under it. Speaker links keep their color on hover, as the inline color did. */
+.room{padding:20px 0;border-top:1px solid #0A2C52}
+.room-a{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 24px}
+.room-t{display:inline-flex;align-items:center;gap:12px;font-family:'Montserrat',Arial,sans-serif;font-weight:700;font-size:clamp(19px,2vw,24px)}
+.room-m{display:inline-flex;align-items:center;gap:8px;color:#A5AAAF}
+.room-speakers{margin:10px 0 0 30px;color:#A5AAAF;font-size:15px;line-height:1.7}
+.room-sp,.room-sp:hover{color:#E7ECF1;text-decoration:underline;text-underline-offset:3px}
+/* Episode list. */
+.ep-row{display:flex;gap:24px;padding:22px 0;border-top:1px solid #0A2C52;font-family:'Montserrat',Arial,sans-serif;font-weight:700;font-size:22px}
