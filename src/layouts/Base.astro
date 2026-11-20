@@ -65,7 +65,7 @@ const ld = {
 <meta name="twitter:image:alt" content={title}>
 <script type="application/ld+json" set:html={JSON.stringify(ld).replace(/</g, '\\u003c')}></script>
 </head>
-<body data-ga={SITE.ga4Id} data-pagefind-body={page === 'notfound' ? undefined : ''}>
+<body data-ga={SITE.ga4Id} data-pagefind-body={type === 'article' ? '' : undefined}>
 <a class="skip" data-pagefind-ignore href="#content">Skip to content</a>
 <Header nav current={current} overlay={overlay} />
 <main id="main">
