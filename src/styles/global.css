@@ -656,3 +656,35 @@ section.why-sec{padding:clamp(72px,9vw,140px) clamp(20px,4.5vw,64px)}
 /* Telegram line (src/components/TelegramNote.astro). */
 .tg-note{border-top:1px solid #0A2C52;padding-top:56px;padding-bottom:56px;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 32px}
 
+/* Blog list page */
+.blog-lead{margin:0;max-width:1100px;font-size:20px;color:#FFFFFF}
+/* Search box and topic filter. */
+.blog-tools{padding-top:8px;padding-bottom:40px;display:flex;flex-direction:column;gap:20px}
+.chips-wrap{display:flex;flex-direction:column;gap:12px}
+.blog-list{padding-bottom:96px}
+.blog-empty{margin:0;padding:32px 0;border-top:1px solid #0A2C52;font-size:20px;color:#D5D8DB}
+/* Words in each post row. */
+.post-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:16px;color:#A5AAAF}
+.post-row-h{margin:0;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(22px,2.8vw,38px);line-height:1.08;letter-spacing:-0.03em}
+.post-ex{color:#D5D8DB}
+
+/* Episode pages. The back link keeps its light grey on hover, as the inline color did. */
+.ep{padding-top:clamp(40px,6vw,88px);padding-bottom:96px;display:flex;flex-direction:column;gap:24px}
+.ep-back,.ep-back:hover{align-self:flex-start;padding:10px 0;color:#D5D8DB}
+.ep-h1{margin:0;max-width:1000px;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(34px,5vw,72px);line-height:1.02;letter-spacing:-0.035em}
+.ep-video{max-width:1100px}
+.ep-p{margin:0;font-size:20px}
+
+/* Guest pages */
+.guest{padding-top:clamp(40px,6vw,88px);padding-bottom:96px;display:flex;flex-direction:column;gap:20px;align-items:flex-start}
+.guest-h1{margin:0;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(40px,6vw,88px);line-height:1;letter-spacing:-0.035em}
+.guest-eps{width:100%}
+.guest-ep{display:block;padding:22px 0;border-top:1px solid #0A2C52;font-family:'Montserrat',Arial,sans-serif;font-weight:700;font-size:22px}
+
+/* 404 page: the big grey number behind the words. */
+.nf{position:relative;min-height:720px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.nf-num{position:absolute;right:-2vw;bottom:-6vw;font-family:'Montserrat',Arial,sans-serif;font-weight:900;font-size:clamp(200px,38vw,560px);line-height:0.8;letter-spacing:-0.06em;color:#0A2C52}
+.nf-text{position:relative;padding:72px clamp(20px,4.5vw,64px);display:flex;flex-direction:column;gap:24px;align-items:flex-start}
+.nf-p{margin:0;max-width:520px;font-size:20px;color:#D5D8DB}
+.nf-links{display:flex;flex-wrap:wrap;gap:8px 32px}
+.ulink-green{font-weight:600;padding:10px 0;border-bottom:3px solid #69BE28}

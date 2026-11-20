@@ -11,7 +11,6 @@ const { ep } = Astro.props;
 const show = await getEntry(ep.data.show);
 const video = ep.data.video ? await getEntry(ep.data.video) : null;
 const guests = await Promise.all(ep.data.guests.map((g) => getEntry(g)));
-const F = "'Montserrat', Arial, sans-serif";
 // 1 URL per video. If this video already has a post, the post is the main page: this page points its canonical there and links to it.
 // If there is no post, this page carries the VideoObject itself.
 const post = video ? (await livePosts()).find((p) => p.data.video.id === video.id) : undefined;
@@ -29,12 +28,12 @@ const graph = video && !post ? [
 ---
 <Base title={`${cut(ep.data.title, 41)} | Action, Host`} description={desc} path={`/episodes/${ep.id}`} canonical={post ? `/blog/${post.id}` : undefined} noindex={post?.data.draft} graph={graph} ogImage="/og/shows.png">
 <Header current="Shows" />
-<article class="pad" style="padding-top: clamp(40px, 6vw, 88px); padding-bottom: 96px; display: flex; flex-direction: column; gap: 24px">
-  <a href={`/shows/${show.id}`} style="align-self: flex-start; padding: 10px 0; color: #D5D8DB">{show.data.name}, episode {ep.data.number}</a>
-  <h1 style={`margin: 0; max-width: 1000px; font-family: ${F}; font-weight: 800; font-size: clamp(34px, 5vw, 72px); line-height: 1.02; letter-spacing: -0.035em`}>{ep.data.title}</h1>
-  <time datetime={ep.data.publishedAt.toISOString()} style="color: #A5AAAF">{fmtDate(ep.data.publishedAt)}</time>
-  {video && <div style="max-width: 1100px"><Video id={video.data.youtubeId} title={video.data.title} eager /></div>}
-  {post && <p style="margin: 0; font-size: 20px"><a href={`/blog/${post.id}`} style="border-bottom: 1px solid #FFFFFF">Read the written breakdown: {post.data.title}</a></p>}
-  {guests.length > 0 && <p style="margin: 0; font-size: 20px">With {guests.map((g, i) => <>{i > 0 && ', '}<a href={`/guests/${g.id}`} style="border-bottom: 1px solid #FFFFFF">{g.data.name}</a></>)}</p>}
+<article class="pad ep">
+  <a class="ep-back" href={`/shows/${show.id}`}>{show.data.name}, episode {ep.data.number}</a>
+  <h1 class="ep-h1">{ep.data.title}</h1>
+  <time class="dim" datetime={ep.data.publishedAt.toISOString()}>{fmtDate(ep.data.publishedAt)}</time>
+  {video && <div class="ep-video"><Video id={video.data.youtubeId} title={video.data.title} eager /></div>}
+  {post && <p class="ep-p"><a class="uline" href={`/blog/${post.id}`}>Read the written breakdown: {post.data.title}</a></p>}
+  {guests.length > 0 && <p class="ep-p">With {guests.map((g, i) => <>{i > 0 && ', '}<a class="uline" href={`/guests/${g.id}`}>{g.data.name}</a></>)}</p>}
 </article>
 </Base>
