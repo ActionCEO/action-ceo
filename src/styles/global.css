@@ -424,3 +424,36 @@ picture>source{display:none}
 .story-text{margin:0;max-width:680px;font-size:20px;color:#D5D8DB}
 .story-text a{color:#FFFFFF;border-bottom:1px solid #69BE28}
 .story-text a:hover{border-bottom-color:#FFFFFF}
+
+/* Shared by several pages: pieces that used to be typed on each tag. */
+/* A <picture> that leaves the layout to the <img> inside it. */
+.pic{display:contents}
+/* Text link with a thin white underline. */
+.uline{border-bottom:1px solid #FFFFFF}
+/* Link with a white underline and room to tap. .ulink-i lines an icon up beside the words. */
+.ulink{font-weight:600;padding:10px 0;border-bottom:1px solid #FFFFFF}
+.ulink-i{display:inline-flex;align-items:center;gap:8px}
+/* A plain row of links that wraps. */
+.links-row{display:flex;flex-wrap:wrap;gap:4px 24px}
+
+/* Shows page */
+/* Header lead line and the space around the live bar under it. */
+.shows-lead{margin:0;max-width:620px;font-size:20px;color:#FFFFFF}
+.livebar-wrap{padding-top:8px;padding-bottom:40px}
+/* Schedule: 1 row per show. When on the left, what and where in the middle, picture or logo panel last. */
+.show-list{padding:0 clamp(20px,4.5vw,64px) 96px}
+.show-row{display:flex;flex-wrap:wrap;gap:24px 48px;padding:44px 0;border-top:1px solid #0A2C52}
+.show-when{flex:1 1 180px;display:flex;flex-direction:column;gap:6px}
+.show-day{display:flex;align-items:center;gap:10px;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:22px}
+.show-time{font-family:'Montserrat',Arial,sans-serif;font-weight:700;font-size:18px;color:#D5D8DB;font-variant-numeric:tabular-nums}
+.show-text{flex:3 1 380px;min-width:0;display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.show-h{margin:0;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(30px,4vw,56px);line-height:1;letter-spacing:-0.035em}
+.show-p{margin:0;max-width:560px;font-size:19px;color:#D5D8DB}
+.show-logo-panel{display:flex;align-items:center;justify-content:center}
+.show-logo{width:58%;height:auto}
+/* Channels: the 2 YouTube channels side by side. */
+.channels{padding:0 clamp(20px,4.5vw,64px) 110px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(360px,100%),1fr));gap:40px 64px}
+.channel{display:flex;flex-direction:column;gap:12px;align-items:flex-start;border-top:3px solid #FFFFFF;padding-top:24px}
+.channel-2{border-top-color:#326496}
+.channel-h{margin:0;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:30px;letter-spacing:-0.02em}
+.channel-p{margin:0;color:#D5D8DB;font-size:19px}

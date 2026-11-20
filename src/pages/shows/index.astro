@@ -11,57 +11,57 @@ import PageHero from '../../components/PageHero.astro';
 <Base page="shows">
 <Header current="Shows" />
 <PageHero img="studio-live" big={1156} w={1156} h={650} alt="Action live at the mic in his studio" pos="50% 25%" posPhone="50% 20%">
-<h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(44px, 7vw, 108px); line-height: 1.02; letter-spacing: -0.035em">Shows.</h1>
-<p style="margin: 0; max-width: 620px; font-size: 20px; color: #FFFFFF">Here's when I'm on and where to watch.</p>
+<h1 class="legal-h1">Shows.</h1>
+<p class="shows-lead">Here's when I'm on and where to watch.</p>
 </PageHero>
-<div class="pad" style="padding-top: 8px; padding-bottom: 40px"><LiveBar cta="subscribe" /></div>
-<section aria-label="Schedule" style="padding: 0 clamp(20px, 4.5vw, 64px) 96px">
-<article class="rv" style="display: flex; flex-wrap: wrap; gap: 24px 48px; padding: 44px 0; border-top: 1px solid #0A2C52">
-<div style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 6px">
-<div style="display: flex; align-items: center; gap: 10px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 22px">Fridays</div>
-<div style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 18px; color: #D5D8DB; font-variant-numeric: tabular-nums">9:30am Pacific</div>
+<div class="pad livebar-wrap"><LiveBar cta="subscribe" /></div>
+<section class="show-list" aria-label="Schedule">
+<article class="rv show-row">
+<div class="show-when">
+<div class="show-day">Fridays</div>
+<div class="show-time">9:30am Pacific</div>
 </div>
-<div style="flex: 3 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 14px; align-items: flex-start">
-<h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(30px, 4vw, 56px); line-height: 1; letter-spacing: -0.035em"><a href="/shows/action-items">Action Items</a></h2>
-<p style="margin: 0; max-width: 560px; font-size: 19px; color: #D5D8DB">My weekly live show. No edits, no retakes. On YouTube, LinkedIn and X (@LFGAction) at the same time.</p>
-<div class="links2"><a href="/shows/action-items" class="go" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">Past episodes</a><a href={`${SITE.youtube}/live`} rel="noopener" title={`${SITE.channel} live on YouTube`} class="ext" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF"><Icon name="youtube" size={20} />YouTube<span class="sr">, opens in a new tab</span></a><a href={SITE.linkedin} rel="noopener" title="Action on LinkedIn" class="ext" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF"><Icon name="linkedin" size={18} />LinkedIn<span class="sr">, opens in a new tab</span></a><a href={SITE.xLfg} rel="noopener" title="@LFGAction on X" class="ext" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF"><Icon name="x" size={18} label="X" />@LFGAction<span class="sr">, opens in a new tab</span></a></div>
+<div class="show-text">
+<h2 class="show-h"><a href="/shows/action-items">Action Items</a></h2>
+<p class="show-p">My weekly live show. No edits, no retakes. On YouTube, LinkedIn and X (@LFGAction) at the same time.</p>
+<div class="links2"><a href="/shows/action-items" class="go ulink">Past episodes</a><a href={`${SITE.youtube}/live`} rel="noopener" title={`${SITE.channel} live on YouTube`} class="ext ulink ulink-i"><Icon name="youtube" size={20} />YouTube<span class="sr">, opens in a new tab</span></a><a href={SITE.linkedin} rel="noopener" title="Action on LinkedIn" class="ext ulink ulink-i"><Icon name="linkedin" size={18} />LinkedIn<span class="sr">, opens in a new tab</span></a><a href={SITE.xLfg} rel="noopener" title="@LFGAction on X" class="ext ulink ulink-i"><Icon name="x" size={18} label="X" />@LFGAction<span class="sr">, opens in a new tab</span></a></div>
 </div>
-<picture style="display: contents"><source type="image/avif" srcset="/img/studio-live-800.avif 800w, /img/studio-live-1156.avif 1156w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/studio-live-800.webp 800w, /img/studio-live-1156.webp 1156w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/studio-live.jpg" width="1156" height="650" loading="eager" fetchpriority="high" decoding="async" alt="Action live at the mic in his studio" class="show-media"></picture>
+<picture class="pic"><source type="image/avif" srcset="/img/studio-live-800.avif 800w, /img/studio-live-1156.avif 1156w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/studio-live-800.webp 800w, /img/studio-live-1156.webp 1156w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/studio-live.jpg" width="1156" height="650" loading="eager" fetchpriority="high" decoding="async" alt="Action live at the mic in his studio" class="show-media"></picture>
 </article>
-<article class="rv" style="display: flex; flex-wrap: wrap; gap: 24px 48px; padding: 44px 0; border-top: 1px solid #0A2C52">
-<div style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 6px">
-<div style="display: flex; align-items: center; gap: 10px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 22px">X Spaces</div>
-<div style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 18px; color: #D5D8DB; font-variant-numeric: tabular-nums">Voice only</div>
+<article class="rv show-row">
+<div class="show-when">
+<div class="show-day">X Spaces</div>
+<div class="show-time">Voice only</div>
 </div>
-<div style="flex: 3 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 14px; align-items: flex-start">
-<h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(30px, 4vw, 56px); line-height: 1; letter-spacing: -0.035em"><a href="/shows/genzio-roundtable">Genzio Roundtable</a></h2>
-<p style="margin: 0; max-width: 560px; font-size: 19px; color: #D5D8DB">No cameras, just voices. I host it, and I've hosted Genzio's live shows since 2022.</p>
-<a href="/shows/genzio-roundtable" class="go" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">See the show</a>
+<div class="show-text">
+<h2 class="show-h"><a href="/shows/genzio-roundtable">Genzio Roundtable</a></h2>
+<p class="show-p">No cameras, just voices. I host it, and I've hosted Genzio's live shows since 2022.</p>
+<a href="/shows/genzio-roundtable" class="go ulink">See the show</a>
 </div>
-<div class="show-media genzio-bg" style="display: flex; align-items: center; justify-content: center"><img src="/img/genzio-logo-white.png" width="500" height="159" alt="Genzio logo" loading="lazy" style="width: 58%; height: auto"></div>
+<div class="show-media genzio-bg show-logo-panel"><img class="show-logo" src="/img/genzio-logo-white.png" width="500" height="159" alt="Genzio logo" loading="lazy"></div>
 </article>
-<article class="rv" style="display: flex; flex-wrap: wrap; gap: 24px 48px; padding: 44px 0; border-top: 1px solid #0A2C52">
-<div style="flex: 1 1 180px; display: flex; flex-direction: column; gap: 6px">
-<div style="display: flex; align-items: center; gap: 10px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 22px">LFG Action</div>
-<div style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 18px; color: #D5D8DB; font-variant-numeric: tabular-nums">On YouTube</div>
+<article class="rv show-row">
+<div class="show-when">
+<div class="show-day">LFG Action</div>
+<div class="show-time">On YouTube</div>
 </div>
-<div style="flex: 3 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 14px; align-items: flex-start">
-<h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(30px, 4vw, 56px); line-height: 1; letter-spacing: -0.035em"><a href="/shows/interviews">Founder interviews</a></h2>
-<p style="margin: 0; max-width: 560px; font-size: 19px; color: #D5D8DB">I interview founders, builders and researchers. The DeAI Podcast, my series on who controls AI, lives here too.</p>
-<div style="display: flex; flex-wrap: wrap; gap: 4px 24px"><a href="/shows/interviews" class="go" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">See the interviews</a></div>
+<div class="show-text">
+<h2 class="show-h"><a href="/shows/interviews">Founder interviews</a></h2>
+<p class="show-p">I interview founders, builders and researchers. The DeAI Podcast, my series on who controls AI, lives here too.</p>
+<div class="links-row"><a href="/shows/interviews" class="go ulink">See the interviews</a></div>
 </div>
-<picture style="display: contents"><source type="image/avif" srcset="/img/studio-interview-800.avif 800w, /img/studio-interview-1156.avif 1156w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/studio-interview-800.webp 800w, /img/studio-interview-1156.webp 1156w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/studio-interview.jpg" width="1156" height="650" loading="lazy" decoding="async" alt="Action listening to a guest during an interview" class="show-media"></picture>
+<picture class="pic"><source type="image/avif" srcset="/img/studio-interview-800.avif 800w, /img/studio-interview-1156.avif 1156w" sizes="(max-width: 800px) 100vw, 1600px"><source type="image/webp" srcset="/img/studio-interview-800.webp 800w, /img/studio-interview-1156.webp 1156w" sizes="(max-width: 800px) 100vw, 1600px"><img src="/img/studio-interview.jpg" width="1156" height="650" loading="lazy" decoding="async" alt="Action listening to a guest during an interview" class="show-media"></picture>
 </article>
 </section>
-<section class="rv" aria-label="Channels" style="padding: 0 clamp(20px, 4.5vw, 64px) 110px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: 40px 64px">
-<div style="display: flex; flex-direction: column; gap: 12px; align-items: flex-start; border-top: 3px solid #FFFFFF; padding-top: 24px">
-<h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.02em">{SITE.channel}</h2>
-<p style="margin: 0; color: #D5D8DB; font-size: 19px">My main channel. AI, DePIN and crypto, with opinions. 1.6M+ views, 20.7K subscribers.</p>
+<section class="rv channels" aria-label="Channels">
+<div class="channel">
+<h2 class="channel-h">{SITE.channel}</h2>
+<p class="channel-p">My main channel. AI, DePIN and crypto, with opinions. 1.6M+ views, 20.7K subscribers.</p>
 <a href={`${SITE.youtube}?sub_confirmation=1`} rel="noopener" title={`Subscribe to ${SITE.channel} on YouTube`} class="btn-line ext"><Icon name="youtube" size={22} />Subscribe to {SITE.channel}<span class="sr">, opens in a new tab</span></a>
 </div>
-<div style="display: flex; flex-direction: column; gap: 12px; align-items: flex-start; border-top: 3px solid #326496; padding-top: 24px">
-<h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.02em">LFG Action</h2>
-<p style="margin: 0; color: #D5D8DB; font-size: 19px">The interview channel. LFG stands for <a href="/lfg" style="border-bottom: 1px solid #FFFFFF">Laissez-Faire Group</a>, where I'm a Partner.</p>
+<div class="channel channel-2">
+<h2 class="channel-h">LFG Action</h2>
+<p class="channel-p">The interview channel. LFG stands for <a class="uline" href="/lfg">Laissez-Faire Group</a>, where I'm a Partner.</p>
 <a href={`${SITE.youtubeLfg}?sub_confirmation=1`} rel="noopener" title="Subscribe to LFG Action on YouTube" class="btn-line ext"><Icon name="youtube" size={22} />Subscribe to LFG Action<span class="sr">, opens in a new tab</span></a>
 </div>
 </section>
