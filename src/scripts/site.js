@@ -261,7 +261,7 @@ $$('form[data-form]').forEach((form) => {
       if (!r.ok) throw new Error(j.error || 'Something went wrong.');
       form.reset(); status.textContent = "Got it. I'll get back to you.";
     } catch (err) {
-      status.textContent = `${err.message} You can also email me@action.ceo.`;
+      status.textContent = `${err.message} You can also email web@action.ceo.`;
     } finally { btn.disabled = false; try { window.turnstile?.reset(); } catch {} }
   });
 });
