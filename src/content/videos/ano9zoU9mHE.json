@@ -5,6 +5,71 @@
  "kind": "live",
  "publishedAt": "2025-01-25T17:22:25-08:00",
  "durationSeconds": 24248,
- "chapters": [],
+ "chapters": [
+  {
+   "start": 0,
+   "title": "Stream starts and sound check"
+  },
+  {
+   "start": 431,
+   "title": "Welcome to DePIN Day: Seattle"
+  },
+  {
+   "start": 892,
+   "title": "Telecom and DePIN"
+  },
+  {
+   "start": 3831,
+   "title": "Break"
+  },
+  {
+   "start": 4419,
+   "title": "Decentralized AI and AI agents"
+  },
+  {
+   "start": 7273,
+   "title": "Lunch break and giveaways"
+  },
+  {
+   "start": 9358,
+   "title": "Tokenization and real world assets"
+  },
+  {
+   "start": 12287,
+   "title": "IoT, robots and who owns your data"
+  },
+  {
+   "start": 14982,
+   "title": "Break and giveaways"
+  },
+  {
+   "start": 15407,
+   "title": "Sponsor spotlight: Rogue Evolution"
+  },
+  {
+   "start": 15723,
+   "title": "Edge compute"
+  },
+  {
+   "start": 19069,
+   "title": "Vossler Studios and Genzio"
+  },
+  {
+   "start": 20230,
+   "title": "The business of DePIN"
+  },
+  {
+   "start": 22723,
+   "title": "Final giveaways"
+  },
+  {
+   "start": 23322,
+   "title": "Conduit Network announcement"
+  },
+  {
+   "start": 23984,
+   "title": "Wrap up"
+  }
+ ],
  "series": "depin-day"
 }
