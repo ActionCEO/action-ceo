@@ -14,7 +14,7 @@ const facts = [
   ['On stage', 'Solana, HP, T-Mobile, Borderless Capital, IoTeX and more'],
   ['Livestream', '65,000+ viewers on X'],
 ];
-// Speaker lineup as published on the event's own site, depinday.io (read Nov 19, 2026). Name, role as listed there, company.
+// 2025 speaker lineup (confirmed by Action) as published on the event's own site, depinday.io (read Nov 19, 2026). Name, role as listed there, company.
 const speakers = [
   ['Matt Sorg', 'VP of Technology', 'Solana'],
   ['Sean Carey', 'GP. Formerly Helium co-founder and CTO', 'Borderless Capital'],
@@ -46,8 +46,8 @@ const speakers = [
 <dl class="facts">{facts.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
 </section>
 <section class="rv pad sec alt" aria-labelledby="who-h">
-<h2 class="sec-h" id="who-h">Who was on stage</h2>
-<p class="sec-lead">The speaker lineup from the event site, <a href="https://depinday.io" rel="noopener">depinday.io</a>.</p>
+<h2 class="sec-h" id="who-h">Who was on stage in 2025</h2>
+<p class="sec-lead">The 2025 speaker lineup from the event site, <a href="https://depinday.io" rel="noopener">depinday.io</a>.</p>
 <ul role="list" class="people">{speakers.map(([n, r, c]) => <li><span class="people-co">{c}</span><span class="people-n">{n}</span><span class="people-r">{r}</span></li>)}</ul>
 </section>
 <section class="rv pad sec" aria-labelledby="streams-h">
