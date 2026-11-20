@@ -9,7 +9,7 @@ const home = /^\/(index\.html)?$/.test(Astro.url.pathname);
 ---
 {nav ? (
 <nav aria-label="Main" data-pagefind-ignore class:list={['pad', 'site-nav', { 'nav-over': overlay }]}>
-  <a href="/" aria-label="Action, home" style="display: flex; padding: 6px 0"><img src="/img/action-wordmark-white.png" alt="Action" width="120" height="32" style="display: block; height: 32px; width: auto"></a>
+  <a class="nav-home" href="/" aria-label="Action, home"><img class="nav-logo" src="/img/action-wordmark-white.png" alt="Action" width="120" height="32"></a>
   <button type="button" class="menu-btn" aria-expanded="false" aria-controls="nav-links" data-menu>
     <span class="menu-bars" aria-hidden="true"><span></span><span></span><span></span></span><span class="menu-label">Menu</span>
   </button>

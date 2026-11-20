@@ -9,9 +9,9 @@ const label = cta === 'subscribe' ? 'Subscribe on YouTube' : 'Watch live on YouT
 const title = cta === 'subscribe' ? `Subscribe to ${SITE.channel} on YouTube` : `${SITE.channel} live on YouTube`;
 ---
 <div class="livebar">
-  <div style="display: flex; flex-direction: column; gap: 6px; min-width: 0">
-    <span style="display: flex; align-items: center; gap: 12px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.08em; color: #D5D8DB"><span class="air-dot" aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: #69BE28; animation: airpulse 1.6s ease-in-out infinite"></span>NEXT LIVE SHOW</span>
-    <span style="font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(22px, 2.4vw, 30px); font-variant-numeric: tabular-nums"><span data-countdown="Action Items in ">Action Items, Fridays 9:30am Pacific</span></span>
+  <div class="live-text">
+    <span class="live-k"><span class="air-dot" aria-hidden="true"></span>NEXT LIVE SHOW</span>
+    <span class="live-when"><span data-countdown="Action Items in ">Action Items, Fridays 9:30am Pacific</span></span>
   </div>
   <a href={href} rel="noopener" title={title} class="btn-line ext"><Icon name="youtube" size={22} />{label}<span class="sr">, opens in a new tab</span></a>
 </div>

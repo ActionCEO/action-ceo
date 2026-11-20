@@ -612,3 +612,47 @@ section.why-sec{padding:clamp(72px,9vw,140px) clamp(20px,4.5vw,64px)}
 .room-sp,.room-sp:hover{color:#E7ECF1;text-decoration:underline;text-underline-offset:3px}
 /* Episode list. */
 .ep-row{display:flex;gap:24px;padding:22px 0;border-top:1px solid #0A2C52;font-family:'Montserrat',Arial,sans-serif;font-weight:700;font-size:22px}
+
+/* Shared components */
+/* Icons (src/components/Icon.astro). */
+.icon{flex:none;display:inline-block;vertical-align:middle}
+/* Site header logo (src/components/Header.astro). */
+.nav-home{display:flex;padding:6px 0}
+.nav-logo{display:block;height:32px;width:auto}
+/* Footer (src/components/Footer.astro). */
+.site-foot{border-top:1px solid #0A2C52;padding-top:48px;padding-bottom:40px;display:flex;flex-direction:column;gap:28px;font-size:16px;color:#A5AAAF}
+.foot-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 48px}
+.foot-home{display:flex}
+.foot-logo{display:block;height:28px;width:auto}
+.foot-tag{margin:0;color:#D5D8DB}
+.socials{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.foot-bar{display:flex;flex-wrap:wrap;align-items:center;gap:4px 28px;border-top:1px solid #0A2C52;padding-top:20px}
+.foot-mail{display:inline-flex;align-items:center;gap:8px;padding:10px 0}
+.foot-lfg{display:inline-flex;padding:10px 0}
+.foot-lfg-img{display:block;height:34px;width:auto}
+.foot-link{padding:10px 0}
+.foot-copy{padding:10px 0;margin-left:auto}
+/* Analytics consent banner (src/layouts/Base.astro). */
+.consent-p{margin:0;flex:1 1 280px;font-size:16px}
+.consent-btns{display:flex;gap:12px}
+/* Next live show bar (src/components/LiveBar.astro). */
+.live-text{display:flex;flex-direction:column;gap:6px;min-width:0}
+.live-k{display:flex;align-items:center;gap:12px;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:15px;letter-spacing:0.08em;color:#D5D8DB}
+.air-dot{width:10px;height:10px;border-radius:50%;background:#69BE28;animation:airpulse 1.6s ease-in-out infinite}
+.live-when{font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(22px,2.4vw,30px);font-variant-numeric:tabular-nums}
+/* YouTube player box (src/components/Video.astro). The no-JavaScript link keeps its dark text on hover, as the inline color did. */
+.yt-box{position:relative;aspect-ratio:16 / 9;background:#002346;overflow:hidden;width:100%}
+.yt-nojs,.yt-nojs:hover{position:absolute;left:24px;bottom:24px;display:flex;align-items:center;min-height:52px;background:#FFFFFF;color:#06111F;padding:14px 20px;font-family:'Montserrat',Arial,sans-serif;font-weight:700;font-size:16px}
+/* Video cards (src/components/VideoCard.astro). */
+.vtext{display:flex;flex-direction:column;gap:6px}
+.vmeta{font-size:15px;color:#A5AAAF}
+.vtitle{font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(19px,1.6vw,23px);line-height:1.15;letter-spacing:-0.02em}
+.vcta{display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;color:#D5D8DB}
+/* Latest videos block (src/components/LatestVideo.astro). */
+.latest{padding:clamp(72px,9vw,120px) 0;display:flex;flex-direction:column;gap:32px}
+.latest-top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px 32px}
+.latest-h{margin-bottom:0}
+.latest-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 32px}
+/* Telegram line (src/components/TelegramNote.astro). */
+.tg-note{border-top:1px solid #0A2C52;padding-top:56px;padding-bottom:56px;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 32px}
+

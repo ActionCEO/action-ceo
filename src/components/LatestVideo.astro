@@ -7,9 +7,9 @@ import Icon from './Icon.astro';
 import { SITE } from '../site';
 const vids = (await getCollection('videos')).filter((v) => v.data.channel === 'ActionCrypto' && v.data.series !== 'depin-day' && !v.id.startsWith('SAMPLE')).sort((a, b) => +b.data.publishedAt - +a.data.publishedAt).slice(0, 8);
 ---
-<section class="rv" data-pagefind-ignore aria-label="Latest videos" style="padding: clamp(72px, 9vw, 120px) 0; display: flex; flex-direction: column; gap: 32px">
-  <div class="pad" style="display: flex; align-items: flex-end; justify-content: space-between; gap: 12px 32px">
-    <h2 class="sec-h" style="margin-bottom: 0">Latest breakdowns</h2>
+<section class="rv latest" data-pagefind-ignore aria-label="Latest videos">
+  <div class="pad latest-top">
+    <h2 class="sec-h latest-h">Latest breakdowns</h2>
     <div class="vnav" data-vnav hidden>
       <button type="button" class="vbtn" data-vprev aria-label="Earlier videos"><Icon name="left" size={22} /></button>
       <button type="button" class="vbtn" data-vnext aria-label="More videos"><Icon name="right" size={22} /></button>
@@ -19,8 +19,8 @@ const vids = (await getCollection('videos')).filter((v) => v.data.channel === 'A
     {vids.map((v) => <VideoCard video={v} />)}
     <a href="/blog" class="vmore"><span>See all videos</span><Icon name="go" size={28} /></a>
   </div>
-  <div class="pad" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px">
+  <div class="pad latest-foot">
     <a href={`${SITE.youtube}?sub_confirmation=1`} rel="noopener" class="btn-line ext"><Icon name="youtube" size={22} />Subscribe to {SITE.channel}<span class="sr">, opens in a new tab</span></a>
-    <a href="/blog" class="go" style="font-weight: 600; padding: 10px 0; border-bottom: 1px solid #FFFFFF">See all videos</a>
+    <a href="/blog" class="go ulink">See all videos</a>
   </div>
 </section>

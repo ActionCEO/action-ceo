@@ -13,21 +13,21 @@ const L = [
   ...(SITE.telegram ? [{ icon: 'telegram', label: 'Action on Telegram', short: 'Telegram', href: SITE.telegram }] : []),
 ];
 ---
-<footer data-pagefind-ignore class="pad site-foot" style="border-top: 1px solid #0A2C52; padding-top: 48px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 28px; font-size: 16px; color: #A5AAAF">
-  <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 48px">
-    <a href="/" aria-label="Action, home" style="display: flex"><img src="/img/action-wordmark-white.png" alt="Action" width="120" height="32" loading="lazy" style="display: block; height: 28px; width: auto"></a>
-    <p style="margin: 0; color: #D5D8DB">AI, DePIN and crypto in plain English.</p>
+<footer data-pagefind-ignore class="pad site-foot">
+  <div class="foot-top">
+    <a class="foot-home" href="/" aria-label="Action, home"><img class="foot-logo" src="/img/action-wordmark-white.png" alt="Action" width="120" height="32" loading="lazy"></a>
+    <p class="foot-tag">AI, DePIN and crypto in plain English.</p>
   </div>
-  <ul class="socials" aria-label="Follow Action" style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px">
+  <ul class="socials" aria-label="Follow Action">
     {L.map((l) => (
       <li><a href={l.href} target="_blank" rel="noopener" aria-label={`${l.label}, opens in a new tab`} title={l.label} class="soc"><Icon name={l.icon} size={22} /><span class="soc-t">{l.short}</span></a></li>
     ))}
   </ul>
-  <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 28px; border-top: 1px solid #0A2C52; padding-top: 20px">
-    <a href={`mailto:${SITE.email}`} style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 0"><Icon name="mail" size={18} />{SITE.email}</a>
-    <a href="/lfg" title="Laissez-Faire Group" style="display: inline-flex; padding: 10px 0"><img src="/img/lfg-wordmark-white.png" alt="Laissez-Faire Group" width="400" height="150" loading="lazy" decoding="async" style="display: block; height: 34px; width: auto"></a>
-    <a href="/privacy" style="padding: 10px 0">Terms and privacy</a>
+  <div class="foot-bar">
+    <a class="foot-mail" href={`mailto:${SITE.email}`}><Icon name="mail" size={18} />{SITE.email}</a>
+    <a class="foot-lfg" href="/lfg" title="Laissez-Faire Group"><img class="foot-lfg-img" src="/img/lfg-wordmark-white.png" alt="Laissez-Faire Group" width="400" height="150" loading="lazy" decoding="async"></a>
+    <a class="foot-link" href="/privacy">Terms and privacy</a>
     <button type="button" data-consent-reset hidden class="foot-btn">Cookie settings</button>
-    <span style="padding: 10px 0; margin-left: auto">© {new Date().getFullYear()} {SITE.company}</span>
+    <span class="foot-copy">© {new Date().getFullYear()} {SITE.company}</span>
   </div>
 </footer>

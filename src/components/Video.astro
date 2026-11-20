@@ -10,8 +10,8 @@ const src = poster ?? ytThumb(id, 'maxresdefault');
 // YouTube answers a missing maxresdefault with a 404 that still carries a 120x90 grey image, so check the size as well as the error.
 const swap = "this.onload=this.onerror=null;this.src=this.dataset.fallback";
 ---
-<div data-yt={id} data-start={start} data-title={title} style="position: relative; aspect-ratio: 16 / 9; background: #002346; overflow: hidden; width: 100%">
-  <img src={src} data-fallback={fallback} onload={`if(this.naturalWidth<300){${swap}}`} onerror={swap} alt="" width="1280" height="720" loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} decoding="async" referrerpolicy="no-referrer" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
+<div class="yt-box" data-yt={id} data-start={start} data-title={title}>
+  <img src={src} data-fallback={fallback} onload={`if(this.naturalWidth<300){${swap}}`} onerror={swap} alt="" width="1280" height="720" loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} decoding="async" referrerpolicy="no-referrer" class="fill">
   <button type="button" class="ytplay" data-yt-play hidden aria-label={`Load video: ${title}`}><span aria-hidden="true"><svg viewBox="0 0 24 24" width="32" height="32" focusable="false"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span></button>
-  <noscript><a href={ytWatch(id, Number(start) || undefined)} rel="noopener" style="position: absolute; left: 24px; bottom: 24px; display: flex; align-items: center; min-height: 52px; background: #FFFFFF; color: #06111F; padding: 14px 20px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 16px">Watch on YouTube: {title}</a></noscript>
+  <noscript><a class="yt-nojs" href={ytWatch(id, Number(start) || undefined)} rel="noopener">Watch on YouTube: {title}</a></noscript>
 </div>
