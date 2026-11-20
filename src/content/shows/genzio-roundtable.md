@@ -3,7 +3,7 @@ name: Genzio Roundtable
 order: 2
 kind: audio
 schedule: "Tuesdays, 9am Pacific, on X Spaces"
-summary: "No cameras. Just voices. A room of builders, investors and operators on 1 question each week. I host it, and I've led live programming at Genzio since 2022."
+summary: "No cameras. Just voices. A room of builders, investors and operators on 1 question each week. I host it, and I've hosted Genzio's live shows since 2022."
 where:
   - { label: "Genzio", url: "https://www.genzio.co" }
 rooms:

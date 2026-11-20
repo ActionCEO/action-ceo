@@ -399,3 +399,9 @@ picture>source{display:none}
 .sp-video{display:flex;flex-direction:column;gap:16px;align-items:flex-start;min-width:0}
 .sp-video>:first-child{width:100%}
 @media (min-width:1000px){.sp-body:has(.sp-video){grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);align-items:start}}
+/* Show pages: links under the header text, and the brand panel used when a show has no photo. */
+.hero-where{display:inline-flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #FFFFFF;font-weight:600}
+.page-hero-art{display:block}
+.hero-art-fill{display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:24px}
+.hero-art-fill img{display:block;width:min(52%,340px);height:auto;margin-left:18%}
+@media (max-width:800px){.hero-art-fill img{margin-left:0;width:min(60%,260px)}}
