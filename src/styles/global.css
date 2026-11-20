@@ -435,6 +435,17 @@ picture>source{display:none}
 .ulink-i{display:inline-flex;align-items:center;gap:8px}
 /* A plain row of links that wraps. */
 .links-row{display:flex;flex-wrap:wrap;gap:4px 24px}
+/* .ulink with a little more room above and below. */
+.ulink-12{padding:12px 0}
+/* A picture or video that fills its positioned box. */
+.fill{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* A plain column, and a column with 8px between items. */
+.col{display:flex;flex-direction:column}
+.stack{display:flex;flex-direction:column;gap:8px}
+/* Grey small print. */
+.dim{color:#A5AAAF}
+/* Clips a zooming or sliding picture to its box. */
+.clip{overflow:clip}
 
 /* Shows page */
 /* Header lead line and the space around the live bar under it. */
@@ -457,3 +468,29 @@ picture>source{display:none}
 .channel-2{border-top-color:#326496}
 .channel-h{margin:0;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:30px;letter-spacing:-0.02em}
 .channel-p{margin:0;color:#D5D8DB;font-size:19px}
+
+/* Home page */
+/* Hero: the photo (or video) fills the header, the shade sits on top, the words sit at the bottom. */
+.home-hero{position:relative;min-height:900px;display:flex;flex-direction:column;overflow:hidden}
+.hero-video{object-position:60% 30%;opacity:0;transition:opacity 600ms cubic-bezier(.4,0,.2,1)}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(to top,#06111F 0%,rgba(6,17,31,0.78) 30%,rgba(6,17,31,0.2) 58%,rgba(6,17,31,0.82) 100%)}
+.hero-text{position:relative;margin-top:auto;padding:0 clamp(20px,4.5vw,64px) 40px;display:flex;flex-direction:column;gap:32px}
+.home-h1{margin:0;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(40px,5.4vw,84px);line-height:0.98;letter-spacing:-0.035em;text-wrap:balance}
+.hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px 40px}
+.home-lead{margin:0;max-width:520px;font-size:19px;color:#FFFFFF}
+/* Green hero button. It keeps its dark text on hover. */
+.hero-btn,.hero-btn:hover{background:#69BE28;color:#06111F;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:16px;padding:16px 28px;border-radius:2px}
+.home-livebar{position:relative;padding:0 clamp(20px,4.5vw,64px) 40px}
+/* By the numbers. */
+.stats{padding:96px clamp(20px,4.5vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:48px 32px}
+.stat-n{font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(44px,5vw,72px);line-height:1;letter-spacing:-0.03em;font-variant-numeric:tabular-nums}
+/* DePIN Day: the wide stage photo and the words under it. */
+.depin-img{display:block;width:100%;height:clamp(240px,31vw,480px);object-fit:cover;object-position:50% 6%}
+.depin-text{padding:48px clamp(20px,4.5vw,64px) 0;display:flex;flex-wrap:wrap;gap:16px 64px}
+.depin-h{margin:0;flex:1 1 320px;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(28px,3.2vw,44px);line-height:1.05;letter-spacing:-0.025em}
+.depin-p{margin:0;flex:2 1 420px;max-width:640px;font-size:19px;color:#D5D8DB}
+/* The big sliding word band. */
+.band-wrap{overflow:clip;padding:clamp(40px,6vw,80px) 0 0}
+.band-words{white-space:nowrap;width:max-content;font-family:'Montserrat',Arial,sans-serif;font-weight:900;font-size:clamp(72px,15vw,230px);line-height:0.9;letter-spacing:-0.05em;text-transform:uppercase;color:#0A2C52}
+/* The work list section. */
+.work-sec{padding:clamp(72px,9vw,120px) clamp(20px,4.5vw,64px)}
