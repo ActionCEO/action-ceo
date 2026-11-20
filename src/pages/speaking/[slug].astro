@@ -22,6 +22,7 @@ const BASE = (import.meta.env.SITE || SITE.url).replace(/\/$/, '');
 const url = `${BASE}/speaking/${e.id}`;
 // Search titles, descriptions and button wording, 1 per page. A page without an entry gets the plain fallback.
 const META: Record<string, { title: string; description: string; cta: string; project?: string }> = {
+  'hedera-livestreams': { title: "Hedera Livestreams | Hosted by Action in 2025", description: "Action hosted Hedera's community livestreams in 2025 at the request of the Hashgraph team, with founders from HashPack, Bonzo Finance, DOVU and LinkPool.", cta: 'Book me to host your stream' },
   'karate-combat': { title: 'Karate Combat | Action, Livestream Host', description: 'Action hosted the Karate Combat pit side livestreams from 2024 to 2025 and turned an open-license stream into a show crypto sponsors paid for.', cta: 'Book me to host your stream' },
   'derec-alliance': { title: 'DeRec Alliance Call | Action, Livestream Host', description: 'Action hosted the DeRec Alliance community call on Hedera\'s YouTube channel, the featured video on derec.org. Watch it here and book Action.', cta: 'Book me to host your stream' },
 };
