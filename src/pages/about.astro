@@ -14,31 +14,31 @@ const story = [
   { label: 'DePIN Day', year: '2024, 2025', title: 'I organize and host events.', text: '<a href="/work/depin-day-seattle">DePIN Day: Seattle</a>. I co-organized it and hosted it, 2 years running. T-Mobile, HP and Borderless Capital on stage across 2024 and 2025. 65,000+ viewers on the X livestream. Watch <a href="/blog/depin-day-seattle-2024">2024</a> and <a href="/blog/depin-day-seattle-2025">2025</a>. Same stretch, I host livestreams for <a href="/speaking/karate-combat">Karate Combat</a>.' },
   { label: 'LFG', year: 'Now', title: 'Partner at Laissez-Faire Group.', text: `I'm a Partner and the Chief Communications Officer. <a href="/lfg">Go-to-market strategy, marketing and communications</a> sit with me, and I host the <a href="/shows/interviews">founder interviews on LFG Action</a>. I'm also live every Friday on <a href="/shows/action-items">Action Items</a>.` },
 ];
-const steps = story.map((s) => ({ label: s.label, rule: '#0A2C52', color: '#8A9099' }));
+const steps = story.map((s) => ({ label: s.label }));
 ---
 <Base page="about">
 <Header current="About" />
 <PageHero img="studio-smile" big={1156} w={1156} h={650} alt="Action smiling at his desk in the studio" pos="50% 25%" posPhone="50% 20%">
-<h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(40px, 5.4vw, 80px); line-height: 0.98; letter-spacing: -0.035em; text-wrap: balance">I ran a company. Then I started a channel.</h1>
-<p style="margin: 0; max-width: 560px; font-size: 19px; color: #FFFFFF">I'm Action. I've worked in tech since 2005 and been in crypto since 2012. For 6 years I was a COO, the main speaker and the main negotiator.</p>
+<h1 class="hero-h1">I ran a company. Then I started a channel.</h1>
+<p class="hero-p">I'm Action. I've worked in tech since 2005 and been in crypto since 2012. For 6 years I was a COO, the main speaker and the main negotiator.</p>
 </PageHero>
 
-<section class="rv" aria-label="Why I break things down" style="padding: clamp(72px, 9vw, 140px) clamp(20px, 4.5vw, 64px)">
-<p style="margin: 0; max-width: 1180px; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: clamp(26px, 3.6vw, 52px); line-height: 1.14; letter-spacing: -0.03em; text-wrap: pretty">Breaking things down so everyone can follow matters more than people think. It was my job as a COO. It's my job now.</p>
+<section class="rv why-sec" aria-label="Why I break things down">
+<p class="why-p">Breaking things down so everyone can follow matters more than people think. It was my job as a COO. It's my job now.</p>
 </section>
 
-<section class="rv" aria-label="My story" data-story style="padding: 0 clamp(20px, 4.5vw, 64px) 120px; scroll-margin-top: 16px">
-<div style="border-top: 1px solid #0A2C52; display: flex; flex-wrap: wrap; gap: 32px 64px; padding-top: 40px">
-<div role="group" aria-label="Pick a chapter" class="story-steps" style="flex: 1 1 220px; display: flex; flex-direction: column; align-items: flex-start; gap: 2px">
+<section class="rv story-sec" aria-label="My story" data-story>
+<div class="story-wrap">
+<div role="group" aria-label="Pick a chapter" class="story-steps">
 {steps.map((st, i) => (<Fragment>
-<button type="button" data-step={i} aria-pressed={i === 0 ? "true" : "false"} style={`background: none; border: 0; border-left: 3px solid ${st.rule}; padding: 12px 0 12px 16px; min-height: 44px; text-align: left; cursor: pointer; font-family: 'Montserrat', Arial, sans-serif; font-weight: 700; font-size: 18px; color: ${st.color}`}>{st.label}</button>
+<button type="button" data-step={i} aria-pressed={i === 0 ? "true" : "false"} class="story-btn">{st.label}</button>
 </Fragment>))}
 </div>
 <div class="story-panels">
 {story.map((c, i) => (<Fragment>
-<div class="stepin" data-panel={i} style="display: flex; flex-direction: column; gap: 18px">
+<div class="stepin story-panel" data-panel={i}>
 <div class="story-year">{c.year}</div>
-<h2 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(24px, 2.6vw, 36px); letter-spacing: -0.02em">{c.title}</h2>
+<h2 class="story-h">{c.title}</h2>
 <p class="story-text" set:html={c.text}></p>
 </div>
 </Fragment>))}
@@ -46,23 +46,23 @@ const steps = story.map((s) => ({ label: s.label, rule: '#0A2C52', color: '#8A90
 </div>
 </section>
 
-<div style="overflow: clip">
-<picture style="display: contents"><source type="image/avif" srcset="/img/depin-wide-800.avif 800w, /img/depin-wide-1456.avif 1456w" sizes="100vw"><source type="image/webp" srcset="/img/depin-wide-800.webp 800w, /img/depin-wide-1456.webp 1456w" sizes="100vw"><img src="/img/depin-wide.jpg" width="1456" height="813" loading="lazy" decoding="async" class="par"  alt="Action on stage at DePIN Day: Seattle, holding a microphone" style="display: block; width: 100%; height: clamp(260px, 34vw, 520px); object-fit: cover; object-position: 50% 15%"></picture>
+<div class="clip">
+<picture class="pic"><source type="image/avif" srcset="/img/depin-wide-800.avif 800w, /img/depin-wide-1456.avif 1456w" sizes="100vw"><source type="image/webp" srcset="/img/depin-wide-800.webp 800w, /img/depin-wide-1456.webp 1456w" sizes="100vw"><img src="/img/depin-wide.jpg" width="1456" height="813" loading="lazy" decoding="async" class="par wide-img"  alt="Action on stage at DePIN Day: Seattle, holding a microphone"></picture>
 </div>
 
-<section class="rv" aria-label="Today" style="padding: 110px clamp(20px, 4.5vw, 64px); display: flex; flex-direction: column">
-<div style="display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 28px 0; border-top: 1px solid #0A2C52">
-<h2 class="item-h" style="flex: 1 1 220px">Day job</h2>
-<p style="margin: 0; flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">I'm a Partner and the Chief Communications Officer at Laissez-Faire Group. Go-to-market strategy, marketing and communications sit with me, for teams in Web3, DePIN, fintech and decentralized AI. If you're launching, that's who you call. <a href="/lfg" class="go" style="border-bottom: 1px solid #FFFFFF">Work with LFG</a></p>
+<section class="rv today" aria-label="Today">
+<div class="legal-row">
+<h2 class="item-h today-k">Day job</h2>
+<p class="today-v">I'm a Partner and the Chief Communications Officer at Laissez-Faire Group. Go-to-market strategy, marketing and communications sit with me, for teams in Web3, DePIN, fintech and decentralized AI. If you're launching, that's who you call. <a href="/lfg" class="go uline">Work with LFG</a></p>
 </div>
-<div style="display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 28px 0; border-top: 1px solid #0A2C52">
-<h2 class="item-h" style="flex: 1 1 220px">On camera</h2>
-<p style="margin: 0; flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">2 channels. {SITE.channel} is me and my opinions. LFG Action is me asking founders and builders the questions. 989 videos between them. <a href="/shows" class="go" style="border-bottom: 1px solid #FFFFFF">See all the shows</a>
-<span style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px"><a href={`${SITE.youtube}?sub_confirmation=1`} rel="noopener" title={`Subscribe to ${SITE.channel} on YouTube`} class="btn-line ext"><Icon name="youtube" size={22} />Subscribe to {SITE.channel}<span class="sr">, opens in a new tab</span></a><a href={`${SITE.youtubeLfg}?sub_confirmation=1`} rel="noopener" title="Subscribe to LFG Action on YouTube" class="btn-line ext"><Icon name="youtube" size={22} />Subscribe to LFG Action<span class="sr">, opens in a new tab</span></a></span></p>
+<div class="legal-row">
+<h2 class="item-h today-k">On camera</h2>
+<p class="today-v">2 channels. {SITE.channel} is me and my opinions. LFG Action is me asking founders and builders the questions. 989 videos between them. <a href="/shows" class="go uline">See all the shows</a>
+<span class="btn-row"><a href={`${SITE.youtube}?sub_confirmation=1`} rel="noopener" title={`Subscribe to ${SITE.channel} on YouTube`} class="btn-line ext"><Icon name="youtube" size={22} />Subscribe to {SITE.channel}<span class="sr">, opens in a new tab</span></a><a href={`${SITE.youtubeLfg}?sub_confirmation=1`} rel="noopener" title="Subscribe to LFG Action on YouTube" class="btn-line ext"><Icon name="youtube" size={22} />Subscribe to LFG Action<span class="sr">, opens in a new tab</span></a></span></p>
 </div>
-<div style="display: flex; flex-wrap: wrap; gap: 8px 32px; padding: 28px 0; border-top: 1px solid #0A2C52; border-bottom: 1px solid #0A2C52">
-<h2 class="item-h" style="flex: 1 1 220px">Home base</h2>
-<p style="margin: 0; flex: 3 1 480px; max-width: 760px; font-size: 20px; color: #D5D8DB">San Diego, California.</p>
+<div class="legal-row">
+<h2 class="item-h today-k">Home base</h2>
+<p class="today-v">San Diego, California.</p>
 </div>
 </section>
 <CallOut lines={["That's the story.", 'The videos are better.']} links={[
