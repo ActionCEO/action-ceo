@@ -311,21 +311,25 @@ if (hv && !reduce && innerWidth > 800 && !(navigator.connection && navigator.con
   hv.play().catch(() => {});
 }
 
-// Contact page: the "Pick what fits" buttons set the form's first field and take you to the form.
+// "Pick what fits" buttons (Contact and Speaking): each one sets a field in the form next to it and takes you there.
+// data-pick is the value to set; data-pick-for names the field (the Contact page's first field when absent).
 (() => {
-  const sel = document.getElementById('c-type');
-  const picks = [...document.querySelectorAll('[data-pick]')];
-  if (!sel || !picks.length) return;
-  const sync = () => picks.forEach((b) => b.classList.toggle('is-on', b.dataset.pick === sel.value));
-  picks.forEach((b) => { b.disabled = false; });
-  sel.addEventListener('change', sync);
-  sel.form.addEventListener('reset', () => setTimeout(sync));
-  picks.forEach((b) => b.addEventListener('click', () => {
-    sel.value = b.dataset.pick; sync();
-    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const r = sel.getBoundingClientRect();
-    if (r.top < 90 || r.bottom > innerHeight) sel.form.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' });
-    sel.focus({ preventScroll: true });
-  }));
-  sync();
+  const groups = new Map();
+  document.querySelectorAll('[data-pick]').forEach((b) => { const id = b.dataset.pickFor || 'c-type'; if (!groups.has(id)) groups.set(id, []); groups.get(id).push(b); });
+  groups.forEach((picks, id) => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    const sync = () => picks.forEach((b) => b.classList.toggle('is-on', b.dataset.pick === sel.value));
+    picks.forEach((b) => { b.disabled = false; });
+    sel.addEventListener('change', sync);
+    sel.form.addEventListener('reset', () => setTimeout(sync));
+    picks.forEach((b) => b.addEventListener('click', () => {
+      sel.value = b.dataset.pick; sync();
+      const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const r = sel.getBoundingClientRect();
+      if (r.top < 90 || r.bottom > innerHeight) sel.form.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' });
+      sel.focus({ preventScroll: true });
+    }));
+    sync();
+  });
 })();
