@@ -50,12 +50,15 @@ summary{cursor:pointer}
 @keyframes menuin{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 /* Home hero photo: keep the face in frame on narrow screens. */
 .hero-img{object-position:50% 30%}
+/* Home hero box and its shade. The phone rules below change them, so these come first. */
+.home-hero{position:relative;min-height:900px;display:flex;flex-direction:column;overflow:hidden}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(to top,#06111F 0%,rgba(6,17,31,0.78) 30%,rgba(6,17,31,0.2) 58%,rgba(6,17,31,0.82) 100%)}
 /* Phones and tablets (up to 1100px): the photo sits in the top half so the headline never covers the face. */
 @media (max-width:1100px){
-  .home-hero{min-height:0 !important}
+  .home-hero{min-height:0}
   .px{animation:none !important}
   .hero-img{object-position:30% 22%;inset:0 0 auto 0 !important;height:62vh !important}
-  .hero-shade{background:linear-gradient(to bottom, rgba(6,17,31,.55) 0, rgba(6,17,31,0) 16%, rgba(6,17,31,0) 38vh, #06111F 62vh) !important}
+  .hero-shade{background:linear-gradient(to bottom, rgba(6,17,31,.55) 0, rgba(6,17,31,0) 16%, rgba(6,17,31,0) 38vh, #06111F 62vh)}
   .nav-room{height:46vh}
 }
 /* Footer socials: logo plus account name on every screen; 2 to a line on phones. */
@@ -486,10 +489,9 @@ picture>source{display:none}
 .channel-h{margin:0;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:30px;letter-spacing:-0.02em}
 
 /* Home page */
-/* Hero: the photo (or video) fills the header, the shade sits on top, the words sit at the bottom. */
-.home-hero{position:relative;min-height:900px;display:flex;flex-direction:column;overflow:hidden}
+/* Hero: the photo (or video) fills the header, the shade sits on top, the words sit at the bottom.
+   .home-hero and .hero-shade are near the top of this file, before their phone rules. */
 .hero-video{object-position:60% 30%;opacity:0;transition:opacity 600ms cubic-bezier(.4,0,.2,1)}
-.hero-shade{position:absolute;inset:0;background:linear-gradient(to top,#06111F 0%,rgba(6,17,31,0.78) 30%,rgba(6,17,31,0.2) 58%,rgba(6,17,31,0.82) 100%)}
 .hero-text{position:relative;margin-top:auto;padding:0 clamp(20px,4.5vw,64px) 40px;display:flex;flex-direction:column;gap:32px}
 .home-h1{margin:0;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:clamp(40px,5.4vw,84px);line-height:0.98;letter-spacing:-0.035em;text-wrap:balance}
 .hero-row{display:flex;flex-wrap:wrap;align-items:center;gap:20px 40px}
