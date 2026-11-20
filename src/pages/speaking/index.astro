@@ -21,43 +21,43 @@ const topics = ['AI', 'DePIN', 'Crypto', 'RWAs', 'Commodities', 'Go-to-market'];
 ---
 <Base page="speaking">
 <Header current="Speaking" />
-<header style="position: relative; min-height: 640px; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden">
-<picture style="display: contents"><source type="image/avif" srcset="/img/stage-keynote-800.avif 800w, /img/stage-keynote-1456.avif 1456w" sizes="100vw"><source type="image/webp" srcset="/img/stage-keynote-800.webp 800w, /img/stage-keynote-1456.webp 1456w" sizes="100vw"><img src="/img/stage-keynote.jpg" width="1456" height="813" loading="eager" fetchpriority="high" decoding="async" class="hero-img sp-hero" alt="Action speaking on a conference stage with a microphone" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"></picture>
-<div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(to top, #06111F 4%, rgba(6,17,31,0.72) 45%, rgba(6,17,31,0.35) 100%)"></div>
-<div style="position: relative; padding: 0 clamp(20px, 4.5vw, 64px) 56px; display: flex; flex-direction: column; gap: 24px; align-items: flex-start">
-<h1 style="margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: clamp(44px, 7vw, 108px); line-height: 1.02; letter-spacing: -0.035em; ">Put me on stage.</h1>
-<p style="margin: 0; max-width: 680px; font-size: 20px">I host and I speak. I co-organized and hosted DePIN Day: Seattle, spoke at DCENTRAL, hosted stages at ETHDenver, and ran founder interviews at TOKEN2049 and the Bitcoin Conference. I keep it in plain English so the whole room follows.</p>
+<header class="sp-head">
+<picture class="pic"><source type="image/avif" srcset="/img/stage-keynote-800.avif 800w, /img/stage-keynote-1456.avif 1456w" sizes="100vw"><source type="image/webp" srcset="/img/stage-keynote-800.webp 800w, /img/stage-keynote-1456.webp 1456w" sizes="100vw"><img src="/img/stage-keynote.jpg" width="1456" height="813" loading="eager" fetchpriority="high" decoding="async" class="hero-img sp-hero fill" alt="Action speaking on a conference stage with a microphone"></picture>
+<div class="sp-shade" aria-hidden="true"></div>
+<div class="sp-head-text">
+<h1 class="legal-h1">Put me on stage.</h1>
+<p class="sp-lead">I host and I speak. I co-organized and hosted DePIN Day: Seattle, spoke at DCENTRAL, hosted stages at ETHDenver, and ran founder interviews at TOKEN2049 and the Bitcoin Conference. I keep it in plain English so the whole room follows.</p>
 <a href="#book" class="cta-link"><Icon name="mail" size={26} />Book me</a>
 </div>
 </header>
-<section aria-label="Past events" style="padding: clamp(64px, 8vw, 96px) clamp(20px, 4.5vw, 64px) 40px">
+<section class="sp-past" aria-label="Past events">
 <h2 class="sec-h">Stages, conferences and streams</h2>
 <div>
 {featured.map((f) => (
 <article class="rv sp-item">
-<div class="sp-text"><h3 class="item-h"><a href={f.href}>{f.name}</a></h3><p style="margin: 0; color: #D5D8DB; font-size: 19px">{f.text}</p>
-<p class="links2" style="margin: 6px 0 0">{(f.links ?? [['See more', f.href]]).map(([label, href]) => <a href={href} class="go" style="font-weight: 600; padding: 8px 0; border-bottom: 1px solid #FFFFFF">{label}</a>)}</p></div>
+<div class="sp-text"><h3 class="item-h"><a href={f.href}>{f.name}</a></h3><p class="para">{f.text}</p>
+<p class="links2 sp-links">{(f.links ?? [['See more', f.href]]).map(([label, href]) => <a href={href} class="go ulink ulink-8">{label}</a>)}</p></div>
 <a href={f.href} class="sp-media" aria-hidden="true" tabindex="-1">{f.yt
   ? <img src={`https://i.ytimg.com/vi/${f.yt}/sddefault.jpg`} width="640" height="480" loading="lazy" decoding="async" alt={f.alt}>
-  : <picture style="display: contents"><source type="image/avif" srcset={`/img/${f.img}-800.avif 800w, /img/${f.img}-${f.big}.avif ${f.big}w`} sizes="(max-width: 900px) 100vw, 420px"><source type="image/webp" srcset={`/img/${f.img}-800.webp 800w, /img/${f.img}-${f.big}.webp ${f.big}w`} sizes="(max-width: 900px) 100vw, 420px"><img src={`/img/${f.img}.jpg`} width="1456" height="813" loading="lazy" decoding="async" alt={f.alt}></picture>}</a>
+  : <picture class="pic"><source type="image/avif" srcset={`/img/${f.img}-800.avif 800w, /img/${f.img}-${f.big}.avif ${f.big}w`} sizes="(max-width: 900px) 100vw, 420px"><source type="image/webp" srcset={`/img/${f.img}-800.webp 800w, /img/${f.img}-${f.big}.webp ${f.big}w`} sizes="(max-width: 900px) 100vw, 420px"><img src={`/img/${f.img}.jpg`} width="1456" height="813" loading="lazy" decoding="async" alt={f.alt}></picture>}</a>
 </article>
 ))}
 </div>
 <h3 class="label-h rv">Conferences</h3>
-<ul class="rows" role="list" style="list-style: none; margin: 0; padding: 0">
+<ul class="rows bare" role="list">
 {conferences.map((c) => (
 <li class="row row-flat"><span class="row-main"><span class="row-name">{c.name}</span><span class="row-role">{c.what}</span></span></li>
 ))}
 </ul>
 </section>
-<section class="rv" aria-label="Topics" style="padding: 56px clamp(20px, 4.5vw, 64px) 96px; display: flex; flex-direction: column; gap: 20px; align-items: flex-start">
-<h2 class="sec-h" style="margin-bottom: 8px">What I talk about</h2>
+<section class="rv sp-topics" aria-label="Topics">
+<h2 class="sec-h sec-h-tight">What I talk about</h2>
 <ul class="tags tags-lg" aria-label="Topics">{topics.map((t) => <li>{t}</li>)}</ul>
-<p style="margin: 0; font-size: 20px; color: #D5D8DB">All of it in plain English.</p>
+<p class="para-20">All of it in plain English.</p>
 </section>
 <section class="rv ct-grid ct-book" id="book" aria-label="Booking form">
 <div class="ct-side">
-<h2 class="sec-h" style="margin-bottom: 12px">Book me.</h2>
+<h2 class="sec-h sec-h-12">Book me.</h2>
 <p class="ct-lead">Tell me about the event. The more detail, the faster I can say yes.</p>
 <ul role="list" class="ct-picks">
 <li><button type="button" class="ct-pick" data-pick="A speaker" data-pick-for="sp-type" aria-controls="sp-type" disabled><span class="ct-pick-h">A speaker</span><span class="ct-pick-d">A talk, a panel seat or a fireside chat on AI, DePIN, crypto or RWAs.</span></button></li>
@@ -65,14 +65,14 @@ const topics = ['AI', 'DePIN', 'Crypto', 'RWAs', 'Commodities', 'Go-to-market'];
 <li><button type="button" class="ct-pick" data-pick="A livestream host" data-pick-for="sp-type" aria-controls="sp-type" disabled><span class="ct-pick-h">A livestream host</span><span class="ct-pick-d">Your stream, show or X Space, with the chat part of it.</span></button></li>
 <li><button type="button" class="ct-pick" data-pick="Something else" data-pick-for="sp-type" aria-controls="sp-type" disabled><span class="ct-pick-h">Something else</span><span class="ct-pick-d">Tell me what you have in mind.</span></button></li>
 </ul>
-<p class="ct-note">Prefer email? <a href={`mailto:${SITE.email}`} style="border-bottom: 1px solid #FFFFFF">{SITE.email}</a></p>
+<p class="ct-note">Prefer email? <a class="uline" href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
 </div>
 <form data-form method="post" action="/api/contact" novalidate class="ct-form">
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 20px">
-<div style="display: flex; flex-direction: column; gap: 8px"><label for="sp-name" style="font-weight: 600; font-size: 16px">Your name</label><input id="sp-name" name="name" type="text" required autocomplete="name" placeholder="" style="box-sizing: border-box; width: 100%; min-height: 52px; padding: 14px 16px; background: #0A2C52; border: 1px solid #A5AAAF; border-radius: 2px; color: #FFFFFF; font-family: 'Open Sans', Arial, sans-serif; font-size: 17px"></div><div style="display: flex; flex-direction: column; gap: 8px"><label for="sp-email" style="font-weight: 600; font-size: 16px">Email</label><input id="sp-email" name="email" type="email" required autocomplete="email" placeholder="" style="box-sizing: border-box; width: 100%; min-height: 52px; padding: 14px 16px; background: #0A2C52; border: 1px solid #A5AAAF; border-radius: 2px; color: #FFFFFF; font-family: 'Open Sans', Arial, sans-serif; font-size: 17px"></div><div style="display: flex; flex-direction: column; gap: 8px"><label for="sp-event" style="font-weight: 600; font-size: 16px">Event name</label><input id="sp-event" name="event" type="text" placeholder="" style="box-sizing: border-box; width: 100%; min-height: 52px; padding: 14px 16px; background: #0A2C52; border: 1px solid #A5AAAF; border-radius: 2px; color: #FFFFFF; font-family: 'Open Sans', Arial, sans-serif; font-size: 17px"></div><div style="display: flex; flex-direction: column; gap: 8px"><label for="sp-date" style="font-weight: 600; font-size: 16px">Event date (a rough date is fine)</label><input id="sp-date" name="date" type="text" placeholder="Month and year" style="box-sizing: border-box; width: 100%; min-height: 52px; padding: 14px 16px; background: #0A2C52; border: 1px solid #A5AAAF; border-radius: 2px; color: #FFFFFF; font-family: 'Open Sans', Arial, sans-serif; font-size: 17px"></div>
+<div class="form-grid">
+<div class="stack"><label class="field-l" for="sp-name">Your name</label><input class="field" id="sp-name" name="name" type="text" required autocomplete="name" placeholder=""></div><div class="stack"><label class="field-l" for="sp-email">Email</label><input class="field" id="sp-email" name="email" type="email" required autocomplete="email" placeholder=""></div><div class="stack"><label class="field-l" for="sp-event">Event name</label><input class="field" id="sp-event" name="event" type="text" placeholder=""></div><div class="stack"><label class="field-l" for="sp-date">Event date (a rough date is fine)</label><input class="field" id="sp-date" name="date" type="text" placeholder="Month and year"></div>
 </div>
-<div style="display: flex; flex-direction: column; gap: 8px"><label for="sp-type" style="font-weight: 600; font-size: 16px">What do you need?</label><select id="sp-type" name="need" style="box-sizing: border-box; width: 100%; min-height: 52px; padding: 14px 16px; background: #0A2C52; border: 1px solid #A5AAAF; border-radius: 2px; color: #FFFFFF; font-family: 'Open Sans', Arial, sans-serif; font-size: 17px"><option>A speaker</option><option>An event host</option><option>A livestream host</option><option>Something else</option></select></div><div style="display: flex; flex-direction: column; gap: 8px"><label for="sp-msg" style="font-weight: 600; font-size: 16px">Audience, format and anything else I should know</label><textarea id="sp-msg" name="message" required rows="5" placeholder="Audience, location, budget, anything useful" style="box-sizing: border-box; width: 100%; min-height: 52px; padding: 14px 16px; background: #0A2C52; border: 1px solid #A5AAAF; border-radius: 2px; color: #FFFFFF; font-family: 'Open Sans', Arial, sans-serif; font-size: 17px"></textarea></div><input type="hidden" name="type" value="Speaking"><div style="display: flex; gap: 12px; align-items: flex-start"><input id="sp-ok" name="consent" type="checkbox" required style="width: 22px; height: 22px; margin-top: 2px"><label for="sp-ok" style="font-size: 16px; color: #D5D8DB">OK to email me back about this. See the <a href="/privacy" style="border-bottom: 1px solid #FFFFFF">terms and privacy page</a>.</label></div>
-<div class="cf-turnstile" data-sitekey={SITE.turnstileSiteKey} data-theme="dark"></div><input type="hidden" name="consent_version" value={SITE.consentVersion}><input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position: absolute; left: -9999px"><p data-form-status role="status" aria-live="polite" style="margin: 0; min-height: 26px; font-weight: 600"></p><button type="submit" style="align-self: flex-start; background: #69BE28; color: #06111F; border: 0; border-radius: 2px; cursor: pointer; font-family: 'Montserrat', Arial, sans-serif; font-weight: 800; font-size: 16px; padding: 16px 28px; min-height: 52px">Send booking request</button>
+<div class="stack"><label class="field-l" for="sp-type">What do you need?</label><select class="field" id="sp-type" name="need"><option>A speaker</option><option>An event host</option><option>A livestream host</option><option>Something else</option></select></div><div class="stack"><label class="field-l" for="sp-msg">Audience, format and anything else I should know</label><textarea class="field" id="sp-msg" name="message" required rows="5" placeholder="Audience, location, budget, anything useful"></textarea></div><input type="hidden" name="type" value="Speaking"><div class="check-row"><input class="check" id="sp-ok" name="consent" type="checkbox" required><label class="check-l" for="sp-ok">OK to email me back about this. See the <a class="uline" href="/privacy">terms and privacy page</a>.</label></div>
+<div class="cf-turnstile" data-sitekey={SITE.turnstileSiteKey} data-theme="dark"></div><input type="hidden" name="consent_version" value={SITE.consentVersion}><input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><p class="form-status" data-form-status role="status" aria-live="polite"></p><button class="btn-send" type="submit">Send booking request</button>
 </form>
 </section>
 </Base>

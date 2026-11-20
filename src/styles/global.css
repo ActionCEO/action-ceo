@@ -442,6 +442,16 @@ picture>source{display:none}
 /* A plain column, and a column with 8px between items. */
 .col{display:flex;flex-direction:column}
 .stack{display:flex;flex-direction:column;gap:8px}
+/* Grey paragraph text, 19px and 20px. */
+.para{margin:0;color:#D5D8DB;font-size:19px}
+.para-20{margin:0;font-size:20px;color:#D5D8DB}
+/* .ulink with less room above and below. */
+.ulink-8{padding:8px 0}
+/* A list with no bullets or indent. */
+.bare{list-style:none;margin:0;padding:0}
+/* A section heading with less space under it. */
+.sec-h-tight{margin-bottom:8px}
+.sec-h-12{margin-bottom:12px}
 /* Grey small print. */
 .dim{color:#A5AAAF}
 /* Clips a zooming or sliding picture to its box. */
@@ -467,7 +477,6 @@ picture>source{display:none}
 .channel{display:flex;flex-direction:column;gap:12px;align-items:flex-start;border-top:3px solid #FFFFFF;padding-top:24px}
 .channel-2{border-top-color:#326496}
 .channel-h{margin:0;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:30px;letter-spacing:-0.02em}
-.channel-p{margin:0;color:#D5D8DB;font-size:19px}
 
 /* Home page */
 /* Hero: the photo (or video) fills the header, the shade sits on top, the words sit at the bottom. */
@@ -513,3 +522,26 @@ section.why-sec{padding:clamp(72px,9vw,140px) clamp(20px,4.5vw,64px)}
 .today-k{flex:1 1 220px}
 .today-v{margin:0;flex:3 1 480px;max-width:760px;font-size:20px;color:#D5D8DB}
 .btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+
+/* Forms (Speaking booking form, Contact form). */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:20px}
+.field-l{font-weight:600;font-size:16px}
+.field{box-sizing:border-box;width:100%;min-height:52px;padding:14px 16px;background:#0A2C52;border:1px solid #A5AAAF;border-radius:2px;color:#FFFFFF;font-family:'Open Sans',Arial,sans-serif;font-size:17px}
+/* The consent checkbox and its label. */
+.check-row{display:flex;gap:12px;align-items:flex-start}
+.check{width:22px;height:22px;margin-top:2px}
+.check-l{font-size:16px;color:#D5D8DB}
+/* Hidden trap field for bots. */
+.hp{position:absolute;left:-9999px}
+.form-status{margin:0;min-height:26px;font-weight:600}
+.btn-send{align-self:flex-start;background:#69BE28;color:#06111F;border:0;border-radius:2px;cursor:pointer;font-family:'Montserrat',Arial,sans-serif;font-weight:800;font-size:16px;padding:16px 28px;min-height:52px}
+
+/* Speaking page */
+/* Header: the stage photo fills it, a shade on top, the words at the bottom. */
+.sp-head{position:relative;min-height:640px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.sp-shade{position:absolute;inset:0;background:linear-gradient(to top,#06111F 4%,rgba(6,17,31,0.72) 45%,rgba(6,17,31,0.35) 100%)}
+.sp-head-text{position:relative;padding:0 clamp(20px,4.5vw,64px) 56px;display:flex;flex-direction:column;gap:24px;align-items:flex-start}
+.sp-lead{margin:0;max-width:680px;font-size:20px}
+.sp-past{padding:clamp(64px,8vw,96px) clamp(20px,4.5vw,64px) 40px}
+.sp-links{margin:6px 0 0}
+.sp-topics{padding:56px clamp(20px,4.5vw,64px) 96px;display:flex;flex-direction:column;gap:20px;align-items:flex-start}
